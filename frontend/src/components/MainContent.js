@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import UserHeader from './UserHeader';
 import CourseProgress from './CourseProgress';
 import CourseRecommendations from './CourseRecommendations';
-import DailyGoals from './DailyGoals';
+import DailyGoal from './DailyGoal';  // Fixed import name
 import LearningAnalytics from './LearningAnalytics';
 import CommunityLeaderboard from './CommunityLeaderboard';
 import LearningReminders from './LearningReminders';
@@ -141,7 +141,7 @@ const MainContent = () => {
                   isCollapsed={collapsedSections['goals']}
                   onToggle={() => toggleSection('goals')}
                 >
-                  <DailyGoals />
+                  <DailyGoal />
                 </Section>
                 
                 {/* Recommendations */}
@@ -240,7 +240,7 @@ const MainContent = () => {
               title="Your Learning Goals"
               isCollapsed={false}
             >
-              <DailyGoals />
+              <DailyGoal />
             </Section>
             
             <Section 

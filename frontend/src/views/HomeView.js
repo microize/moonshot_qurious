@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Clock, BarChart2, BookOpen, ChevronUp, ChevronDown, Bell } from 'lucide-react';
 import UserHeader from '../components/UserHeader';
 import CourseProgress from '../components/CourseProgress';
-import DailyGoals from '../components/DailyGoals';
+import DailyGoal from '../components/DailyGoal';  // Fixed import name
 import LearningAnalytics from '../components/LearningAnalytics';
 
 // Section component with microstimuli for collapsible sections
@@ -115,7 +115,7 @@ const HomeView = () => {
           
           {/* Daily goals section */}
           <Section title="Today's Learning Goals" icon={Clock}>
-            <DailyGoals />
+            <DailyGoal />
           </Section>
         </div>
         
