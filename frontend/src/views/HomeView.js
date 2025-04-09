@@ -121,7 +121,7 @@ const TimeBasedSessionCard = () => {
   
   return (
     <div 
-      className={`mt-4 p-4 bg-gradient-to-r ${session.gradient} text-white rounded-lg transition-all duration-300 ${
+      className={`p-4 bg-gradient-to-r ${session.gradient} text-white rounded-lg transition-all duration-300 ${
         isHovered ? 'shadow-lg transform -translate-y-1' : 'shadow-md'
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -196,18 +196,11 @@ const HomeView = () => {
       
       {/* Main dashboard layout with grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Left column - Continue Learning Section Only */}
+        <div className="lg:col-span-2">
           {/* Continue Learning section */}
           <Section title="Continue Learning" icon={BookOpen}>
             <CourseProgress />
-            {/* Time-based Session Card */}
-            <TimeBasedSessionCard />
-          </Section>
-          
-          {/* Daily goals section */}
-          <Section title="Today's Learning Goals" icon={Clock}>
-            <DailyGoal />
           </Section>
           
           {/* Enhanced Course Recommendations Section */}
@@ -216,8 +209,18 @@ const HomeView = () => {
           </Section>
         </div>
         
-        {/* Right column */}
+        {/* Right column - Time-based Session at top */}
         <div>
+          {/* Time-based Session Card */}
+          <div className="mb-6">
+            <TimeBasedSessionCard />
+          </div>
+          
+          {/* Today's Learning Goals section */}
+          <Section title="Today's Learning Goals" icon={Clock}>
+            <DailyGoal />
+          </Section>
+          
           {/* Learning Analytics */}
           <Section title="Your Learning Insights" icon={BarChart2}>
             <LearningAnalytics />
