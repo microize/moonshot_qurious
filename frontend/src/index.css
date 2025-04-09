@@ -10,9 +10,43 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 /* For smooth theme transitions */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.purple.300');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.purple.400');
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: theme('colors.purple.600');
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.purple.500');
+}
+
+/* Add some scrollbar margin for better UX */
+.overflow-y-auto, .overflow-x-auto {
+  scrollbar-gutter: stable;
+  padding-right: 4px;
 }
