@@ -1,8 +1,11 @@
-// views/AssessmentsView.js
+// Updated AssessmentsView.js with navigation
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ClipboardCheck, Clock, Award } from 'lucide-react';
 
 const AssessmentsView = () => {
+  const navigate = useNavigate();
+  
   const assessments = [
     {
       id: 1,
@@ -22,6 +25,14 @@ const AssessmentsView = () => {
     },
     {
       id: 3,
+      title: 'Generative AI Assessment - Basic Level',
+      type: 'Certification',
+      questions: 15,
+      timeEstimate: '30 min',
+      status: 'available'
+    },
+    {
+      id: 4,
       title: 'Data Science Certification Exam',
       type: 'Certification',
       questions: 50,
@@ -31,6 +42,11 @@ const AssessmentsView = () => {
     }
   ];
 
+  // Handler for starting an assessment
+  const handleStartAssessment = (assessmentId) => {
+    navigate(`/assessments/${assessmentId}`);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Assessments</h1>
@@ -39,8 +55,8 @@ const AssessmentsView = () => {
         {assessments.map(assessment => (
           <div 
             key={assessment.id} 
-            className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-md ${
-              assessment.status === 'locked' ? 'opacity-60' : 'hover:-translate-y-1 cursor-pointer'
+            className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 ${
+              assessment.status === 'locked' ? 'opacity-60' : 'hover:shadow-md hover:-translate-y-1 cursor-pointer'
             }`}
           >
             <div className="flex justify-between items-start">
@@ -79,6 +95,7 @@ const AssessmentsView = () => {
                     : 'bg-purple-500 hover:bg-purple-600 text-white transition-colors'
                 }`}
                 disabled={assessment.status === 'locked'}
+                onClick={() => assessment.status !== 'locked' && handleStartAssessment(assessment.id)}
               >
                 {assessment.status === 'locked' ? 'Locked' : 'Start Assessment'}
               </button>

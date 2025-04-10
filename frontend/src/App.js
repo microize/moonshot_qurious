@@ -1,5 +1,6 @@
-// App.js - Updated layout with improved color consistency
+// App.js - Updated with routing support
 import React, { Suspense, lazy, useState, useEffect, Component } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 
 // Lazy load components for better performance
@@ -12,6 +13,9 @@ const AssessmentsView = lazy(() => import('./views/AssessmentsView'));
 const LeaderboardView = lazy(() => import('./views/LeaderboardView'));
 const CommunityView = lazy(() => import('./views/CommunityView'));
 const SettingsView = lazy(() => import('./views/SettingsView'));
+// Lazy load new content views
+const CourseContentView = lazy(() => import('./views/CourseContentView'));
+const AssessmentContentView = lazy(() => import('./views/AssessmentContentView'));
 
 // Error Boundary Component
 class ErrorBoundary extends Component {
@@ -79,40 +83,32 @@ function App() {
     setActiveView(viewId);
   };
 
-  // Render the appropriate view based on activeView state
-  const renderView = () => {
-    switch (activeView) {
-      case 'home':
-        return <HomeView />;
-      case 'courses':
-        return <CoursesView />;
-      case 'assessments':
-        return <AssessmentsView />;
-      case 'leaderboard':
-        return <LeaderboardView />;
-      case 'community':
-        return <CommunityView />;
-      case 'settings':
-        return <SettingsView />;
-      default:
-        return <FallbackView viewName={activeView.charAt(0).toUpperCase() + activeView.slice(1)} />;
-    }
-  };
-
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
-          <Suspense fallback={<LoadingSpinner />}>
-            <Sidebar onNavigate={handleNavigation} />
-            
-            <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
-              <Suspense fallback={<LoadingSpinner />}>
-                {renderView()}
-              </Suspense>
-            </main>
-          </Suspense>
-        </div>
+        <Router>
+          <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
+            <Suspense fallback={<LoadingSpinner />}>
+              <Sidebar onNavigate={handleNavigation} />
+              
+              <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Routes>
+                    <Route path="/" element={<HomeView />} />
+                    <Route path="/courses" element={<CoursesView />} />
+                    <Route path="/courses/:courseId" element={<CourseContentView />} />
+                    <Route path="/assessments" element={<AssessmentsView />} />
+                    <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
+                    <Route path="/leaderboard" element={<LeaderboardView />} />
+                    <Route path="/community" element={<CommunityView />} />
+                    <Route path="/settings" element={<SettingsView />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
+              </main>
+            </Suspense>
+          </div>
+        </Router>
       </ThemeProvider>
     </ErrorBoundary>
   );

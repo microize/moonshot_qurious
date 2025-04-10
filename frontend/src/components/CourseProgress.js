@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const progressCourses = [
   {
+    id: 1,
     icon: "brain",
     title: "Understanding Machine Learning Algorithms",
     message: "Great start - Keep up the momentum!",
@@ -12,6 +14,7 @@ const progressCourses = [
     nextLesson: "Decision Trees and Random Forests"
   },
   {
+    id: 2,
     icon: "code",
     title: "Introduction to coding with Python",
     message: "Just 5 more Lessons to go - you're almost at the finish line!",
@@ -23,7 +26,7 @@ const progressCourses = [
   }
 ];
 
-const ProgressCard = ({ course }) => {
+const ProgressCard = ({ course, onContinue }) => {
   const icons = {
     brain: (
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -81,7 +84,10 @@ const ProgressCard = ({ course }) => {
               <span className="text-purple-600">Next: </span>
               <span className="font-medium text-purple-800">{course.nextLesson}</span>
             </div>
-            <button className="px-3 py-1 bg-purple-400 hover:bg-purple-500 text-white text-sm rounded-md transition-colors">
+            <button 
+              className="px-3 py-1 bg-purple-400 hover:bg-purple-500 text-white text-sm rounded-md transition-colors"
+              onClick={() => onContinue(course.id)}
+            >
               Continue
             </button>
           </div>
@@ -100,16 +106,26 @@ const ProgressCard = ({ course }) => {
 };
 
 const CourseProgress = () => {
+  const navigate = useNavigate();
+  
+  // Handle continue button click
+  const handleContinue = (courseId) => {
+    navigate(`/courses/${courseId}`);
+  };
+
   return (
     <div className="p-2 rounded-xl">
       <div className="space-y-4">
         {progressCourses.map((course, index) => (
-          <ProgressCard key={index} course={course} />
+          <ProgressCard key={index} course={course} onContinue={handleContinue} />
         ))}
         
         {/* "Explore more courses" prompt */}
         <div className="mt-6 text-center">
-          <button className="px-4 py-2 border border-dashed border-purple-300 text-purple-600 rounded-md hover:bg-purple-200/50 transition-colors">
+          <button 
+            className="px-4 py-2 border border-dashed border-purple-300 text-purple-600 rounded-md hover:bg-purple-200/50 transition-colors"
+            onClick={() => navigate('/courses')}
+          >
             Discover more courses to continue your learning journey
           </button>
         </div>

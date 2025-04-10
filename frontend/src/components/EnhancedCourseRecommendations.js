@@ -1,5 +1,6 @@
 // EnhancedCourseRecommendations.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const initialTopics = [
   { id: 1, name: 'Data Science', active: true },
@@ -183,6 +184,7 @@ const EnhancedCourseRecommendations = () => {
   const [topics, setTopics] = useState(initialTopics);
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Filter courses based on active topics
   useEffect(() => {
@@ -219,10 +221,8 @@ const EnhancedCourseRecommendations = () => {
   };
 
   const handleCourseAction = (course) => {
-    console.log(`Action clicked for: ${course.title}`);
-    // Here you would handle the course action (start or continue)
-    // For example, redirect to the course page:
-    // navigate(`/courses/${course.id}`);
+    // Navigate to the course content page
+    navigate(`/courses/${course.id}`);
   };
 
   return (
@@ -251,7 +251,10 @@ const EnhancedCourseRecommendations = () => {
       
       {/* View all courses button */}
       <div className="mt-6 text-center">
-        <button className="px-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+        <button 
+          className="px-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors"
+          onClick={() => navigate('/courses')}
+        >
           Browse All Courses
         </button>
       </div>

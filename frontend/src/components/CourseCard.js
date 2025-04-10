@@ -1,14 +1,19 @@
-// Improved CourseCard component with consistent purple theme
+// Updated CourseCard component with navigation
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
   
   const handleClick = () => {
     setIsClicked(true);
     // Reset the clicked state after animation completes
     setTimeout(() => setIsClicked(false), 600);
+    
+    // Navigate to the course content view with the course ID
+    navigate(`/courses/${course.id}`);
   };
   
   // Define badge color based on course type
