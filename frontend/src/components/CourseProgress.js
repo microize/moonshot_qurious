@@ -1,4 +1,3 @@
-// components/CourseProgress.js
 import React from 'react';
 
 const progressCourses = [
@@ -51,26 +50,26 @@ const ProgressCard = ({ course }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-700 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-purple-500">
+    <div className="bg-purple-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="flex items-center gap-4">
-        <div className="p-3 bg-purple-100 dark:bg-purple-700 rounded-md">
-          <div className="text-purple-600 dark:text-purple-300">
+        <div className="p-3 bg-purple-200 rounded-md">
+          <div className="text-purple-700">
             {icons[course.icon]}
           </div>
         </div>
         <div className="flex-1">
-          <h3 className="font-medium text-gray-800 dark:text-white">{course.title}</h3>
-          <div className="text-sm text-purple-500 dark:text-purple-400 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
+          <h3 className="font-medium text-purple-900">{course.title}</h3>
+          <div className="text-sm text-purple-600 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
           
           {/* Progress bar */}
           <div className="mt-3 mb-2">
-            <div className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full transition-all duration-500 ease-out"
+                className="h-full bg-gradient-to-r from-purple-300 to-purple-500 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${course.progress}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <div className="flex justify-between text-xs text-purple-600 mt-1">
               <span>{course.completed}/{course.total} Lessons</span>
               <span>{course.progress}% Complete</span>
             </div>
@@ -79,10 +78,10 @@ const ProgressCard = ({ course }) => {
           {/* Next lesson prompt */}
           <div className="mt-3 flex justify-between items-center">
             <div className="text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Next: </span>
-              <span className="font-medium text-gray-800 dark:text-white">{course.nextLesson}</span>
+              <span className="text-purple-600">Next: </span>
+              <span className="font-medium text-purple-800">{course.nextLesson}</span>
             </div>
-            <button className="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-md transition-colors">
+            <button className="px-3 py-1 bg-purple-400 hover:bg-purple-500 text-white text-sm rounded-md transition-colors">
               Continue
             </button>
           </div>
@@ -90,7 +89,7 @@ const ProgressCard = ({ course }) => {
       </div>
       
       {/* Time indicator */}
-      <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 flex items-center">
+      <div className="mt-3 text-xs text-purple-500 flex items-center">
         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -102,16 +101,18 @@ const ProgressCard = ({ course }) => {
 
 const CourseProgress = () => {
   return (
-    <div className="mt-4 space-y-4">
-      {progressCourses.map((course, index) => (
-        <ProgressCard key={index} course={course} />
-      ))}
-      
-      {/* "Explore more courses" prompt */}
-      <div className="mt-6 text-center">
-        <button className="px-4 py-2 border border-dashed border-purple-300 dark:border-purple-600 text-purple-500 dark:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-800/30 transition-colors">
-          Discover more courses to continue your learning journey
-        </button>
+    <div className="p-2 rounded-xl">
+      <div className="space-y-4">
+        {progressCourses.map((course, index) => (
+          <ProgressCard key={index} course={course} />
+        ))}
+        
+        {/* "Explore more courses" prompt */}
+        <div className="mt-6 text-center">
+          <button className="px-4 py-2 border border-dashed border-purple-300 text-purple-600 rounded-md hover:bg-purple-200/50 transition-colors">
+            Discover more courses to continue your learning journey
+          </button>
+        </div>
       </div>
     </div>
   );

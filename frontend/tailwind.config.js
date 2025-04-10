@@ -7,17 +7,47 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        purple: {
-          50: '#f6f5ff',
-          100: '#edebfe',
-          200: '#dcd7fe',
-          300: '#cabffd',
-          400: '#ac94fa',
-          500: '#9061f9',
-          600: '#7e3af2',
-          700: '#6c2bd9',
-          800: '#5521b5',
-          900: '#4a1d96',
+        // Updated color palette with refined indigo primary color
+        indigo: {
+          50: '#f0f5ff',
+          100: '#e0eaff',
+          200: '#c7d5fe',
+          300: '#a4bcfd',
+          400: '#849afb',
+          500: '#6470f5',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
+        },
+        // Secondary accent colors
+        amber: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
+          950: '#451a03',
+        },
+        // Expanded gray palette for better UI grading
+        gray: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          200: '#e5e7eb',
+          300: '#d1d5db',
+          400: '#9ca3af',
+          500: '#6b7280',
+          600: '#4b5563',
+          700: '#374151',
+          800: '#1f2937',
+          900: '#111827',
+          950: '#030712',
         },
       },
       animation: {
