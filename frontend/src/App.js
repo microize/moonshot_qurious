@@ -1,22 +1,41 @@
-// App.js - Fixed with better error handling, suspense, and global state
-import React, { Suspense, lazy } from 'react';
+// App.js - Updated with simplified imports
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AppProvider } from './context/AppContext';
 import LoadingSpinner from './components/LoadingSpinner';
+import authService from './services/authService';
 
 // Lazy load components for better performance
 const Sidebar = lazy(() => import('./components/Sidebar'));
-// Lazy load views for each section
-const HomeView = lazy(() => import('./views/HomeView'));
-const CoursesView = lazy(() => import('./views/CoursesView'));
-const AssessmentsView = lazy(() => import('./views/AssessmentsView'));
-const LeaderboardView = lazy(() => import('./views/LeaderboardView'));
-const CommunityView = lazy(() => import('./views/CommunityView'));
-const SettingsView = lazy(() => import('./views/SettingsView'));
-// Lazy load new content views
-const CourseContentView = lazy(() => import('./views/CourseContentView'));
-const AssessmentContentView = lazy(() => import('./views/AssessmentContentView'));
+// Lazy load views 
+const {
+  HomeView,
+  CoursesView,
+  AssessmentsView,
+  LeaderboardView,
+  CommunityView,
+  SettingsView,
+  CourseContentView,
+  AssessmentContentView,
+  LoginView
+} = {
+  HomeView: lazy(() => import('./views/HomeView')),
+  CoursesView: lazy(() => import('./views/CoursesView')),
+  AssessmentsView: lazy(() => import('./views/AssessmentsView')),
+  LeaderboardView: lazy(() => import('./views/LeaderboardView')),
+  CommunityView: lazy(() => import('./views/CommunityView')),
+  SettingsView: lazy(() => import('./views/SettingsView')),
+  CourseContentView: lazy(() => import('./views/CourseContentView')),
+  AssessmentContentView: lazy(() => import('./views/AssessmentContentView')),
+  LoginView: lazy(() => import('./views/LoginView'))
+};
+
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = authService.isAuthenticated();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -58,32 +77,62 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  // Check authentication on load
+  useEffect(() => {
+    // Allow a moment for any stored auth to be loaded
+    const checkAuth = async () => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setLoading(false);
+    };
+    checkAuth();
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <ErrorBoundary>
       <AppProvider>
         <ThemeProvider>
           <Router>
-            <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
-              <Suspense fallback={<LoadingSpinner />}>
-                <Sidebar />
-                
-                <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Routes>
-                      <Route path="/" element={<HomeView />} />
-                      <Route path="/courses" element={<CoursesView />} />
-                      <Route path="/courses/:courseId" element={<CourseContentView />} />
-                      <Route path="/assessments" element={<AssessmentsView />} />
-                      <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
-                      <Route path="/leaderboard" element={<LeaderboardView />} />
-                      <Route path="/community" element={<CommunityView />} />
-                      <Route path="/settings" element={<SettingsView />} />
-                      <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
-                  </Suspense>
-                </main>
-              </Suspense>
-            </div>
+            <Routes>
+              {/* Public route for login */}
+              <Route path="/login" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <LoginView />
+                </Suspense>
+              } />
+              
+              {/* Protected routes */}
+              <Route path="/*" element={
+                <ProtectedRoute>
+                  <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <Sidebar />
+                      
+                      <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
+                        <Suspense fallback={<LoadingSpinner />}>
+                          <Routes>
+                            <Route path="/" element={<HomeView />} />
+                            <Route path="/courses" element={<CoursesView />} />
+                            <Route path="/courses/:courseId" element={<CourseContentView />} />
+                            <Route path="/assessments" element={<AssessmentsView />} />
+                            <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
+                            <Route path="/leaderboard" element={<LeaderboardView />} />
+                            <Route path="/community" element={<CommunityView />} />
+                            <Route path="/settings" element={<SettingsView />} />
+                            <Route path="*" element={<Navigate to="/" replace />} />
+                          </Routes>
+                        </Suspense>
+                      </main>
+                    </Suspense>
+                  </div>
+                </ProtectedRoute>
+              } />
+            </Routes>
           </Router>
         </ThemeProvider>
       </AppProvider>
