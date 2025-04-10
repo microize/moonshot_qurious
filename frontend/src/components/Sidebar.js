@@ -1,4 +1,4 @@
-// components/Sidebar.js
+// components/Sidebar.js - Updated with consistent purple theme
 import React, { useState } from 'react';
 import { Home, BookOpen, ClipboardCheck, BarChart2, Users, Settings, Moon, Sun, X, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
@@ -40,7 +40,7 @@ const Sidebar = ({ onNavigate }) => {
       <div className="lg:hidden absolute top-4 left-4 z-50">
         <button 
           onClick={toggleMobileMenu}
-          className="p-2 rounded-full bg-white dark:bg-gray-900 shadow-md text-gray-700 dark:text-gray-200"
+          className="p-2 rounded-full bg-white dark:bg-gray-900 shadow-md text-purple-600 dark:text-purple-400"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -49,7 +49,7 @@ const Sidebar = ({ onNavigate }) => {
 
       {/* Sidebar - Desktop always visible, Mobile conditionally visible */}
       <div 
-        className={`fixed inset-y-0 left-0 z-20 w-64 bg-gray-100 dark:bg-gray-950 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-20 w-64 bg-purple-50 dark:bg-purple-900/20 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -67,14 +67,14 @@ const Sidebar = ({ onNavigate }) => {
                 onClick={() => handleNavItemClick(item.id)}
                 className={`w-full flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${
                   activeItem === item.id
-                    ? 'bg-white dark:bg-gray-900 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                    ? 'bg-white dark:bg-gray-900 text-purple-600 dark:text-purple-400 shadow-sm'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-900/60'
                 }`}
               >
                 <item.icon 
                   size={18} 
                   className={`transition-transform duration-200 ${
-                    activeItem === item.id ? 'scale-110 text-indigo-600 dark:text-indigo-400' : ''
+                    activeItem === item.id ? 'scale-110 text-purple-600 dark:text-purple-400' : ''
                   }`} 
                 />
                 <span className={`ml-4 text-sm font-medium transition-all duration-200 ${
@@ -83,14 +83,14 @@ const Sidebar = ({ onNavigate }) => {
                   {item.label}
                 </span>
                 {activeItem === item.id && (
-                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400"></span>
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>
                 )}
               </button>
             ))}
           </nav>
           
           {/* Theme Toggle */}
-          <div className="p-4 mt-auto border-t border-gray-200 dark:border-gray-800">
+          <div className="p-4 mt-auto border-t border-purple-100 dark:border-purple-800/30">
             <button 
               onClick={toggleTheme}
               className="flex items-center space-x-3 w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-900/60 rounded-xl transition-all duration-200"
@@ -99,7 +99,7 @@ const Sidebar = ({ onNavigate }) => {
               {darkMode ? (
                 <Sun size={18} className="text-amber-500 dark:text-amber-400" />
               ) : (
-                <Moon size={18} className="text-indigo-500" />
+                <Moon size={18} className="text-purple-500" />
               )}
               <span className="text-sm">{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
             </button>

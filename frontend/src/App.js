@@ -1,4 +1,4 @@
-// App.js
+// App.js - Updated layout with improved color consistency
 import React, { Suspense, lazy, useState, useEffect, Component } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -32,7 +32,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-950 p-4 text-center">
+        <div className="flex flex-col items-center justify-center h-screen bg-purple-50 dark:bg-gray-950 p-4 text-center">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg max-w-md">
             <h2 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -40,7 +40,7 @@ class ErrorBoundary extends Component {
             </p>
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
             >
               Refresh Page
             </button>
@@ -54,15 +54,15 @@ class ErrorBoundary extends Component {
 
 // Loading Spinner Component
 const LoadingSpinner = () => (
-  <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-950">
-    <div className="w-16 h-16 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+  <div className="flex items-center justify-center h-screen bg-purple-50 dark:bg-gray-950">
+    <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
   </div>
 );
 
 // Fallback component for missing views
 const FallbackView = ({ viewName }) => (
   <div className="h-full flex flex-col items-center justify-center p-6">
-    <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
+    <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-4">
       {viewName} View
     </h2>
     <p className="text-gray-600 dark:text-gray-300 max-w-lg text-center">
@@ -102,7 +102,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <div className="flex h-screen bg-gray-100 dark:bg-gray-950 overflow-hidden">
+        <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
           <Suspense fallback={<LoadingSpinner />}>
             <Sidebar onNavigate={handleNavigation} />
             

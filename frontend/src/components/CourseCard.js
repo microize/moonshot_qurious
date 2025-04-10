@@ -1,4 +1,4 @@
-// Improved CourseCard component with microstimuli
+// Improved CourseCard component with consistent purple theme
 import React, { useState } from 'react';
 
 const CourseCard = ({ course }) => {
@@ -28,7 +28,7 @@ const CourseCard = ({ course }) => {
       className={`rounded-lg p-4 transition-all duration-300 ${
         isHovered 
           ? 'bg-gradient-to-br from-purple-50 to-white dark:from-gray-700 dark:to-gray-800 shadow-md transform -translate-y-1' 
-          : 'bg-purple-50 dark:bg-gray-700'
+          : 'bg-white dark:bg-gray-800 shadow-sm border border-purple-50 dark:border-gray-700'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

@@ -18,11 +18,11 @@ const Section = ({ title, icon: Icon, children, defaultCollapsed = false }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-800">
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden mb-6 border border-purple-100 dark:border-purple-700">
       <div 
         className={`flex items-center justify-between p-4 cursor-pointer transition-colors ${
-          isHovered ? 'bg-gray-50 dark:bg-gray-800/80' : ''
-        } ${isHeaderPressed ? 'bg-gray-100 dark:bg-gray-800' : ''}`}
+          isHovered ? 'bg-purple-50 dark:bg-purple-900/20' : ''
+        } ${isHeaderPressed ? 'bg-purple-100 dark:bg-purple-800/50' : ''}`}
         onClick={toggleCollapse}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => {
@@ -37,20 +37,20 @@ const Section = ({ title, icon: Icon, children, defaultCollapsed = false }) => {
             <Icon 
               size={18} 
               className={`mr-2 transition-all duration-300 ${
-                isHovered ? 'text-indigo-600 dark:text-indigo-400 scale-110' : 'text-indigo-500 dark:text-indigo-500'
+                isHovered ? 'text-purple-600 dark:text-purple-400 scale-110' : 'text-purple-500 dark:text-purple-500'
               }`}
             />
           )}
           <h2 className={`font-medium transition-all duration-200 ${
-            isHovered ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-800 dark:text-white'
+            isHovered ? 'text-purple-700 dark:text-purple-300' : 'text-gray-800 dark:text-white'
           }`}>
             {title}
           </h2>
         </div>
         <div className={`transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}>
           {isCollapsed ? 
-            <ChevronDown size={18} className="text-gray-500 dark:text-gray-400" /> : 
-            <ChevronUp size={18} className="text-gray-500 dark:text-gray-400" />
+            <ChevronDown size={18} className="text-purple-500 dark:text-purple-400" /> : 
+            <ChevronUp size={18} className="text-purple-500 dark:text-purple-400" />
           }
         </div>
       </div>
@@ -83,7 +83,7 @@ const TimeBasedSessionCard = () => {
         title: "Morning Productivity Session",
         description: "Jumpstart your day with a focused 20-minute learning session",
         badge: "Morning energy boost",
-        gradient: "from-amber-500 to-orange-600"
+        gradient: "from-purple-500 to-purple-600"
       };
     } else if (hour >= 9 && hour < 12) {
       return {
@@ -94,7 +94,7 @@ const TimeBasedSessionCard = () => {
         title: "Mid-Morning Focus Session",
         description: "Take advantage of your peak concentration hours",
         badge: "Peak productivity time",
-        gradient: "from-sky-600 to-blue-600"
+        gradient: "from-purple-600 to-purple-700"
       };
     } else if (hour >= 12 && hour < 17) {
       return {
@@ -104,15 +104,15 @@ const TimeBasedSessionCard = () => {
         title: "Afternoon Refresher",
         description: "Beat the afternoon slump with a 15-minute learning burst",
         badge: "Afternoon recharge",
-        gradient: "from-emerald-600 to-teal-600"
+        gradient: "from-purple-500 to-purple-600"
       };
     } else {
       return {
-        icon: <Moon size={20} className="text-indigo-300" />,
+        icon: <Moon size={20} className="text-purple-300" />,
         title: "Evening Deep Dive Session",
         description: "Perfect for evening focus: 25-minute quiet study",
         badge: "Recommended for evenings",
-        gradient: "from-indigo-800 to-violet-900"
+        gradient: "from-purple-700 to-purple-800"
       };
     }
   };
@@ -143,7 +143,7 @@ const TimeBasedSessionCard = () => {
             {session.badge}
           </span>
         </div>
-        <button className="px-3 py-1.5 bg-white hover:bg-opacity-90 text-gray-900 rounded-md text-sm font-medium transition-colors">
+        <button className="px-3 py-1.5 bg-white hover:bg-opacity-90 text-purple-700 rounded-md text-sm font-medium transition-colors">
           Start Session
         </button>
       </div>
@@ -176,20 +176,20 @@ const HomeView = () => {
             <span className="ml-2 animate-bounce-subtle">👋</span>
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Last active: 2 hours ago</p>
-          <p className="mt-2 text-indigo-600 dark:text-indigo-400 text-sm">{getMotivationalMessage()}</p>
+          <p className="mt-2 text-purple-600 dark:text-purple-400 text-sm">{getMotivationalMessage()}</p>
         </div>
         <UserHeader />
       </div>
       
       {/* Notification banner with microstimuli */}
-      <div className="mb-8 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800 flex items-center justify-between group hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors duration-300 cursor-pointer">
+      <div className="mb-8 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-800 flex items-center justify-between group hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors duration-300 cursor-pointer">
         <div className="flex items-center">
-          <Bell size={18} className="text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-300" />
+          <Bell size={18} className="text-purple-500 mr-3 group-hover:scale-110 transition-transform duration-300" />
           <span className="text-sm text-gray-700 dark:text-gray-300">
             <span className="font-medium">New in Data Science:</span> Live workshop on "Advanced ML Techniques" tomorrow at 7 PM
           </span>
         </div>
-        <button className="text-xs bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1.5 rounded-lg transition-colors shadow-sm hover:shadow">
+        <button className="text-xs bg-purple-500 hover:bg-purple-600 text-white px-3 py-1.5 rounded-lg transition-colors shadow-sm hover:shadow">
           RSVP
         </button>
       </div>
@@ -217,10 +217,14 @@ const HomeView = () => {
           </div>
           
           {/* Today's Learning Goals section */}
+          <div className="mb-6">
             <DailyGoal />
+          </div>
           
           {/* Learning Analytics */}
+          <div>
             <LearningAnalytics />
+          </div>
         </div>
       </div>
     </div>

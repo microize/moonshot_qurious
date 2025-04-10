@@ -1,9 +1,9 @@
-// components/MainContent.js
+// components/MainContent.js - Updated with consistent purple theme
 import React, { useState } from 'react';
 import UserHeader from './UserHeader';
 import CourseProgress from './CourseProgress';
 import CourseRecommendations from './CourseRecommendations';
-import DailyGoal from './DailyGoal';  // Fixed import name
+import DailyGoal from './DailyGoal';
 import LearningAnalytics from './LearningAnalytics';
 import CommunityLeaderboard from './CommunityLeaderboard';
 import LearningReminders from './LearningReminders';
@@ -75,7 +75,7 @@ const MainContent = () => {
 
   return (
     <div className="flex-1 p-1 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-purple-200 dark:border-purple-600 min-h-full p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-purple-100 dark:border-purple-600 min-h-full p-6">
         {/* Header with tabs */}
         <div className="flex justify-between items-start mb-6">
           <div>
