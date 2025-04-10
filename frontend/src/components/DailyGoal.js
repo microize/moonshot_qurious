@@ -1,4 +1,4 @@
-// components/DailyGoal.js - Improved with new design and FastAPI integration
+// components/DailyGoal.js - Improved with new design and fixed API integration
 import React, { useState } from 'react';
 import { Award, Clock, BookOpen, CheckCircle, Target, Zap, Trophy } from 'lucide-react';
 import { useFetch } from '../hooks/useApi';
@@ -9,7 +9,7 @@ const DailyGoal = () => {
   const { data: goalsData, loading } = useFetch('goals/daily', {}, false);
   
   // Fallback mock data if API is not ready
-  const goals = goalsData?.goals || [
+  const defaultGoals = [
     { 
       id: 1, 
       icon: 'book', 
@@ -41,13 +41,19 @@ const DailyGoal = () => {
       timeEstimate: "5 min"
     }
   ];
+  
+  // Use fallback data if API doesn't return anything
+  const goals = goalsData?.goals || defaultGoals;
 
   // Today's rewards
-  const dailyRewards = goalsData?.rewards || [
+  const defaultRewards = [
     { milestone: 1, reward: "10 bonus points", unlocked: true },
     { milestone: 2, reward: "New badge: 'Consistent Learner'", unlocked: false },
     { milestone: 3, reward: "Unlock special content", unlocked: false }
   ];
+  
+  // Use fallback rewards if API doesn't return anything
+  const dailyRewards = goalsData?.rewards || defaultRewards;
   
   // Map icon string to component
   const getIcon = (iconName) => {
@@ -107,49 +113,43 @@ const DailyGoal = () => {
       </div>
       
       {/* Daily tasks */}
-      {loading ? (
-        <div className="flex justify-center py-6">
-          <div className="loading-spinner"></div>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {goals.map(goal => {
-            const Icon = getIcon(goal.icon);
-            return (
-              <div key={goal.id} className="flex items-center p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <div className={`p-2 rounded-full ${
-                  goal.progress > 0 
-                    ? 'bg-primary-100 dark:bg-primary-800/50 text-primary-500 dark:text-primary-300' 
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
-                }`}>
-                  <Icon size={16} />
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex justify-between">
-                    <h4 className="text-sm font-medium text-slate-800 dark:text-white">{goal.title}</h4>
-                    <span className="text-xs badge badge-primary">
-                      +{goal.points} pts
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{goal.description}</p>
-                  
-                  {goal.progress > 0 && (
-                    <div className="progress-bar mt-1.5">
-                      <div 
-                        className="progress-bar-value"
-                        style={{ width: `${goal.progress}%` }}
-                      ></div>
-                    </div>
-                  )}
-                </div>
-                <div className="ml-2 text-xs text-slate-500 dark:text-slate-400">
-                  {goal.timeEstimate}
-                </div>
+      <div className="space-y-3">
+        {goals.map(goal => {
+          const Icon = getIcon(goal.icon);
+          return (
+            <div key={goal.id} className="flex items-center p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div className={`p-2 rounded-full ${
+                goal.progress > 0 
+                  ? 'bg-primary-100 dark:bg-primary-800/50 text-primary-500 dark:text-primary-300' 
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
+              }`}>
+                <Icon size={16} />
               </div>
-            );
-          })}
-        </div>
-      )}
+              <div className="ml-3 flex-1">
+                <div className="flex justify-between">
+                  <h4 className="text-sm font-medium text-slate-800 dark:text-white">{goal.title}</h4>
+                  <span className="text-xs badge badge-primary">
+                    +{goal.points} pts
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{goal.description}</p>
+                
+                {goal.progress > 0 && (
+                  <div className="progress-bar mt-1.5">
+                    <div 
+                      className="progress-bar-value"
+                      style={{ width: `${goal.progress}%` }}
+                    ></div>
+                  </div>
+                )}
+              </div>
+              <div className="ml-2 text-xs text-slate-500 dark:text-slate-400">
+                {goal.timeEstimate}
+              </div>
+            </div>
+          );
+        })}
+      </div>
       
       {/* Rewards section */}
       <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">

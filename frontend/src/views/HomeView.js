@@ -122,9 +122,14 @@ const HomeView = () => {
   const navigate = useNavigate();
   
   // Fetch data using custom hooks
-  const { data: userProfile, loading: loadingProfile } = useUserProfile();
-  const { data: enrolledCourses, loading: loadingEnrolled } = useUserCourses();
-  const { data: recommendedCourses, loading: loadingRecommended } = useCourses();
+  const { data: userProfileData, loading: loadingProfile } = useUserProfile();
+  const { data: enrolledCoursesData, loading: loadingEnrolled } = useUserCourses();
+  const { data: recommendedCoursesData, loading: loadingRecommended } = useCourses();
+  
+  // Extract the actual data from the API responses
+  const userProfile = userProfileData || null;
+  const enrolledCourses = enrolledCoursesData?.courses || [];
+  const recommendedCourses = recommendedCoursesData?.courses || [];
   
   // Get time of day for greeting
   const getGreeting = () => {
@@ -135,8 +140,8 @@ const HomeView = () => {
   };
   
   // Filter enrolled courses from recommendations
-  const filteredRecommendations = recommendedCourses && recommendedCourses.filter(
-    course => !(enrolledCourses && enrolledCourses.some(ec => ec.id === course.id))
+  const filteredRecommendations = recommendedCourses.filter(
+    course => !enrolledCourses.some(ec => ec.id === course.id)
   ).slice(0, 3);
   
   // Function to handle navigation
@@ -207,7 +212,7 @@ const HomeView = () => {
               <div className="flex justify-center py-8">
                 <div className="loading-spinner-lg"></div>
               </div>
-            ) : enrolledCourses && enrolledCourses.length > 0 ? (
+            ) : enrolledCourses.length > 0 ? (
               <div className="space-y-4">
                 {enrolledCourses.map(course => (
                   <div 
@@ -293,7 +298,7 @@ const HomeView = () => {
               <div className="flex justify-center py-6">
                 <div className="loading-spinner-lg"></div>
               </div>
-            ) : filteredRecommendations && filteredRecommendations.length > 0 ? (
+            ) : filteredRecommendations.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredRecommendations.map(course => (
                   <CourseCard 
