@@ -7,47 +7,77 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Updated color palette with refined indigo primary color
-        indigo: {
-          50: '#f0f5ff',
-          100: '#e0eaff',
-          200: '#c7d5fe',
-          300: '#a4bcfd',
-          400: '#849afb',
-          500: '#6470f5',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+        // Primary color palette - more balanced teal-blue
+        primary: {
+          50: '#edfafa',
+          100: '#d5f5f6',
+          200: '#aeeeef',
+          300: '#7ee0e4',
+          400: '#4ac9d0',
+          500: '#2cb1bb',
+          600: '#238f9b',
+          700: '#1e727d',
+          800: '#1c5c66',
+          900: '#1a4c55',
+          950: '#0d3239',
         },
         // Secondary accent colors
-        amber: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
-          950: '#451a03',
+        accent: {
+          50: '#fff8ed',
+          100: '#ffefd6',
+          200: '#ffdbac',
+          300: '#ffc176',
+          400: '#ff9d3d',
+          500: '#fb7c15',
+          600: '#ed5f09',
+          700: '#c44a0b',
+          800: '#9c3b0f',
+          900: '#7e3310',
+          950: '#441805',
         },
-        // Expanded gray palette for better UI grading
-        gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-          950: '#030712',
+        // Neutral palette for better balance
+        neutral: {
+          50: '#f7f9fa',
+          100: '#eef1f3',
+          200: '#d8dfe4',
+          300: '#b6c5ce',
+          400: '#8ea2af',
+          500: '#6c8393',
+          600: '#546979',
+          700: '#435361',
+          800: '#394551',
+          900: '#2d3643',
+          950: '#1c232c',
+        },
+        // Clean slate for light/dark backgrounds
+        slate: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
+        },
+        // Success, error, warning colors
+        success: {
+          50: '#ecfdf5',
+          500: '#10b981',
+          700: '#047857',
+        },
+        error: {
+          50: '#fef2f2',
+          500: '#ef4444',
+          700: '#b91c1c',
+        },
+        warning: {
+          50: '#fffbeb',
+          500: '#f59e0b',
+          700: '#b45309',
         },
       },
       animation: {
@@ -103,6 +133,11 @@ module.exports = {
       boxShadow: {
         'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
         'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
+      },
+      borderRadius: {
+        'xl': '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
       },
     },
   },

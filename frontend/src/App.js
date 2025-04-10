@@ -1,11 +1,12 @@
-// App.js - Updated with routing support
-import React, { Suspense, lazy, useState, useEffect, Component } from 'react';
+// App.js - Fixed with better error handling, suspense, and global state
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { AppProvider } from './context/AppContext';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Lazy load components for better performance
 const Sidebar = lazy(() => import('./components/Sidebar'));
-const MainContent = lazy(() => import('./components/MainContent'));
 // Lazy load views for each section
 const HomeView = lazy(() => import('./views/HomeView'));
 const CoursesView = lazy(() => import('./views/CoursesView'));
@@ -18,7 +19,7 @@ const CourseContentView = lazy(() => import('./views/CourseContentView'));
 const AssessmentContentView = lazy(() => import('./views/AssessmentContentView'));
 
 // Error Boundary Component
-class ErrorBoundary extends Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -56,60 +57,36 @@ class ErrorBoundary extends Component {
   }
 }
 
-// Loading Spinner Component
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center h-screen bg-purple-50 dark:bg-gray-950">
-    <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-  </div>
-);
-
-// Fallback component for missing views
-const FallbackView = ({ viewName }) => (
-  <div className="h-full flex flex-col items-center justify-center p-6">
-    <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-4">
-      {viewName} View
-    </h2>
-    <p className="text-gray-600 dark:text-gray-300 max-w-lg text-center">
-      This view is currently under development. Check back soon for updates!
-    </p>
-  </div>
-);
-
 function App() {
-  const [activeView, setActiveView] = useState('home');
-  
-  // Handle navigation from sidebar
-  const handleNavigation = (viewId) => {
-    setActiveView(viewId);
-  };
-
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <Router>
-          <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
-            <Suspense fallback={<LoadingSpinner />}>
-              <Sidebar onNavigate={handleNavigation} />
-              
-              <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Routes>
-                    <Route path="/" element={<HomeView />} />
-                    <Route path="/courses" element={<CoursesView />} />
-                    <Route path="/courses/:courseId" element={<CourseContentView />} />
-                    <Route path="/assessments" element={<AssessmentsView />} />
-                    <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
-                    <Route path="/leaderboard" element={<LeaderboardView />} />
-                    <Route path="/community" element={<CommunityView />} />
-                    <Route path="/settings" element={<SettingsView />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </Suspense>
-              </main>
-            </Suspense>
-          </div>
-        </Router>
-      </ThemeProvider>
+      <AppProvider>
+        <ThemeProvider>
+          <Router>
+            <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
+              <Suspense fallback={<LoadingSpinner />}>
+                <Sidebar />
+                
+                <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Routes>
+                      <Route path="/" element={<HomeView />} />
+                      <Route path="/courses" element={<CoursesView />} />
+                      <Route path="/courses/:courseId" element={<CourseContentView />} />
+                      <Route path="/assessments" element={<AssessmentsView />} />
+                      <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
+                      <Route path="/leaderboard" element={<LeaderboardView />} />
+                      <Route path="/community" element={<CommunityView />} />
+                      <Route path="/settings" element={<SettingsView />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </Suspense>
+                </main>
+              </Suspense>
+            </div>
+          </Router>
+        </ThemeProvider>
+      </AppProvider>
     </ErrorBoundary>
   );
 }

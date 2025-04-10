@@ -1,67 +1,51 @@
-import React, { useState } from 'react';
-import { Clock, BarChart2, BookOpen, ChevronUp, ChevronDown, Bell, Moon } from 'lucide-react';
-import UserHeader from '../components/UserHeader';
-import CourseProgress from '../components/CourseProgress';
+import React, { useState, useEffect } from 'react';
+import { Clock, BookOpen, ChevronRight, Bell, BarChart2, Award } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+// Import custom hooks for API data
+import { useCourses, useUserCourses, useUserProfile } from '../hooks/useApi';
+
+// Import components
+import UserAvatar from '../components/UserAvatar';
+import CourseCard from '../components/CourseCard';
 import DailyGoal from '../components/DailyGoal';
 import LearningAnalytics from '../components/LearningAnalytics';
-// Import enhanced course recommendations
-import EnhancedCourseRecommendations from '../components/EnhancedCourseRecommendations';
 
 // Section component with microstimuli for collapsible sections
-const Section = ({ title, icon: Icon, children, defaultCollapsed = false }) => {
+const Section = ({ title, icon: Icon, children, action, onActionClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
-  const [isHeaderPressed, setIsHeaderPressed] = useState(false);
   
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
-
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden mb-6 border border-purple-100 dark:border-purple-700">
+    <div className="card mb-6">
       <div 
-        className={`flex items-center justify-between p-4 cursor-pointer transition-colors ${
-          isHovered ? 'bg-purple-50 dark:bg-purple-900/20' : ''
-        } ${isHeaderPressed ? 'bg-purple-100 dark:bg-purple-800/50' : ''}`}
-        onClick={toggleCollapse}
+        className="flex items-center justify-between mb-4"
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setIsHeaderPressed(false);
-        }}
-        onMouseDown={() => setIsHeaderPressed(true)}
-        onMouseUp={() => setIsHeaderPressed(false)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <div className="flex items-center">
           {Icon && (
             <Icon 
               size={18} 
               className={`mr-2 transition-all duration-300 ${
-                isHovered ? 'text-purple-600 dark:text-purple-400 scale-110' : 'text-purple-500 dark:text-purple-500'
+                isHovered ? 'text-primary-600 dark:text-primary-400 scale-110' : 'text-primary-500'
               }`}
             />
           )}
-          <h2 className={`font-medium transition-all duration-200 ${
-            isHovered ? 'text-purple-700 dark:text-purple-300' : 'text-gray-800 dark:text-white'
-          }`}>
-            {title}
-          </h2>
+          <h2 className="font-medium text-slate-800 dark:text-white">{title}</h2>
         </div>
-        <div className={`transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}>
-          {isCollapsed ? 
-            <ChevronDown size={18} className="text-purple-500 dark:text-purple-400" /> : 
-            <ChevronUp size={18} className="text-purple-500 dark:text-purple-400" />
-          }
-        </div>
+        
+        {action && (
+          <button 
+            className="text-sm text-primary-600 dark:text-primary-400 hover:underline flex items-center"
+            onClick={onActionClick}
+          >
+            {action}
+            <ChevronRight size={16} className="ml-1" />
+          </button>
+        )}
       </div>
       
-      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-        isCollapsed ? 'max-h-0' : 'max-h-[2000px]'
-      }`}>
-        <div className="p-4 pt-2">
-          {children}
-        </div>
-      </div>
+      {children}
     </div>
   );
 };
@@ -76,43 +60,31 @@ const TimeBasedSessionCard = () => {
     
     if (hour >= 5 && hour < 9) {
       return {
-        icon: <svg className="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="5" />
-                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-              </svg>,
         title: "Morning Productivity Session",
         description: "Jumpstart your day with a focused 20-minute learning session",
         badge: "Morning energy boost",
-        gradient: "from-purple-500 to-purple-600"
+        gradient: "from-primary-500 to-primary-600"
       };
     } else if (hour >= 9 && hour < 12) {
       return {
-        icon: <svg className="w-5 h-5 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-                <path d="M6 1v3M10 1v3M14 1v3" />
-              </svg>,
         title: "Mid-Morning Focus Session",
         description: "Take advantage of your peak concentration hours",
         badge: "Peak productivity time",
-        gradient: "from-purple-600 to-purple-700"
+        gradient: "from-primary-600 to-primary-700"
       };
     } else if (hour >= 12 && hour < 17) {
       return {
-        icon: <svg className="w-5 h-5 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2v6M12 22v-6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M22 12h-6M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24" />
-              </svg>,
         title: "Afternoon Refresher",
         description: "Beat the afternoon slump with a 15-minute learning burst",
         badge: "Afternoon recharge",
-        gradient: "from-purple-500 to-purple-600"
+        gradient: "from-primary-500 to-primary-600"
       };
     } else {
       return {
-        icon: <Moon size={20} className="text-purple-300" />,
         title: "Evening Deep Dive Session",
         description: "Perfect for evening focus: 25-minute quiet study",
         badge: "Recommended for evenings",
-        gradient: "from-purple-700 to-purple-800"
+        gradient: "from-primary-700 to-primary-800"
       };
     }
   };
@@ -121,29 +93,24 @@ const TimeBasedSessionCard = () => {
   
   return (
     <div 
-      className={`p-4 bg-gradient-to-r ${session.gradient} text-white rounded-lg transition-all duration-300 ${
+      className={`p-4 bg-gradient-to-r ${session.gradient} text-white rounded-xl transition-all duration-300 ${
         isHovered ? 'shadow-lg transform -translate-y-1' : 'shadow-md'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex items-center">
-        <div className="mr-3">
-          {session.icon}
-        </div>
-        <div>
-          <h3 className="font-medium text-lg">{session.title}</h3>
-          <p className="text-white text-opacity-80 text-sm">{session.description}</p>
-        </div>
+      <div>
+        <h3 className="font-medium text-lg">{session.title}</h3>
+        <p className="text-white text-opacity-90 text-sm mt-1">{session.description}</p>
       </div>
       
-      <div className="mt-3 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between">
         <div>
           <span className="text-xs bg-white/20 text-white px-2 py-1 rounded-full">
             {session.badge}
           </span>
         </div>
-        <button className="px-3 py-1.5 bg-white hover:bg-opacity-90 text-purple-700 rounded-md text-sm font-medium transition-colors">
+        <button className="px-3 py-1.5 bg-white hover:bg-opacity-90 text-primary-700 rounded-md text-sm font-medium transition-colors">
           Start Session
         </button>
       </div>
@@ -152,6 +119,13 @@ const TimeBasedSessionCard = () => {
 };
 
 const HomeView = () => {
+  const navigate = useNavigate();
+  
+  // Fetch data using custom hooks
+  const { data: userProfile, loading: loadingProfile } = useUserProfile();
+  const { data: enrolledCourses, loading: loadingEnrolled } = useUserCourses();
+  const { data: recommendedCourses, loading: loadingRecommended } = useCourses();
+  
   // Get time of day for greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -160,9 +134,14 @@ const HomeView = () => {
     return "Good Evening";
   };
   
-  // Motivational message
-  const getMotivationalMessage = () => {
-    return "You're making great progress! Keep up the momentum.";
+  // Filter enrolled courses from recommendations
+  const filteredRecommendations = recommendedCourses && recommendedCourses.filter(
+    course => !(enrolledCourses && enrolledCourses.some(ec => ec.id === course.id))
+  ).slice(0, 3);
+  
+  // Function to handle navigation
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   return (
@@ -170,42 +149,167 @@ const HomeView = () => {
       {/* Header with user info */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white flex items-center">
-            {getGreeting()}, Sripathi
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-white flex items-center">
+            {getGreeting()}, {loadingProfile ? 'User' : userProfile?.name || 'User'}
             {/* Waving hand emoji */}
             <span className="ml-2 animate-bounce-subtle">👋</span>
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Last active: 2 hours ago</p>
-          <p className="mt-2 text-purple-600 dark:text-purple-400 text-sm">{getMotivationalMessage()}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Last active: 2 hours ago</p>
+          <p className="mt-2 text-primary-600 dark:text-primary-400 text-sm">
+            You're making great progress! Keep up the momentum.
+          </p>
         </div>
-        <UserHeader />
+        
+        {/* User profile summary */}
+        <div className="flex items-center">
+          {userProfile && (
+            <div className="text-right mr-3 hidden sm:block">
+              <div className="text-sm font-medium text-slate-800 dark:text-white">{userProfile.name}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{userProfile.role}</div>
+            </div>
+          )}
+          
+          <UserAvatar 
+            userId={userProfile?.id} 
+            name={userProfile?.name} 
+            size="lg"
+            onClick={() => navigate('/settings')}
+            className="cursor-pointer"
+          />
+        </div>
       </div>
       
       {/* Notification banner with microstimuli */}
-      <div className="mb-8 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-800 flex items-center justify-between group hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors duration-300 cursor-pointer">
+      <div className="mb-8 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-100 dark:border-primary-800 flex items-center justify-between group hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors duration-300 cursor-pointer">
         <div className="flex items-center">
-          <Bell size={18} className="text-purple-500 mr-3 group-hover:scale-110 transition-transform duration-300" />
-          <span className="text-sm text-gray-700 dark:text-gray-300">
+          <Bell size={18} className="text-primary-500 mr-3 group-hover:scale-110 transition-transform duration-300" />
+          <span className="text-sm text-slate-700 dark:text-slate-300">
             <span className="font-medium">New in Data Science:</span> Live workshop on "Advanced ML Techniques" tomorrow at 7 PM
           </span>
         </div>
-        <button className="text-xs bg-purple-500 hover:bg-purple-600 text-white px-3 py-1.5 rounded-lg transition-colors shadow-sm hover:shadow">
+        <button className="btn btn-primary btn-sm">
           RSVP
         </button>
       </div>
       
       {/* Main dashboard layout with grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column - Continue Learning Section Only */}
+        {/* Left column - Continue Learning Section */}
         <div className="lg:col-span-2">
           {/* Continue Learning section */}
-          <Section title="Continue Learning" icon={BookOpen}>
-            <CourseProgress />
+          <Section 
+            title="Continue Learning" 
+            icon={BookOpen}
+            action="View All Courses"
+            onActionClick={() => navigate('/courses')}
+          >
+            {loadingEnrolled ? (
+              <div className="flex justify-center py-8">
+                <div className="loading-spinner-lg"></div>
+              </div>
+            ) : enrolledCourses && enrolledCourses.length > 0 ? (
+              <div className="space-y-4">
+                {enrolledCourses.map(course => (
+                  <div 
+                    key={course.id}
+                    className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl hover:shadow-md transition-all duration-200 cursor-pointer"
+                    onClick={() => navigate(`/courses/${course.id}`)}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg text-primary-600 dark:text-primary-400">
+                        <BookOpen size={24} />
+                      </div>
+                      
+                      <div className="flex-1">
+                        <h3 className="font-medium text-slate-800 dark:text-white">{course.title}</h3>
+                        <div className="text-sm text-primary-600 dark:text-primary-400 mt-1">Continue your learning journey</div>
+                        
+                        {/* Progress bar */}
+                        <div className="mt-3 mb-2">
+                          <div className="progress-bar">
+                            <div 
+                              className="progress-bar-value"
+                              style={{ width: `${course.percentComplete || 10}%` }}
+                            ></div>
+                          </div>
+                          <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            <span>{course.completedModules || 1}/{course.totalModules || 10} Modules</span>
+                            <span>{course.percentComplete || 10}% Complete</span>
+                          </div>
+                        </div>
+                        
+                        {/* Next lesson prompt */}
+                        <div className="mt-3 flex justify-between items-center">
+                          <div className="text-sm">
+                            <span className="text-slate-600 dark:text-slate-400">Next: </span>
+                            <span className="font-medium text-slate-800 dark:text-slate-200">
+                              {course.nextModule || 'Introduction to the Course'}
+                            </span>
+                          </div>
+                          <button className="btn btn-primary btn-sm">
+                            Continue
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Time indicator */}
+                    <div className="mt-3 text-xs text-slate-500 dark:text-slate-400 flex items-center">
+                      <Clock size={14} className="mr-1" />
+                      Last activity: {course.lastActivity || '2 hours ago'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
+                <div className="mx-auto w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-500 mb-4">
+                  <BookOpen size={24} />
+                </div>
+                <h3 className="text-lg font-medium text-slate-800 dark:text-white mb-2">
+                  No courses in progress
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto mb-4">
+                  Start your learning journey by enrolling in a course that interests you.
+                </p>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => navigate('/courses')}
+                >
+                  Explore Courses
+                </button>
+              </div>
+            )}
           </Section>
           
-          {/* Enhanced Course Recommendations Section */}
-          <Section title="Recommended For You" icon={BookOpen}>
-            <EnhancedCourseRecommendations />
+          {/* Recommended Courses */}
+          <Section 
+            title="Recommended For You" 
+            icon={Award}
+            action="View All"
+            onActionClick={() => navigate('/courses')}
+          >
+            {loadingRecommended ? (
+              <div className="flex justify-center py-6">
+                <div className="loading-spinner-lg"></div>
+              </div>
+            ) : filteredRecommendations && filteredRecommendations.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredRecommendations.map(course => (
+                  <CourseCard 
+                    key={course.id} 
+                    course={course} 
+                    minimal={true}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-6">
+                <p className="text-slate-600 dark:text-slate-400">
+                  No course recommendations available at the moment.
+                </p>
+              </div>
+            )}
           </Section>
         </div>
         
