@@ -1,6 +1,8 @@
-// views/SettingsView.js
+// Updated SettingsView.js with consistent styling
 import React, { useState } from 'react';
 import { Settings, User, Bell, Lock, Moon, Sun, Globe, BarChart2 } from 'lucide-react';
+import PageContainer from '../components/PageContainer';
+import Card from '../components/Card';
 
 const SettingsView = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -42,13 +44,12 @@ const SettingsView = () => {
     { id: 'privacy', label: 'Privacy', icon: Lock },
     { id: 'preferences', label: 'Preferences', icon: Settings }
   ];
+  
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Settings</h1>
-      
+    <PageContainer title="Settings">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sidebar with tabs */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 h-fit">
+        <Card className="h-fit">
           <div className="space-y-1">
             {tabs.map(tab => (
               <button
@@ -65,11 +66,11 @@ const SettingsView = () => {
               </button>
             ))}
           </div>
-        </div>
+        </Card>
         
         {/* Main content area */}
         <div className="lg:col-span-3">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+          <Card>
             {/* Profile settings */}
             {activeTab === 'profile' && (
               <div>
@@ -492,10 +493,10 @@ const SettingsView = () => {
                 </div>
               </div>
             )}
-          </div>
+          </Card>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

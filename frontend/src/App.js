@@ -1,10 +1,13 @@
-// App.js - Updated with simplified imports
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+// App.js - Updated with sidebar state context
+import React, { Suspense, lazy, useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AppProvider } from './context/AppContext';
 import LoadingSpinner from './components/LoadingSpinner';
 import authService from './services/authService';
+
+// Create a context for sidebar state
+export const SidebarContext = createContext();
 
 // Lazy load components for better performance
 const Sidebar = lazy(() => import('./components/Sidebar'));
@@ -78,6 +81,8 @@ class ErrorBoundary extends React.Component {
 
 function App() {
   const [loading, setLoading] = useState(true);
+  // State for sidebar collapse
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Check authentication on load
   useEffect(() => {
@@ -89,53 +94,64 @@ function App() {
     checkAuth();
   }, []);
 
+  // Function to toggle sidebar
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
 
   return (
     <ErrorBoundary>
-      <AppProvider>
-        <ThemeProvider>
-          <Router>
-            <Routes>
-              {/* Public route for login */}
-              <Route path="/login" element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <LoginView />
-                </Suspense>
-              } />
-              
-              {/* Protected routes */}
-              <Route path="/*" element={
-                <ProtectedRoute>
-                  <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <Sidebar />
-                      
-                      <main className="flex-1 lg:ml-64 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto">
-                        <Suspense fallback={<LoadingSpinner />}>
-                          <Routes>
-                            <Route path="/" element={<HomeView />} />
-                            <Route path="/courses" element={<CoursesView />} />
-                            <Route path="/courses/:courseId" element={<CourseContentView />} />
-                            <Route path="/assessments" element={<AssessmentsView />} />
-                            <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
-                            <Route path="/leaderboard" element={<LeaderboardView />} />
-                            <Route path="/community" element={<CommunityView />} />
-                            <Route path="/settings" element={<SettingsView />} />
-                            <Route path="*" element={<Navigate to="/" replace />} />
-                          </Routes>
-                        </Suspense>
-                      </main>
-                    </Suspense>
-                  </div>
-                </ProtectedRoute>
-              } />
-            </Routes>
-          </Router>
-        </ThemeProvider>
-      </AppProvider>
+      <SidebarContext.Provider value={{ isCollapsed, toggleSidebar }}>
+        <AppProvider>
+          <ThemeProvider>
+            <Router>
+              <Routes>
+                {/* Public route for login */}
+                <Route path="/login" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <LoginView />
+                  </Suspense>
+                } />
+                
+                {/* Protected routes */}
+                <Route path="/*" element={
+                  <ProtectedRoute>
+                    <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
+                      <Suspense fallback={<LoadingSpinner />}>
+                        <Sidebar />
+                        
+                        <main 
+                          className={`flex-1 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
+                            isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+                          }`}
+                        >
+                          <Suspense fallback={<LoadingSpinner />}>
+                            <Routes>
+                              <Route path="/" element={<HomeView />} />
+                              <Route path="/courses" element={<CoursesView />} />
+                              <Route path="/courses/:courseId" element={<CourseContentView />} />
+                              <Route path="/assessments" element={<AssessmentsView />} />
+                              <Route path="/assessments/:assessmentId" element={<AssessmentContentView />} />
+                              <Route path="/leaderboard" element={<LeaderboardView />} />
+                              <Route path="/community" element={<CommunityView />} />
+                              <Route path="/settings" element={<SettingsView />} />
+                              <Route path="*" element={<Navigate to="/" replace />} />
+                            </Routes>
+                          </Suspense>
+                        </main>
+                      </Suspense>
+                    </div>
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </Router>
+          </ThemeProvider>
+        </AppProvider>
+      </SidebarContext.Provider>
     </ErrorBoundary>
   );
 }

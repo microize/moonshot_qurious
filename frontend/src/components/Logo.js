@@ -31,7 +31,7 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
       >
         {/* Logo Icon Container */}
         <div
-          className={`relative flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 ${
+          className={`relative flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 ${
             isHovered
               ? 'bg-gradient-to-br from-cobalt-400 to-cobalt-600 rotate-6 scale-110 shadow-glow'
               : isPulsing
@@ -49,7 +49,7 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
           {/* Infinity SVG */}
           <svg
             viewBox="0 0 24 24"
-            className={`w-8 h-8 transition-all duration-300 z-10 ${
+            className={`w-6 h-6 transition-all duration-300 z-10 ${
               isHovered ? 'text-white transform rotate-12' : 'text-white'
             }`}
             fill="none"

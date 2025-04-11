@@ -1,8 +1,10 @@
-// views/CoursesView.js
+// views/CoursesView.js - Updated for consistent styling
 import React, { useState } from 'react';
 import { Search, Filter, BookOpen, Tag, Clock } from 'lucide-react';
 import CourseRecommendations from '../components/CourseRecommendations';
 import CourseProgress from '../components/CourseProgress';
+import PageContainer from '../components/PageContainer';
+import Card from '../components/Card';
 
 // Enhanced CourseCard with microstimuli
 const CourseCard = ({ course }) => {
@@ -212,10 +214,8 @@ const CoursesView = () => {
   };
   
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Courses</h1>
-        
+    <PageContainer title="Courses">
+      <div className="flex items-center justify-end mb-6">
         {/* Tabs */}
         <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
           <button 
@@ -242,7 +242,7 @@ const CoursesView = () => {
       </div>
       
       {/* Search and filter bar */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm mb-6 border border-gray-100 dark:border-gray-700">
+      <Card className="mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search box */}
           <div className="relative flex-grow">
@@ -269,7 +269,7 @@ const CoursesView = () => {
         <div className="mt-4">
           <TopicFilter topics={topics} onTopicClick={handleTopicClick} />
         </div>
-      </div>
+      </Card>
       
       {/* Content based on active tab */}
       {activeTab === 'catalog' ? (
@@ -279,15 +279,11 @@ const CoursesView = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-          <div className="flex items-center mb-4">
-            <BookOpen size={20} className="text-purple-500 mr-2" />
-            <h2 className="text-lg font-medium text-gray-800 dark:text-white">Continue Learning</h2>
-          </div>
+        <Card title="Current Courses" icon={BookOpen}>
           <CourseProgress />
-        </div>
+        </Card>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

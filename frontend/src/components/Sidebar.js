@@ -1,16 +1,19 @@
-// components/Sidebar.js - Redesigned with Apple-inspired UI + Collapsible Feature
-import React, { useState, useEffect } from 'react';
+// components/Sidebar.js - Updated to use SidebarContext
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, BookOpen, ClipboardCheck, BarChart2, Users, Settings, Moon, Sun, X, Menu, Bell, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { SidebarContext } from '../App'; // Import the context
 import Logo from './Logo';
 
-const Sidebar = ({ onNavigate }) => {
+const Sidebar = () => {
   const { darkMode, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState('');
   const location = useLocation();
+  
+  // Use the sidebar context instead of local state
+  const { isCollapsed, toggleSidebar } = useContext(SidebarContext);
 
   useEffect(() => {
     const path = location.pathname;
@@ -29,12 +32,10 @@ const Sidebar = ({ onNavigate }) => {
 
   const handleNavItemClick = (itemId) => {
     setActiveItem(itemId);
-    if (onNavigate) onNavigate(itemId);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   return (
     <>
@@ -57,47 +58,31 @@ const Sidebar = ({ onNavigate }) => {
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className="px-4 py-6 flex items-center justify-center lg:justify-between">
-            <Logo />
-            <button
-              onClick={toggleCollapse}
-              className="lg:hidden ml-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
-              aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-            </button>
-          </div>
-
-          {/* Collapse Button (Desktop Only) */}
-          <div className="px-4 mb-4 hidden lg:flex justify-end">
-            <button
-              onClick={toggleCollapse}
-              className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition"
-              aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-            </button>
+          <div className={`px-4 py-6 flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
+            <Logo onLogoClick={toggleSidebar} isCollapsed={isCollapsed} />
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-2 mt-2 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-2 mt-2 space-y-1 overflow-y-auto overflow-x-hidden">
             {navItems.map((item) => (
               <Link
                 key={item.id}
                 to={item.path}
                 onClick={() => handleNavItemClick(item.id)}
-                className={`flex items-center px-3 py-2.5 rounded-md transition-all duration-300 group ${
+                className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-md transition-all duration-300 group ${
                   activeItem === item.id
                     ? 'bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 }`}
               >
-                <item.icon
-                  size={18}
-                  className={`mr-2 transition-transform duration-300 ${
-                    activeItem === item.id ? 'text-cobalt-600 dark:text-cobalt-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-cobalt-600 dark:group-hover:text-cobalt-400'
-                  }`}
-                />
+                <div className={`${isCollapsed ? 'flex justify-center w-full' : ''}`}>
+                  <item.icon
+                    size={18}
+                    className={`${isCollapsed ? 'mx-auto' : 'mr-2'} transition-transform duration-300 ${
+                      activeItem === item.id ? 'text-cobalt-600 dark:text-cobalt-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-cobalt-600 dark:group-hover:text-cobalt-400'
+                    }`}
+                  />
+                </div>
                 <span className={`text-sm font-medium transition-all duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}>
                   {item.label}
                 </span>
@@ -158,11 +143,35 @@ const Sidebar = ({ onNavigate }) => {
             </div>
           )}
 
+          {/* Collapsed Theme Toggle */}
+          {isCollapsed && (
+            <div className="px-2 mb-4 flex justify-center">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {darkMode ? (
+                  <Sun size={20} className="text-amber-500" />
+                ) : (
+                  <Moon size={20} className="text-cobalt-500" />
+                )}
+              </button>
+            </div>
+          )}
+
           {/* Version Info */}
           {!isCollapsed && (
             <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800">
               <p>Quriousity v1.0.0</p>
               <p className="mt-1">© 2025 Quriousity Learning</p>
+            </div>
+          )}
+
+          {/* Mini Version Info for collapsed state */}
+          {isCollapsed && (
+            <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800">
+              <p>v1.0</p>
             </div>
           )}
         </div>

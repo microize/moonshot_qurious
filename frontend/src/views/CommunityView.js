@@ -1,6 +1,8 @@
-// views/CommunityView.js
+// Updated CommunityView.js with consistent styling
 import React, { useState } from 'react';
 import { Users, MessageSquare, Search, Filter, BookOpen, Award, Heart } from 'lucide-react';
+import PageContainer from '../components/PageContainer';
+import Card from '../components/Card';
 
 const CommunityView = () => {
   const [activeTab, setActiveTab] = useState('discussions');
@@ -107,14 +109,12 @@ const CommunityView = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Community</h1>
-      
+    <PageContainer title="Community">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main content area */}
         <div className="lg:col-span-2">
-          {/* Tabs */}
-          <div className="bg-white dark:bg-gray-800 rounded-t-xl p-4 border border-gray-100 dark:border-gray-700 border-b-0">
+          <Card className="mb-6">
+            {/* Tabs */}
             <div className="flex overflow-x-auto pb-2 no-scrollbar">
               {tabs.map(tab => (
                 <button
@@ -131,96 +131,98 @@ const CommunityView = () => {
                 </button>
               ))}
             </div>
-          </div>
-          
-          {/* Search and filter */}
-          <div className="bg-white dark:bg-gray-800 p-4 border-l border-r border-gray-100 dark:border-gray-700">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-grow">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search size={18} className="text-gray-400" />
+            
+            {/* Search and filter */}
+            <div className="mt-4">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-grow">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Search size={18} className="text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search discussions..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Search discussions..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
-                />
+                
+                <button className="px-4 py-2 flex items-center justify-center text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <Filter size={18} className="mr-2" />
+                  <span>Filters</span>
+                </button>
               </div>
-              
-              <button className="px-4 py-2 flex items-center justify-center text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <Filter size={18} className="mr-2" />
-                <span>Filters</span>
-              </button>
             </div>
-          </div>
+          </Card>
           
           {/* Discussions list */}
           {activeTab === 'discussions' && (
-            <div className="bg-white dark:bg-gray-800 rounded-b-xl border border-gray-100 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden">
-              {discussions.map(discussion => (
-                <div 
-                  key={discussion.id} 
-                  className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors cursor-pointer ${
-                    discussion.isUser ? 'bg-purple-50 dark:bg-purple-900/10' : ''
-                  }`}
-                >
-                  <div className="flex items-start">
-                    <img 
-                      src={discussion.avatar} 
-                      alt={discussion.author} 
-                      className="w-10 h-10 rounded-full mr-3 object-cover"
-                    />
-                    <div className="flex-1">
-                      <div className="flex justify-between">
-                        <div>
-                          <h3 className="font-medium text-gray-800 dark:text-white">
-                            {discussion.title}
-                            {discussion.solved && (
-                              <span className="ml-2 text-xs bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-1.5 py-0.5 rounded">
-                                Solved
-                              </span>
-                            )}
-                          </h3>
-                          <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            <span>Posted by {discussion.author}</span>
-                            {discussion.isUser && (
-                              <span className="ml-1 text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 px-1 rounded">You</span>
-                            )}
-                            <span className="mx-1">•</span>
-                            <span>{discussion.time}</span>
+            <Card>
+              <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                {discussions.map(discussion => (
+                  <div 
+                    key={discussion.id} 
+                    className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors cursor-pointer ${
+                      discussion.isUser ? 'bg-purple-50 dark:bg-purple-900/10' : ''
+                    }`}
+                  >
+                    <div className="flex items-start">
+                      <img 
+                        src={discussion.avatar} 
+                        alt={discussion.author} 
+                        className="w-10 h-10 rounded-full mr-3 object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <div>
+                            <h3 className="font-medium text-gray-800 dark:text-white">
+                              {discussion.title}
+                              {discussion.solved && (
+                                <span className="ml-2 text-xs bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-1.5 py-0.5 rounded">
+                                  Solved
+                                </span>
+                              )}
+                            </h3>
+                            <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
+                              <span>Posted by {discussion.author}</span>
+                              {discussion.isUser && (
+                                <span className="ml-1 text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 px-1 rounded">You</span>
+                              )}
+                              <span className="mx-1">•</span>
+                              <span>{discussion.time}</span>
+                            </div>
+                          </div>
+                          <div className="text-xs px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                            {discussion.category}
                           </div>
                         </div>
-                        <div className="text-xs px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                          {discussion.category}
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center mt-3 text-xs text-gray-500 dark:text-gray-400">
-                        <div className="flex items-center mr-4">
-                          <MessageSquare size={14} className="mr-1" />
-                          <span>{discussion.replies} replies</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Search size={14} className="mr-1" />
-                          <span>{discussion.views} views</span>
+                        
+                        <div className="flex items-center mt-3 text-xs text-gray-500 dark:text-gray-400">
+                          <div className="flex items-center mr-4">
+                            <MessageSquare size={14} className="mr-1" />
+                            <span>{discussion.replies} replies</span>
+                          </div>
+                          <div className="flex items-center">
+                            <Search size={14} className="mr-1" />
+                            <span>{discussion.views} views</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                ))}
+                
+                <div className="p-4 text-center">
+                  <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">
+                    View More Discussions
+                  </button>
                 </div>
-              ))}
-              
-              <div className="p-4 text-center">
-                <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">
-                  View More Discussions
-                </button>
               </div>
-            </div>
+            </Card>
           )}
           
           {/* Learning Groups */}
           {activeTab === 'groups' && (
-            <div className="bg-white dark:bg-gray-800 rounded-b-xl border border-gray-100 dark:border-gray-700 overflow-hidden p-4">
+            <Card>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {learningGroups.map(group => (
                   <div 
@@ -262,12 +264,12 @@ const CommunityView = () => {
                   Create New Group
                 </button>
               </div>
-            </div>
+            </Card>
           )}
           
           {/* Find Mentors */}
           {activeTab === 'mentors' && (
-            <div className="bg-white dark:bg-gray-800 rounded-b-xl border border-gray-100 dark:border-gray-700 overflow-hidden p-4">
+            <Card>
               <div className="text-center mb-6">
                 <h3 className="font-medium text-gray-800 dark:text-white mb-2">Connect with Experienced Mentors</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -325,7 +327,7 @@ const CommunityView = () => {
                   Browse All Mentors
                 </button>
               </div>
-            </div>
+            </Card>
           )}
           
           {/* Call to action */}
@@ -343,9 +345,7 @@ const CommunityView = () => {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* User stats */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 className="font-medium text-gray-800 dark:text-white mb-4">Your Contribution</h2>
-            
+          <Card title="Your Contribution">
             <div className="grid grid-cols-2 gap-4">
               {userStats.map((stat, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-750 p-3 rounded-lg text-center">
@@ -365,12 +365,10 @@ const CommunityView = () => {
                 <div className="h-full bg-purple-500 rounded-full" style={{ width: '60%' }}></div>
               </div>
             </div>
-          </div>
+          </Card>
           
           {/* Active community members */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 className="font-medium text-gray-800 dark:text-white mb-4">Top Community Members</h2>
-            
+          <Card title="Top Community Members">
             <div className="space-y-3">
               {activeUsers.map((user, index) => (
                 <div 
@@ -413,12 +411,10 @@ const CommunityView = () => {
             <button className="w-full mt-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
               View Full Leaderboard
             </button>
-          </div>
+          </Card>
           
           {/* Upcoming events */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 className="font-medium text-gray-800 dark:text-white mb-4">Upcoming Events</h2>
-            
+          <Card title="Upcoming Events">
             <div className="space-y-3">
               <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
                 <div className="text-xs text-purple-500 dark:text-purple-400">Friday • 5:00 PM</div>
@@ -436,10 +432,10 @@ const CommunityView = () => {
             <button className="w-full mt-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
               View All Events
             </button>
-          </div>
+          </Card>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

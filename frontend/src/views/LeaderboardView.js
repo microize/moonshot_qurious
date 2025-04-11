@@ -1,6 +1,8 @@
-// views/LeaderboardView.js
+// Updated LeaderboardView.js with consistent styling
 import React from 'react';
 import { BarChart2, Award, Users, TrendingUp, Calendar } from 'lucide-react';
+import PageContainer from '../components/PageContainer';
+import Card from '../components/Card';
 
 const LeaderboardView = () => {
   // Mock leaderboard data
@@ -75,13 +77,11 @@ const LeaderboardView = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Leaderboard</h1>
-      
+    <PageContainer title="Leaderboard">
       {/* Achievement stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {achievementStats.map((stat, index) => (
-          <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
+          <Card key={index} className="p-4">
             <div className="flex items-center">
               <div className={`p-3 rounded-lg mr-3 ${stat.color} bg-opacity-10 dark:bg-opacity-20`}>
                 <stat.icon size={20} className={stat.color} />
@@ -91,15 +91,15 @@ const LeaderboardView = () => {
                 <p className="text-xl font-semibold text-gray-800 dark:text-white">{stat.value}</p>
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main leaderboard */}
         <div className="lg:col-span-2">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-            <div className="p-4 border-b border-gray-100 dark:border-gray-700">
+          <Card>
+            <div className="mb-4">
               <h2 className="font-medium text-gray-800 dark:text-white">Learning Champions</h2>
               
               {/* Category tabs */}
@@ -193,15 +193,13 @@ const LeaderboardView = () => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </Card>
         </div>
         
         {/* Sidebar with achievements and badges */}
         <div className="space-y-6">
           {/* Recent badges */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 className="font-medium text-gray-800 dark:text-white mb-4">Your Recent Badges</h2>
-            
+          <Card title="Your Recent Badges">
             <div className="space-y-4">
               {recentBadges.map((badge, index) => (
                 <div key={index} className="flex items-start">
@@ -219,12 +217,10 @@ const LeaderboardView = () => {
             <button className="w-full mt-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
               View All Badges
             </button>
-          </div>
+          </Card>
           
           {/* Weekly challenge */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 className="font-medium text-gray-800 dark:text-white mb-4">Weekly Challenge</h2>
-            
+          <Card title="Weekly Challenge">
             <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
               <h3 className="font-medium text-gray-800 dark:text-white">Complete 3 Python modules</h3>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">5 days remaining</div>
@@ -246,10 +242,10 @@ const LeaderboardView = () => {
             <button className="w-full mt-4 py-2 text-sm bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors">
               Continue Challenge
             </button>
-          </div>
+          </Card>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

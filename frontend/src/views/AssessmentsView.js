@@ -1,7 +1,9 @@
-// Updated AssessmentsView.js with navigation
+// Updated AssessmentsView.js with consistent styling
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardCheck, Clock, Award } from 'lucide-react';
+import PageContainer from '../components/PageContainer';
+import Card from '../components/Card';
 
 const AssessmentsView = () => {
   const navigate = useNavigate();
@@ -48,17 +50,10 @@ const AssessmentsView = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Assessments</h1>
-      
+    <PageContainer title="Assessments">
       <div className="grid gap-6">
         {assessments.map(assessment => (
-          <div 
-            key={assessment.id} 
-            className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 ${
-              assessment.status === 'locked' ? 'opacity-60' : 'hover:shadow-md hover:-translate-y-1 cursor-pointer'
-            }`}
-          >
+          <Card key={assessment.id} className={assessment.status === 'locked' ? 'opacity-60' : ''}>
             <div className="flex justify-between items-start">
               <div className="flex items-start">
                 <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg mr-4">
@@ -100,29 +95,54 @@ const AssessmentsView = () => {
                 {assessment.status === 'locked' ? 'Locked' : 'Start Assessment'}
               </button>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
       
-      <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="font-medium text-gray-800 dark:text-white">Upcoming Events</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Join these learning events</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <Card title="Upcoming Events" className="md:col-span-2">
+          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
+            <div className="text-xs text-purple-500 dark:text-purple-400">Friday • 5:00 PM</div>
+            <h3 className="font-medium text-gray-800 dark:text-white mt-1">Python Coding Challenge</h3>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">Weekly competition</p>
           </div>
-        </div>
+          
+          <button className="w-full mt-4 py-2 text-sm text-purple-500 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+            View All Events
+          </button>
+        </Card>
         
-        <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
-          <div className="text-xs text-purple-500 dark:text-purple-400">Friday • 5:00 PM</div>
-          <h3 className="font-medium text-gray-800 dark:text-white mt-1">Python Coding Challenge</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">Weekly competition</p>
-        </div>
-        
-        <button className="w-full mt-4 py-2 text-sm text-purple-500 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
-          View All Events
-        </button>
+        <Card title="Your Stats" icon={Award}>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-300">Completed Assessments</span>
+              <span className="text-lg font-medium text-gray-800 dark:text-white">12</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-300">Average Score</span>
+              <span className="text-lg font-medium text-gray-800 dark:text-white">87%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-300">Badges Earned</span>
+              <span className="text-lg font-medium text-gray-800 dark:text-white">4</span>
+            </div>
+            
+            <div className="mt-2 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-300">
+                <span>Next achievement:</span>
+                <span className="text-purple-600 dark:text-purple-400">75%</span>
+              </div>
+              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-2">
+                <div className="h-full bg-purple-500 rounded-full" style={{ width: '75%' }}></div>
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                "Assessment Master" - Complete 5 more assessments
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

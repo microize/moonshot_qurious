@@ -464,7 +464,7 @@ const HomeView = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div className="w-full max-w-full lg:max-w-7xl mx-auto px-4 sm:px-6 py-8">
       {/* Header with user info */}
       <div className="flex justify-between items-start mb-8">
         <div>
