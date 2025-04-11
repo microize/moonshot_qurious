@@ -131,7 +131,7 @@ const CourseCard = ({ course, minimal = false }) => {
             alt={course.title}
             className="absolute inset-0 w-full h-full object-cover"
           />
-        ) : course.thumbnail_url === null || course.thumbnail_url === undefined ? (
+        ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-cobalt-400 to-cobalt-600"></div>
         )}
         {/* Course type badge and overlay content */}
