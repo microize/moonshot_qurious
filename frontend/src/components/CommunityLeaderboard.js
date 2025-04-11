@@ -13,7 +13,7 @@ const CommunityLeaderboard = () => {
         role: "Data Scientist", 
         points: 680, 
         streak: 15,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         change: "+2",
         isOnline: true,
         currentCourse: "Deep Learning Specialization"
@@ -23,7 +23,7 @@ const CommunityLeaderboard = () => {
         role: "Data Engineer", 
         points: 440, 
         streak: 8,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         change: "0",
         isOnline: true,
         currentCourse: "Understanding Machine Learning Algorithms",
@@ -34,7 +34,7 @@ const CommunityLeaderboard = () => {
         role: "ML Engineer", 
         points: 410, 
         streak: 6,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         change: "-1",
         isOnline: false,
         currentCourse: "Python for Data Analysis"
@@ -44,7 +44,7 @@ const CommunityLeaderboard = () => {
         role: "BI Analyst", 
         points: 390, 
         streak: 4,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         change: "+1",
         isOnline: false,
         currentCourse: "SQL for Data Analysis"
@@ -56,7 +56,7 @@ const CommunityLeaderboard = () => {
         role: "AI Researcher", 
         points: 1250, 
         streak: 45,
-        avatar: "/api/placeholder/40/40", 
+        avatar_url: "https://via.placeholder.com/40",
         badge: "Expert"
       },
       { 
@@ -64,7 +64,7 @@ const CommunityLeaderboard = () => {
         role: "Data Scientist", 
         points: 980, 
         streak: 30,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         badge: "Mentor" 
       },
       { 
@@ -72,7 +72,7 @@ const CommunityLeaderboard = () => {
         role: "ML Engineer", 
         points: 940, 
         streak: 28,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         badge: "Contributor" 
       },
       { 
@@ -80,7 +80,7 @@ const CommunityLeaderboard = () => {
         role: "Data Engineer", 
         points: 440, 
         streak: 8,
-        avatar: "/api/placeholder/40/40",
+        avatar_url: "https://via.placeholder.com/40",
         isUser: true
       }
     ]
@@ -164,7 +164,7 @@ const CommunityLeaderboard = () => {
             
             <div className="relative ml-2">
               <img 
-                src={user.avatar} 
+                src={user.avatar_url} 
                 alt={user.name} 
                 className="w-8 h-8 rounded-full object-cover"
               />

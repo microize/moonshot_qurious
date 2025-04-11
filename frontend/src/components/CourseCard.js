@@ -124,7 +124,17 @@ const CourseCard = ({ course, minimal = false }) => {
     >
       {/* Course card with gradient image/placeholder */}
       <div className="relative h-48 bg-gradient-to-br from-cobalt-400 to-cobalt-600 flex items-end">
-        {/* Course type badge */}
+        {/* Background image or gradient */}
+        {course.thumbnail_url ? (
+          <img
+            src={course.thumbnail_url}
+            alt={course.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-cobalt-400 to-cobalt-600"></div>
+        )}
+        {/* Course type badge and overlay content */}
         <div className="absolute top-3 left-3">
           <span className={`text-xs font-medium px-2 py-1 rounded-full ${getBadgeStyle(course.type)}`}>
             {course.type}

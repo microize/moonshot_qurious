@@ -97,14 +97,14 @@ USERS = {
         name="Sripathi",
         email="sripathi@example.com",
         role="Data Engineer",
-        avatar_url="/api/users/user1/avatar"
+        avatar_url="https://via.placeholder.com/150"
     ),
     "user2": User(
         id="user2",
         name="Anjali",
         email="anjali@example.com",
         role="Data Scientist",
-        avatar_url="/api/users/user2/avatar"
+        avatar_url="https://via.placeholder.com/150"
     )
 }
 
@@ -120,7 +120,7 @@ COURSES = [
         instructor="Dr. Johnson",
         instructorId="instructor1",
         enrolledCount=17770,
-        rating=4.8,
+        rating=4.8,\n        thumbnail_url=\"https://via.placeholder.com/150\",
         isEnrolled=True
     ),
     Course(
@@ -133,7 +133,7 @@ COURSES = [
         instructor="Prof. Sharma",
         instructorId="instructor2",
         enrolledCount=24310,
-        rating=4.7
+        rating=4.7,\n        thumbnail_url=\"https://via.placeholder.com/150\"
     ),
     Course(
         id="course3",
@@ -145,7 +145,7 @@ COURSES = [
         instructor="Dr. Johnson",
         instructorId="instructor1",
         enrolledCount=8245,
-        rating=4.6,
+        rating=4.6,\n        thumbnail_url=\"https://via.placeholder.com/150\",
         isEnrolled=True
     )
 ]
