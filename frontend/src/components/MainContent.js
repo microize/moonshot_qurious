@@ -12,7 +12,7 @@ import { Layout, ChevronUp, ChevronDown, BookOpen, Calendar, Users, BarChart2, B
 // Section component for collapsible sections
 const Section = ({ title, icon: Icon, children, isCollapsed, onToggle }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+    <div className="bg-white dark:bg-gray-800 shadow-sm">
       <div 
         className="flex items-center justify-between p-4 cursor-pointer"
         onClick={onToggle}
@@ -75,7 +75,7 @@ const MainContent = () => {
 
   return (
     <div className="flex-1 p-1 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-purple-100 dark:border-purple-600 min-h-full p-6">
+      <div className="bg-white dark:bg-gray-800 shadow-md border border-purple-100 dark:border-purple-600 min-h-full p-6">
         {/* Header with tabs */}
         <div className="flex justify-between items-start mb-6">
           <div>
