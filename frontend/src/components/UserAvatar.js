@@ -20,7 +20,7 @@ const UserAvatar = ({
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [error, setError] = useState(false);
   const [seed, setSeed] = useState(1);
-  
+
   // Size mappings
   const sizeClasses = {
     'xs': 'w-6 h-6 text-xs',
@@ -40,7 +40,7 @@ const UserAvatar = ({
     'xl': 'border-4',
     '2xl': 'border-4'
   };
-  
+
   // Generate initials from name
   const getInitials = () => {
     if (!name) return '?';
@@ -51,7 +51,7 @@ const UserAvatar = ({
       .toUpperCase()
       .substring(0, 2);
   };
-  
+
   // Generate gradient colors based on name (consistent for the same name)
   const getGradientColors = () => {
     if (!name) return ['from-cobalt-400', 'to-cobalt-600'];
@@ -59,7 +59,7 @@ const UserAvatar = ({
     // Simple hash function to get consistent colors
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     
-    // Gradient combinations
+    // Gradient combinations 
     const gradients = [
       ['from-cobalt-400', 'to-cobalt-600'],      // Blue
       ['from-emerald-400', 'to-emerald-600'],    // Green
@@ -71,39 +71,26 @@ const UserAvatar = ({
       ['from-pink-400', 'to-pink-600']           // Pink
     ];
     
-    return gradients[hash % gradients.length];
+    return gradients[hash % gradients.length]; 
   };
-  
-  // Load avatar from API
+
+  // Set default avatar URL
   useEffect(() => {
-    if (!userId || error) return;
-    
-    // In a real app, this would be an actual API endpoint
-    const avatarUrl = `/api/users/${userId}/avatar`;
-    
-    // Check if the image exists
-    const img = new Image();
-    img.src = avatarUrl;
-    
-    img.onload = () => setAvatarUrl(avatarUrl);
-    img.onerror = () => setError(true);
-    
-    return () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-  }, [userId, error]);
-  
+    setAvatarUrl('https://via.placeholder.com/150/ADD8E6/000000?text=Placeholder');
+  }, []);
+
   // Generate a new seed for gradient variation when avatar fails
   useEffect(() => {
     if (error) {
       setSeed(Math.floor(Math.random() * 8) + 1);
     }
   }, [error]);
-  
+
   // Get gradient classes based on name and seed
   const [gradientStart, gradientEnd] = getGradientColors();
-  
+
+
+
   return (
     <div 
       className={`relative flex-shrink-0 ${className}`}

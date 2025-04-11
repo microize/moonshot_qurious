@@ -164,7 +164,9 @@ const CommunityLeaderboard = () => {
             
             <div className="relative ml-2">
               <img 
-                src={user.avatar_url} 
+                src={user.avatar_url || 'https://via.placeholder.com/150/ADD8E6/000000?text=Placeholder'}
+                // Use light blue placeholder if avatar_url is not available
+
                 alt={user.name} 
                 className="w-8 h-8 rounded-full object-cover"
               />
