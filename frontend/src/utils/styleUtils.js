@@ -16,15 +16,15 @@ export const classNames = (...classes) => {
    * @returns {string} - CSS classes for the badge
    */
   export const getCourseBadgeStyle = (type) => {
-    switch (type) {
+    switch(type) {
       case 'Course': 
-        return 'bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-600 dark:text-cobalt-300 border border-cobalt-200 dark:border-cobalt-800/60';
+        return 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50';
       case 'Pathway': 
-        return 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60';
+        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50';
       case 'Workshop': 
-        return 'bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-300 border border-accent-200 dark:border-accent-800/60';
+        return 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-300 border border-green-200 dark:border-green-800/50';
       default: 
-        return 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700';
+        return 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700';
     }
   };
   

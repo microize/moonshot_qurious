@@ -160,7 +160,7 @@
   
   /* Loading spinners */
   .spinner {
-    @apply animate-spin rounded-full border-2 border-gray-200 dark:border-gray-700 border-t-cobalt-500;
+    @apply animate-spin rounded-full border-2 border-gray-200 dark:border-gray-700 border-t-amber-500;
   }
   
   .spinner-sm {
