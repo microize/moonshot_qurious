@@ -1,0 +1,77 @@
+/* Logo.module.css */
+/* Component-specific styles for Logo */
+
+.logoContainer {
+    @apply cursor-pointer inline-block;
+  }
+  
+  .logoWrapper {
+    @apply flex items-center space-x-3 group;
+  }
+  
+  /* Logo icon */
+  .logoIcon {
+    @apply relative flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 bg-gradient-to-br from-cobalt-500 to-cobalt-600 shadow-sm;
+  }
+  
+  .logoIconHovered {
+    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 rotate-6 scale-110 shadow-glow;
+  }
+  
+  .logoIconPulsing {
+    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 scale-105 shadow-sm;
+  }
+  
+  /* Glow effect */
+  .logoGlow {
+    @apply absolute inset-0 rounded-2xl bg-cobalt-400 opacity-0 blur-xl transition-opacity duration-300;
+  }
+  
+  .logoGlowVisible {
+    @apply opacity-30;
+  }
+  
+  /* SVG icon */
+  .logoSvg {
+    @apply w-6 h-6 transition-all duration-300 z-10 text-white;
+  }
+  
+  .logoSvgHovered {
+    @apply transform rotate-12;
+  }
+  
+  /* Text section */
+  .logoText {
+    @apply flex flex-col justify-center items-start text-left overflow-hidden;
+  }
+  
+  /* Logo title */
+  .logoTitle {
+    @apply text-cobalt-600 dark:text-cobalt-400 text-xl font-semibold transition-all duration-300;
+  }
+  
+  .logoTitleHovered {
+    @apply tracking-wider;
+  }
+  
+  /* Tagline */
+  .logoTagline {
+    @apply text-xs text-cobalt-500 dark:text-cobalt-400 font-medium transition-all duration-300 ease-in-out overflow-hidden;
+  }
+  
+  .logoTaglineVisible {
+    @apply opacity-100 max-h-6 mt-0;
+  }
+  
+  .logoTaglineHidden {
+    @apply opacity-0 max-h-0 -mt-1;
+  }
+  
+  /* Decorative dot */
+  .logoDot {
+    @apply w-1.5 h-1.5 rounded-full bg-cobalt-500 transition-all duration-300 opacity-70;
+  }
+  
+  .logoDotHovered {
+    @apply opacity-100 scale-125;
+  }

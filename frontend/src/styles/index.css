@@ -1,0 +1,16 @@
+/* src/styles/index.css */
+/* Main stylesheet that imports all CSS files */
+
+/* Import Tailwind base styles and our custom base styles */
+@import 'base.css';
+
+/* Import component styles */
+@import 'components.css';
+
+/* Import utility classes */
+@import 'utilities.css';
+
+/* Import animation styles */
+@import 'animations.css';
+
+/* Any additional global styles can be added here */

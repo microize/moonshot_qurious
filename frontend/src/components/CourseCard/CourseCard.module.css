@@ -1,0 +1,31 @@
+/* CourseCard.module.css */
+/* Component-specific styles for CourseCard */
+
+.card {
+    @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 border border-gray-100 dark:border-gray-700;
+  }
+  
+  .cardHovered {
+    @apply shadow-soft-lg scale-102 -translate-y-1;
+  }
+  
+  .cardPressed {
+    @apply scale-98 shadow-sm;
+  }
+  
+  .badge {
+    @apply text-xs font-medium px-2 py-1 rounded-full transition-all duration-300;
+  }
+  
+  /* Course gradient backgrounds */
+  .courseGradient {
+    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600;
+  }
+  
+  .pathwayGradient {
+    @apply bg-gradient-to-br from-indigo-400 to-indigo-600;
+  }
+  
+  .workshopGradient {
+    @apply bg-gradient-to-br from-accent-400 to-accent-600;
+  }

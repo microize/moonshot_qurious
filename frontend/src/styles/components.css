@@ -1,0 +1,274 @@
+/* src/styles/components.css */
+/* Component styles for the application */
+
+@tailwind components;
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50;
+  }
+  
+  .btn-primary {
+    @apply btn px-4 py-2 bg-cobalt-500 hover:bg-cobalt-600 text-white shadow-sm hover:shadow-md focus:ring-cobalt-500 active:scale-98;
+  }
+  
+  .btn-primary-sm {
+    @apply btn px-3 py-1.5 text-sm bg-cobalt-500 hover:bg-cobalt-600 text-white shadow-sm focus:ring-cobalt-500 active:scale-98;
+  }
+  
+  .btn-secondary {
+    @apply btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 focus:ring-gray-400 active:scale-98;
+  }
+  
+  .btn-secondary-sm {
+    @apply btn px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 focus:ring-gray-400 active:scale-98;
+  }
+  
+  .btn-outline {
+    @apply btn px-4 py-2 bg-transparent text-cobalt-600 dark:text-cobalt-400 border border-cobalt-200 dark:border-cobalt-700 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20 focus:ring-cobalt-500 active:scale-98;
+  }
+  
+  .btn-outline-sm {
+    @apply btn px-3 py-1.5 text-sm bg-transparent text-cobalt-600 dark:text-cobalt-400 border border-cobalt-200 dark:border-cobalt-700 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20 focus:ring-cobalt-500 active:scale-98;
+  }
+  
+  .btn-accent {
+    @apply btn px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white focus:ring-accent-500 active:scale-98;
+  }
+  
+  .btn-success {
+    @apply btn px-4 py-2 bg-success-500 hover:bg-success-600 text-white focus:ring-success-500 active:scale-98;
+  }
+  
+  .btn-danger {
+    @apply btn px-4 py-2 bg-error-500 hover:bg-error-600 text-white focus:ring-error-500 active:scale-98;
+  }
+  
+  /* Cards */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden;
+  }
+  
+  .card-elevated {
+    @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-md hover:shadow-lg transition-shadow overflow-hidden;
+  }
+  
+  .card-title {
+    @apply text-lg font-medium text-gray-900 dark:text-white mb-2;
+  }
+  
+  .card-body {
+    @apply text-gray-600 dark:text-gray-300 p-5;
+  }
+  
+  .card-header {
+    @apply px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-750 flex items-center justify-between;
+  }
+  
+  .card-footer {
+    @apply flex justify-end p-5 space-x-3 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-750;
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-700 dark:text-cobalt-300;
+  }
+  
+  .badge-secondary {
+    @apply badge bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300;
+  }
+  
+  .badge-accent {
+    @apply badge bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300;
+  }
+  
+  .badge-success {
+    @apply badge bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-300;
+  }
+  
+  .badge-error {
+    @apply badge bg-error-100 dark:bg-error-900/30 text-error-700 dark:text-error-300;
+  }
+  
+  .badge-warning {
+    @apply badge bg-warning-100 dark:bg-warning-900/30 text-warning-700 dark:text-warning-300;
+  }
+  
+  /* Form elements */
+  .form-input {
+    @apply w-full px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-800 dark:text-white shadow-sm focus:border-cobalt-300 dark:focus:border-cobalt-700 focus:ring-2 focus:ring-cobalt-500/20 focus:outline-none transition-all;
+  }
+  
+  .form-select {
+    @apply form-input appearance-none bg-no-repeat bg-right pr-10;
+  }
+  
+  .form-textarea {
+    @apply form-input;
+  }
+  
+  .form-checkbox {
+    @apply h-4 w-4 rounded text-cobalt-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-cobalt-500/50;
+  }
+  
+  .form-radio {
+    @apply h-4 w-4 text-cobalt-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-cobalt-500/50;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+  }
+  
+  .form-checkbox-item, .form-radio-item {
+    @apply flex items-center;
+  }
+  
+  /* Alerts */
+  .alert {
+    @apply p-4 rounded-lg border;
+  }
+  
+  .alert-info {
+    @apply alert bg-cobalt-50 dark:bg-cobalt-900/20 border-cobalt-100 dark:border-cobalt-800 text-cobalt-700 dark:text-cobalt-300;
+  }
+  
+  .alert-success {
+    @apply alert bg-success-50 dark:bg-success-900/20 border-success-100 dark:border-success-800 text-success-700 dark:text-success-300;
+  }
+  
+  .alert-warning {
+    @apply alert bg-warning-50 dark:bg-warning-900/20 border-warning-100 dark:border-warning-800 text-warning-700 dark:text-warning-300;
+  }
+  
+  .alert-error {
+    @apply alert bg-error-50 dark:bg-error-900/20 border-error-100 dark:border-error-800 text-error-700 dark:text-error-300;
+  }
+  
+  /* Progress bars */
+  .progress-bar {
+    @apply w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden;
+  }
+  
+  .progress-bar-value {
+    @apply h-full bg-cobalt-500 rounded-full transition-all duration-500 ease-out;
+  }
+  
+  /* Loading spinners */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-gray-200 dark:border-gray-700 border-t-cobalt-500;
+  }
+  
+  .spinner-sm {
+    @apply spinner w-5 h-5;
+  }
+  
+  .spinner-md {
+    @apply spinner w-8 h-8;
+  }
+  
+  .spinner-lg {
+    @apply spinner w-12 h-12 border-4;
+  }
+  
+  /* Avatar */
+  .avatar {
+    @apply rounded-full object-cover;
+  }
+  
+  .avatar-xs {
+    @apply avatar w-6 h-6;
+  }
+  
+  .avatar-sm {
+    @apply avatar w-8 h-8;
+  }
+  
+  .avatar-md {
+    @apply avatar w-10 h-10;
+  }
+  
+  .avatar-lg {
+    @apply avatar w-12 h-12;
+  }
+  
+  .avatar-xl {
+    @apply avatar w-16 h-16;
+  }
+  
+  .avatar-2xl {
+    @apply avatar w-24 h-24;
+  }
+  
+  /* Course card variations */
+  .course-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-all duration-300;
+  }
+  
+  .course-card-hovered {
+    @apply shadow-soft-lg scale-102 -translate-y-1;
+  }
+  
+  .course-card-pressed {
+    @apply scale-98 shadow-sm;
+  }
+  
+  /* Course badge styles */
+  .course-badge {
+    @apply text-xs font-medium px-2 py-1 rounded-full transition-all duration-300;
+  }
+  
+  .course-badge-course {
+    @apply course-badge bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-600 dark:text-cobalt-300 border border-cobalt-200 dark:border-cobalt-800/60;
+  }
+  
+  .course-badge-pathway {
+    @apply course-badge bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60;
+  }
+  
+  .course-badge-workshop {
+    @apply course-badge bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-300 border border-accent-200 dark:border-accent-800/60;
+  }
+  
+  /* Sidebar navigation */
+  .sidebar {
+    @apply fixed inset-y-0 left-0 z-40 bg-gray-50 dark:bg-gray-900 shadow-md transition-all duration-300 ease-in-out;
+  }
+  
+  .sidebar-collapsed {
+    @apply w-16;
+  }
+  
+  .sidebar-expanded {
+    @apply w-64;
+  }
+  
+  .nav-item {
+    @apply flex px-3 py-2.5 rounded-md transition-all duration-300 group;
+  }
+  
+  .nav-item-active {
+    @apply bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold;
+  }
+  
+  .nav-item-inactive {
+    @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+  
+  /* Page containers */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 py-8;
+  }
+  
+  .page-title {
+    @apply text-2xl font-semibold text-gray-900 dark:text-white mb-6;
+  }
+  
+  .page-subtitle {
+    @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+  }
+}
