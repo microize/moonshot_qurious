@@ -1,4 +1,4 @@
-// App.js - Updated with sidebar state context
+// App.js - Improved structure with sidebar context
 import React, { Suspense, lazy, useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
@@ -9,30 +9,19 @@ import authService from './services/authService';
 // Create a context for sidebar state
 export const SidebarContext = createContext();
 
-// Lazy load components for better performance
-const Sidebar = lazy(() => import('./components/Sidebar'));
+// Centralized lazy loading for better code organization
+const Sidebar = lazy(() => import('./components/Sidebar/Sidebar'));
+
 // Lazy load views 
-const {
-  HomeView,
-  CoursesView,
-  AssessmentsView,
-  LeaderboardView,
-  CommunityView,
-  SettingsView,
-  CourseContentView,
-  AssessmentContentView,
-  LoginView
-} = {
-  HomeView: lazy(() => import('./views/HomeView')),
-  CoursesView: lazy(() => import('./views/CoursesView')),
-  AssessmentsView: lazy(() => import('./views/AssessmentsView')),
-  LeaderboardView: lazy(() => import('./views/LeaderboardView')),
-  CommunityView: lazy(() => import('./views/CommunityView')),
-  SettingsView: lazy(() => import('./views/SettingsView')),
-  CourseContentView: lazy(() => import('./views/CourseContentView')),
-  AssessmentContentView: lazy(() => import('./views/AssessmentContentView')),
-  LoginView: lazy(() => import('./views/LoginView'))
-};
+const HomeView = lazy(() => import('./views/HomeView'));
+const CoursesView = lazy(() => import('./views/CoursesView'));
+const AssessmentsView = lazy(() => import('./views/AssessmentsView'));
+const LeaderboardView = lazy(() => import('./views/LeaderboardView'));
+const CommunityView = lazy(() => import('./views/CommunityView'));
+const SettingsView = lazy(() => import('./views/SettingsView'));
+const CourseContentView = lazy(() => import('./views/CourseContentView'));
+const AssessmentContentView = lazy(() => import('./views/AssessmentContentView'));
+const LoginView = lazy(() => import('./views/LoginView'));
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -67,7 +56,7 @@ class ErrorBoundary extends React.Component {
             </p>
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              className="bg-cobalt-600 hover:bg-cobalt-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
             >
               Refresh Page
             </button>

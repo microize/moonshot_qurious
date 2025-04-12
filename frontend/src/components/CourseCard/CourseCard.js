@@ -13,8 +13,9 @@ import styles from './CourseCard.module.css';
  * @param {Object} props - Component props
  * @param {Object} props.course - Course data
  * @param {boolean} [props.minimal=false] - Whether to display minimal version
+ * @param {Function} [props.onClick] - Optional click handler override
  */
-const CourseCard = ({ course, minimal = false }) => {
+const CourseCard = ({ course, minimal = false, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const navigate = useNavigate();
@@ -27,7 +28,14 @@ const CourseCard = ({ course, minimal = false }) => {
   };
   const handleMouseDown = () => setIsPressed(true);
   const handleMouseUp = () => setIsPressed(false);
-  const handleClick = () => navigate(`/courses/${course.id || 1}`);
+  
+  const handleClick = () => {
+    if (onClick) {
+      onClick(course);
+    } else {
+      navigate(`/courses/${course.id || 1}`);
+    }
+  };
   
   // If minimal is true, return a simplified version for recommendations
   if (minimal) {
@@ -49,7 +57,7 @@ const CourseCard = ({ course, minimal = false }) => {
           <div className="h-24 bg-gradient-to-r from-cobalt-400 to-cobalt-600 p-3 flex flex-col justify-between">
             <div className="flex justify-between">
               <span className={classNames(styles.badge, getCourseBadgeStyle(course.type))}>
-                {course.type}
+                {course.type || 'Course'}
               </span>
               
               {course.isEnrolled && (
@@ -87,6 +95,7 @@ const CourseCard = ({ course, minimal = false }) => {
               variant={isHovered ? "primary" : "outline"}
               size="sm"
               fullWidth
+              onClick={handleClick}
             >
               {course.isEnrolled ? 'Continue' : 'Start Learning'}
               <ChevronRight size={14} className="inline ml-1" />
@@ -117,7 +126,7 @@ const CourseCard = ({ course, minimal = false }) => {
         {course.thumbnail_url ? (
           <img
             src={course.thumbnail_url}
-            alt={course.title}
+            alt={course.title || 'Course'}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
@@ -126,8 +135,8 @@ const CourseCard = ({ course, minimal = false }) => {
         
         {/* Course type badge and overlay content */}
         <div className="absolute top-3 left-3">
-          <span className={classNames(styles.badge, getCourseBadgeStyle(course.type))}>
-            {course.type}
+          <span className={classNames(styles.badge, getCourseBadgeStyle(course.type || 'Course'))}>
+            {course.type || 'Course'}
           </span>
         </div>
         
@@ -147,7 +156,7 @@ const CourseCard = ({ course, minimal = false }) => {
             "text-lg font-semibold text-white transition-all duration-300",
             isHovered ? "transform translate-y-0" : ""
           )}>
-            {course.title}
+            {course.title || 'Course Title'}
           </h3>
           
           <div className="flex items-center mt-1">
@@ -159,7 +168,7 @@ const CourseCard = ({ course, minimal = false }) => {
             )}
             <div className="flex items-center text-xs text-white/80">
               <Clock size={14} className="mr-1" />
-              <span>{course.duration || '4h 30m'}</span>
+              <span>{course.duration || course.time || '4h 30m'}</span>
             </div>
           </div>
         </div>
@@ -174,14 +183,14 @@ const CourseCard = ({ course, minimal = false }) => {
             alt={course.instructor || 'Instructor'} 
             size="sm"
           />
-          <div className="ml-2">
+          <div className="ml-2 flex-1 min-w-0">
             <p className="text-xs text-gray-500 dark:text-gray-400">Instructor</p>
-            <p className="text-sm font-medium text-gray-800 dark:text-white">{course.instructor || 'John Doe'}</p>
+            <p className="text-sm font-medium text-gray-800 dark:text-white truncate">{course.instructor || 'Instructor Name'}</p>
           </div>
           <div className="ml-auto">
             <span className="flex items-center text-xs text-gray-500 dark:text-gray-400">
               <Users size={14} className="mr-1" />
-              {course.enrolledCount?.toLocaleString() || '0'} enrolled
+              {course.enrolledCount?.toLocaleString() || course.learners || '0'} enrolled
             </span>
           </div>
         </div>
@@ -202,7 +211,7 @@ const CourseCard = ({ course, minimal = false }) => {
           
           <div className="flex flex-col items-center">
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Duration</div>
-            <div className="text-sm font-medium text-gray-800 dark:text-white">{course.duration || '3h 20m'}</div>
+            <div className="text-sm font-medium text-gray-800 dark:text-white">{course.duration || course.time || '3h 20m'}</div>
           </div>
           
           <div className="h-10 w-px bg-gray-200 dark:bg-gray-700"></div>
@@ -220,11 +229,15 @@ const CourseCard = ({ course, minimal = false }) => {
               <span className="text-gray-600 dark:text-gray-300">Progress</span>
               <span className="text-cobalt-600 dark:text-cobalt-400">{course.percentComplete || 10}%</span>
             </div>
-            <div className="progress-bar">
+            <div className="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
               <div 
-                className="progress-bar-value"
+                className="h-full bg-cobalt-500 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${course.percentComplete || 10}%` }}
               ></div>
+            </div>
+            <div className="flex justify-between text-xs mt-1.5 text-gray-500 dark:text-gray-400">
+              <span>{course.completedModules || 1}/{course.totalModules || 8} modules</span>
+              <span>Est. {course.remainingTime || '2h 30m'} remaining</span>
             </div>
           </div>
         )}

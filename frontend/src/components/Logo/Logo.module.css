@@ -6,7 +6,7 @@
   }
   
   .logoWrapper {
-    @apply flex items-center space-x-3 group;
+    @apply flex items-center space-x-3;
   }
   
   /* Logo icon */
@@ -15,11 +15,7 @@
   }
   
   .logoIconHovered {
-    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 rotate-6 scale-110 shadow-glow;
-  }
-  
-  .logoIconPulsing {
-    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 scale-105 shadow-sm;
+    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 rotate-6 scale-110 shadow-md;
   }
   
   /* Glow effect */
@@ -65,13 +61,4 @@
   
   .logoTaglineHidden {
     @apply opacity-0 max-h-0 -mt-1;
-  }
-  
-  /* Decorative dot */
-  .logoDot {
-    @apply w-1.5 h-1.5 rounded-full bg-cobalt-500 transition-all duration-300 opacity-70;
-  }
-  
-  .logoDotHovered {
-    @apply opacity-100 scale-125;
   }

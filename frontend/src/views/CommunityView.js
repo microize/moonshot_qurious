@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Users, MessageSquare, Search, Filter, BookOpen, Award, Heart } from 'lucide-react';
 import PageContainer from '../components/PageContainer';
-import Card from '../components/Card';
+import Card from '../components/ui/Card';
 
 const CommunityView = () => {
   const [activeTab, setActiveTab] = useState('discussions');

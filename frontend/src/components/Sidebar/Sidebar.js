@@ -1,11 +1,10 @@
 // src/components/Sidebar/Sidebar.js
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, ClipboardCheck, BarChart2, Users, Settings, Moon, Sun, Bell, Menu, X } from 'lucide-react';
+import { Home, BookOpen, ClipboardCheck, BarChart2, Users, Settings, Moon, Sun, X, Menu, Shield } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SidebarContext } from '../../App';
 import { classNames } from '../../utils/styleUtils';
-import Avatar from '../ui/Avatar';
 import Logo from '../Logo/Logo';
 import styles from './Sidebar.module.css';
 
@@ -18,6 +17,10 @@ const Sidebar = () => {
   // Use the sidebar context instead of local state
   const { isCollapsed, toggleSidebar } = useContext(SidebarContext);
 
+  // Admin mode state with toggle function
+  const [isAdmin, setIsAdmin] = useState(false);
+  const toggleAdminMode = () => setIsAdmin(!isAdmin);
+
   // Update active item based on current path
   useEffect(() => {
     const path = location.pathname;
@@ -25,23 +28,33 @@ const Sidebar = () => {
     else setActiveItem(path.split('/')[1] || 'home');
   }, [location]);
 
-  // Navigation items
-  const navItems = [
+  // Base navigation items
+  const baseNavItems = [
     { id: 'home', icon: Home, label: 'Home', path: '/' },
     { id: 'courses', icon: BookOpen, label: 'Courses', path: '/courses' },
     { id: 'assessments', icon: ClipboardCheck, label: 'Assessments', path: '/assessments' },
     { id: 'leaderboard', icon: BarChart2, label: 'Leaderboard', path: '/leaderboard' },
     { id: 'community', icon: Users, label: 'Community', path: '/community' },
-    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
   ];
+  
+  // Admin-only navigation items
+  const adminNavItems = [
+    { id: 'hranalytics', icon: BarChart2, label: 'HR Analytics', path: '/hranalytics' },
+  ];
+  
+  // Settings item (moved to bottom)
+  const settingsItem = { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' };
+  
+  // Combine navigation items based on admin status
+  const navItems = isAdmin 
+    ? [...baseNavItems, ...adminNavItems] 
+    : baseNavItems;
 
-  // Handle nav item click
   const handleNavItemClick = (itemId) => {
     setActiveItem(itemId);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
 
-  // Toggle mobile menu
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
@@ -84,6 +97,7 @@ const Sidebar = () => {
                 onClick={() => handleNavItemClick(item.id)}
                 className={classNames(
                   styles.navItem,
+                  'group',
                   isCollapsed ? 'justify-center' : 'items-center',
                   activeItem === item.id ? styles.navItemActive : styles.navItemInactive
                 )}
@@ -101,7 +115,7 @@ const Sidebar = () => {
                 </div>
                 <span className={classNames(
                   'text-sm font-medium transition-all duration-300',
-                  isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
+                  isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto ml-3'
                 )}>
                   {item.label}
                 </span>
@@ -112,82 +126,104 @@ const Sidebar = () => {
             ))}
           </nav>
 
-          {/* Profile */}
-          {!isCollapsed && (
-            <div className="px-4 mt-4 mb-2 border-t border-gray-200 dark:border-gray-800 pt-4">
-              <div className="p-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-100 dark:border-gray-700">
-                <div className="flex items-center">
-                  <Avatar
-                    src="/api/placeholder/40/40"
-                    alt="User Profile"
-                    size="sm"
-                  />
-                  <div className="ml-2 flex-1">
-                    <p className="text-sm font-medium text-gray-800 dark:text-white">Sripathi</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Data Engineer</p>
-                  </div>
-                  <div className="relative">
-                    <Bell size={16} className="text-gray-500 dark:text-gray-400 hover:text-cobalt-600 dark:hover:text-cobalt-400 cursor-pointer" />
-                    <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cobalt-500 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cobalt-500"></span>
-                    </span>
-                  </div>
-                </div>
+          {/* Admin Mode Toggle */}
+          <div className="px-3 mb-3">
+            <button
+              onClick={toggleAdminMode}
+              className={classNames(
+                'w-full flex',
+                isCollapsed ? 'justify-center' : 'items-center',
+                'px-3 py-3 rounded-lg transition-all duration-200',
+                isAdmin
+                  ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+              )}
+              aria-label="Toggle admin mode"
+              title={isAdmin ? "Admin Mode: ON" : "Admin Mode: OFF"}
+            >
+              <Shield
+                size={18}
+                className={classNames(
+                  isCollapsed ? 'mx-auto' : 'mr-3',
+                  isAdmin ? 'text-amber-600 dark:text-amber-400' : 'text-gray-500 dark:text-gray-500'
+                )}
+              />
+              
+              {/* Only show text when not collapsed */}
+              {!isCollapsed && (
+                <span className="text-sm font-medium">
+                  {isAdmin ? 'Admin Mode: ON' : 'Admin Mode'}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Settings */}
+          <div className="px-3 mb-3">
+            <Link
+              to={settingsItem.path}
+              onClick={() => handleNavItemClick(settingsItem.id)}
+              className={classNames(
+                'flex',
+                'group',
+                isCollapsed ? 'justify-center' : 'items-center',
+                'px-3 py-3 rounded-lg transition-all duration-200',
+                activeItem === settingsItem.id
+                  ? 'bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              )}
+            >
+              <div className={isCollapsed ? 'flex justify-center w-full' : ''}>
+                <settingsItem.icon
+                  size={18}
+                  className={classNames(
+                    isCollapsed ? 'mx-auto' : 'mr-3',
+                    'transition-transform duration-200',
+                    activeItem === settingsItem.id 
+                      ? 'text-cobalt-600 dark:text-cobalt-400' 
+                      : 'text-gray-500 dark:text-gray-500 group-hover:text-cobalt-600 dark:group-hover:text-cobalt-400'
+                  )}
+                />
               </div>
-            </div>
-          )}
+              
+              {/* Only show text when not collapsed */}
+              {!isCollapsed && (
+                <span className="text-sm font-medium">
+                  {settingsItem.label}
+                </span>
+              )}
+              
+              {activeItem === settingsItem.id && !isCollapsed && (
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-cobalt-500 dark:bg-cobalt-400"></span>
+              )}
+            </Link>
+          </div>
 
           {/* Theme Toggle */}
-          {!isCollapsed && (
-            <div className="px-4 mb-4">
-              <button
-                onClick={toggleTheme}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                <div className="flex items-center">
-                  {darkMode ? (
-                    <Sun size={16} className="text-amber-500 mr-2" />
-                  ) : (
-                    <Moon size={16} className="text-cobalt-500 mr-2" />
-                  )}
-                  <span className="text-sm font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
-                </div>
-                <div className="relative">
-                  <div className={classNames(
-                    'w-8 h-4 rounded-full transition-colors',
-                    darkMode ? 'bg-gray-700' : 'bg-gray-200'
-                  )}></div>
-                  <div className={classNames(
-                    'absolute top-0.5 left-0.5 w-3 h-3 rounded-full transition-all transform',
-                    darkMode ? 'translate-x-4 bg-cobalt-400' : 'bg-cobalt-500'
-                  )}></div>
-                </div>
-              </button>
-            </div>
-          )}
-
-          {/* Collapsed Theme Toggle */}
-          {isCollapsed && (
-            <div className="px-2 mb-4 flex justify-center">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                {darkMode ? (
-                  <Sun size={20} className="text-amber-500" />
-                ) : (
-                  <Moon size={20} className="text-cobalt-500" />
-                )}
-              </button>
-            </div>
-          )}
+          <div className="px-3 mb-4">
+            <button
+              onClick={toggleTheme}
+              className={classNames(
+                'w-full flex',
+                isCollapsed ? 'justify-center' : 'items-center justify-between',
+                'px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-all duration-200'
+              )}
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              title={darkMode ? "Light Mode" : "Dark Mode"}
+            >
+              {!isCollapsed && <span className="text-sm font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span>}
+              
+              {darkMode ? (
+                <Sun size={18} className="text-amber-500" />
+              ) : (
+                <Moon size={18} className="text-cobalt-500" />
+              )}
+            </button>
+          </div>
 
           {/* Version Info */}
           {!isCollapsed && (
-            <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800">
+            <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-100 dark:border-gray-800">
               <p>Quriousity v1.0.0</p>
               <p className="mt-1">© 2025 Quriousity Learning</p>
             </div>
@@ -195,7 +231,7 @@ const Sidebar = () => {
 
           {/* Mini Version Info for collapsed state */}
           {isCollapsed && (
-            <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800">
+            <div className="px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-100 dark:border-gray-800">
               <p>v1.0</p>
             </div>
           )}

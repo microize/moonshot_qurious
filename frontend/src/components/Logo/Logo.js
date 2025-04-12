@@ -1,6 +1,5 @@
 // src/components/Logo/Logo.js
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { classNames } from '../../utils/styleUtils';
 import styles from './Logo.module.css';
 
@@ -13,20 +12,7 @@ import styles from './Logo.module.css';
  */
 const Logo = ({ onLogoClick, isCollapsed = false }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPulsing, setIsPulsing] = useState(false);
-
-  // Occasionally pulse the logo to draw attention
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isHovered) {
-        setIsPulsing(true);
-        setTimeout(() => setIsPulsing(false), 1000);
-      }
-    }, 15000); // 15 seconds
-
-    return () => clearInterval(interval);
-  }, [isHovered]);
-
+  
   const handleLogoClick = () => {
     if (onLogoClick) {
       onLogoClick();
@@ -36,7 +22,7 @@ const Logo = ({ onLogoClick, isCollapsed = false }) => {
   return (
     <div onClick={handleLogoClick} className={styles.logoContainer}>
       <div
-        className={styles.logoWrapper}
+        className={`${styles.logoWrapper} group`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -44,8 +30,7 @@ const Logo = ({ onLogoClick, isCollapsed = false }) => {
         <div
           className={classNames(
             styles.logoIcon,
-            isHovered ? styles.logoIconHovered : '',
-            isPulsing ? styles.logoIconPulsing : ''
+            isHovered ? styles.logoIconHovered : ''
           )}
         >
           {/* Glow effect */}
@@ -96,16 +81,6 @@ const Logo = ({ onLogoClick, isCollapsed = false }) => {
               Learn. Practice. Apply.
             </span>
           </div>
-        )}
-
-        {/* Decorative dot (Conditionally Rendered) */}
-        {!isCollapsed && (
-          <div
-            className={classNames(
-              styles.logoDot,
-              isHovered ? styles.logoDotHovered : ''
-            )}
-          ></div>
         )}
       </div>
     </div>
