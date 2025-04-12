@@ -1,4 +1,4 @@
-// App.js - Improved structure with sidebar context
+// App.js - Comprehensive fix for main content expansion
 import React, { Suspense, lazy, useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
@@ -9,19 +9,30 @@ import authService from './services/authService';
 // Create a context for sidebar state
 export const SidebarContext = createContext();
 
-// Centralized lazy loading for better code organization
+// Lazy load components for better performance
 const Sidebar = lazy(() => import('./components/Sidebar/Sidebar'));
-
 // Lazy load views 
-const HomeView = lazy(() => import('./views/HomeView'));
-const CoursesView = lazy(() => import('./views/CoursesView'));
-const AssessmentsView = lazy(() => import('./views/AssessmentsView'));
-const LeaderboardView = lazy(() => import('./views/LeaderboardView'));
-const CommunityView = lazy(() => import('./views/CommunityView'));
-const SettingsView = lazy(() => import('./views/SettingsView'));
-const CourseContentView = lazy(() => import('./views/CourseContentView'));
-const AssessmentContentView = lazy(() => import('./views/AssessmentContentView'));
-const LoginView = lazy(() => import('./views/LoginView'));
+const {
+  HomeView,
+  CoursesView,
+  AssessmentsView,
+  LeaderboardView,
+  CommunityView,
+  SettingsView,
+  CourseContentView,
+  AssessmentContentView,
+  LoginView
+} = {
+  HomeView: lazy(() => import('./views/HomeView')),
+  CoursesView: lazy(() => import('./views/CoursesView')),
+  AssessmentsView: lazy(() => import('./views/AssessmentsView')),
+  LeaderboardView: lazy(() => import('./views/LeaderboardView')),
+  CommunityView: lazy(() => import('./views/CommunityView')),
+  SettingsView: lazy(() => import('./views/SettingsView')),
+  CourseContentView: lazy(() => import('./views/CourseContentView')),
+  AssessmentContentView: lazy(() => import('./views/AssessmentContentView')),
+  LoginView: lazy(() => import('./views/LoginView'))
+};
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -56,7 +67,7 @@ class ErrorBoundary extends React.Component {
             </p>
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-cobalt-600 hover:bg-cobalt-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
             >
               Refresh Page
             </button>
@@ -111,11 +122,19 @@ function App() {
                   <ProtectedRoute>
                     <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
                       <Suspense fallback={<LoadingSpinner />}>
-                        <Sidebar />
+                        {/* Fixed width sidebar with fixed positioning */}
+                        <aside 
+                          className={`fixed top-0 left-0 h-full z-30 transition-all duration-300 ease-in-out ${
+                            isCollapsed ? 'w-16' : 'w-64'
+                          }`}
+                        >
+                          <Sidebar />
+                        </aside>
                         
+                        {/* Main content - with adaptive margin */}
                         <main 
-                          className={`flex-1 relative z-10 bg-white dark:bg-gray-900 rounded-tl-none rounded-bl-none shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
-                            isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+                          className={`flex-1 bg-white dark:bg-gray-900 rounded-tl-xl rounded-bl-xl shadow-xl overflow-y-auto min-h-screen transition-all duration-300 ease-in-out ${
+                            isCollapsed ? 'ml-16' : 'ml-64'
                           }`}
                         >
                           <Suspense fallback={<LoadingSpinner />}>
