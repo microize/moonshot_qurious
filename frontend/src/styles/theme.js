@@ -6,17 +6,17 @@
 export const colors = {
     // Primary cobalt blue color palette - CHANGE THIS TO UPDATE PRIMARY COLORS ACROSS THE APP
     cobalt: {
-      50: '#E6F0FF',
-      100: '#CCE0FF',
-      200: '#99C1FF',
-      300: '#66A3FF',
-      400: '#3384FF',
-      500: '#0066FF',  // Primary brand color
-      600: '#0052CC',
-      700: '#003D99',
-      800: '#002966',
-      900: '#001433',
-      950: '#000D1F',
+      50: '#FFF8E1',
+      100: '#FFECB3',
+      200: '#FFE082',
+      300: '#FFD54F',
+      400: '#FFCA28',
+      500: '#FFC107',  // Primary brand color
+      600: '#FFB300',
+      700: '#FFA000',
+      800: '#FF8F00',
+      900: '#FF6F00',
+      950: '#E65100',
     },
     // Accent color palette - CHANGE THIS TO UPDATE ACCENT COLORS
     accent: {
