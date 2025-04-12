@@ -1,0 +1,36 @@
+/* Sidebar.module.css */
+/* Component-specific styles for Sidebar */
+
+.sidebar {
+    @apply fixed inset-y-0 left-0 z-40 bg-gray-50 dark:bg-gray-900 shadow-md transition-all duration-300 ease-in-out;
+  }
+  
+  .sidebarCollapsed {
+    @apply w-16;
+  }
+  
+  .sidebarExpanded {
+    @apply w-64;
+  }
+  
+  .navItem {
+    @apply flex px-3 py-2.5 rounded-md transition-all duration-300 group;
+  }
+  
+  .navItemActive {
+    @apply bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold;
+  }
+  
+  .navItemInactive {
+    @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+  
+  /* Animation for hover effect */
+  .navItem:hover .navIcon {
+    @apply transform scale-110;
+  }
+  
+  /* Version indicator */
+  .versionInfo {
+    @apply px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800;
+  }
