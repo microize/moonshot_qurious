@@ -131,9 +131,9 @@ function App() {
                           <Sidebar />
                         </aside>
                         
-                        {/* Main content - with adaptive margin */}
+                        {/* Main content - with adaptive margin and flex-grow to fill available space */}
                         <main 
-                          className={`flex-1 bg-white dark:bg-gray-900 rounded-tl-xl rounded-bl-xl shadow-xl overflow-y-auto min-h-screen transition-all duration-300 ease-in-out ${
+                          className={`flex-1 w-full bg-white dark:bg-gray-900 rounded-tl-xl rounded-bl-xl shadow-xl overflow-y-auto min-h-screen transition-all duration-300 ease-in-out ${
                             isCollapsed ? 'ml-16' : 'ml-64'
                           }`}
                         >

@@ -1,7 +1,8 @@
 // src/components/Sidebar/Sidebar.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, BookOpen, ClipboardCheck, BarChart2, Users, Settings, Moon, Sun, X, Menu, Shield } from 'lucide-react';
+import { SidebarContext } from '../../App';
 
 // Simple utility function to combine class names
 const classNames = (...classes) => {
@@ -9,6 +10,9 @@ const classNames = (...classes) => {
 };
 
 const Sidebar = () => {
+  // Get sidebar state from context
+  const { isCollapsed, toggleSidebar } = useContext(SidebarContext);
+  
   // Since we don't have access to ThemeContext, let's create a local state for dark mode
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem('theme') === 'dark' || 
@@ -16,7 +20,6 @@ const Sidebar = () => {
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('');
-  const [isCollapsed, setIsCollapsed] = useState(false); // Local state instead of context
   const location = useLocation();
   
   // Admin mode state with toggle function
@@ -43,11 +46,6 @@ const Sidebar = () => {
   // Toggle dark mode
   const toggleTheme = () => {
     setDarkMode(!darkMode);
-  };
-
-  // Toggle sidebar
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
   };
 
   // Base navigation items
@@ -125,8 +123,7 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 ${isCollapsed ? 'w-16' : 'w-64'}
-        bg-white dark:bg-gray-900 shadow-md transition-all duration-300 ease-in-out
+        className={`h-full bg-white dark:bg-gray-900 shadow-md transition-all duration-300 ease-in-out
         lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
         <div className="h-full flex flex-col">
