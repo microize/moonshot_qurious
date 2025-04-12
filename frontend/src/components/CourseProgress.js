@@ -53,26 +53,26 @@ const ProgressCard = ({ course, onContinue }) => {
   };
 
   return (
-    <div className="bg-purple-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="bg-amber-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="flex items-center gap-4">
-        <div className="p-3 bg-purple-200 rounded-md">
-          <div className="text-purple-700">
+        <div className="p-3 bg-amber-200 rounded-md">
+          <div className="text-amber-700">
             {icons[course.icon]}
           </div>
         </div>
         <div className="flex-1">
-          <h3 className="font-medium text-purple-900">{course.title}</h3>
-          <div className="text-sm text-purple-600 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
+          <h3 className="font-medium text-amber-900">{course.title}</h3>
+          <div className="text-sm text-amber-600 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
           
           {/* Progress bar */}
           <div className="mt-3 mb-2">
-            <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-amber-100 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-purple-300 to-purple-500 rounded-full transition-all duration-500 ease-out"
+                className="h-full bg-gradient-to-r from-amber-300 to-amber-500 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${course.progress}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-xs text-purple-600 mt-1">
+            <div className="flex justify-between text-xs text-amber-600 mt-1">
               <span>{course.completed}/{course.total} Lessons</span>
               <span>{course.progress}% Complete</span>
             </div>
@@ -81,21 +81,20 @@ const ProgressCard = ({ course, onContinue }) => {
           {/* Next lesson prompt */}
           <div className="mt-3 flex justify-between items-center">
             <div className="text-sm">
-              <span className="text-purple-600">Next: </span>
-              <span className="font-medium text-purple-800">{course.nextLesson}</span>
+              <span className="text-amber-600">Next: </span>
+              <span className="font-medium text-amber-800">{course.nextLesson}</span>
             </div>
             <button 
-              className="px-3 py-1 bg-purple-400 hover:bg-purple-500 text-white text-sm rounded-md transition-colors"
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-500 text-white text-sm rounded-md transition-colors"
               onClick={() => onContinue(course.id)}
             >
               Continue
             </button>
           </div>
         </div>
-      </div>
-      
+      </div>      
       {/* Time indicator */}
-      <div className="mt-3 text-xs text-purple-500 flex items-center">
+      <div className="mt-3 text-xs text-amber-500 flex items-center">
         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -123,7 +122,7 @@ const CourseProgress = () => {
         {/* "Explore more courses" prompt */}
         <div className="mt-6 text-center">
           <button 
-            className="px-4 py-2 border border-dashed border-purple-300 text-purple-600 rounded-md hover:bg-purple-200/50 transition-colors"
+            className="px-4 py-2 border border-dashed border-amber-300 text-amber-600 rounded-md hover:bg-amber-200/50 transition-colors"
             onClick={() => navigate('/courses')}
           >
             Discover more courses to continue your learning journey

@@ -64,7 +64,7 @@ export const badgeStyles = {
   
   // Badge variants by color
   variants: {
-    primary: 'bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-700 dark:text-cobalt-300',
+    primary: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
     secondary: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300',
     accent: 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300',
     success: 'bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-300',
@@ -87,7 +87,7 @@ export const inputStyles = {
   
   // Variants
   variants: {
-    default: 'border-gray-300 dark:border-gray-600 focus:border-cobalt-300 dark:focus:border-cobalt-700 focus:ring-cobalt-500/20',
+    default: 'border-gray-300 dark:border-gray-600 focus:border-amber-300 dark:focus:border-amber-700 focus:ring-amber-500/20',
     error: 'border-error-300 dark:border-error-700 focus:border-error-500 focus:ring-error-500/20',
     success: 'border-success-300 dark:border-success-700 focus:border-success-500 focus:ring-success-500/20',
   },

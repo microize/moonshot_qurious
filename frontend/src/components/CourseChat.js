@@ -100,8 +100,8 @@ export default function ImprovedChatInterface() {
         <div className="p-4 bg-non dark:bg-gray-900">
           <div className="flex items-center justify-between max-w-5xl mx-auto">
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-md bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3 shadow-sm">
-                <BookOpen size={18} />
+              <div className="w-10 h-10 rounded-md bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-400 mr-3 shadow-sm">
+                <BookOpen size={18} className="text-amber-600 dark:text-amber-400" />
               </div>
               <div>
   <h1 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">
@@ -132,7 +132,7 @@ export default function ImprovedChatInterface() {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {message.sender === 'bot' && (
-                  <div className="flex h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 items-center justify-center mr-3 mt-1 shadow-sm flex-shrink-0">
+                  <div className="flex h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-900/40 items-center justify-center mr-3 mt-1 shadow-sm flex-shrink-0">
                     <Sparkles size={16} className="text-indigo-600 dark:text-indigo-400" />
                   </div>
                 )}
@@ -140,7 +140,7 @@ export default function ImprovedChatInterface() {
                 <div 
                   className={`max-w-[75%] rounded-lg px-4 py-3 ${
                     message.sender === 'user' 
-                      ? 'bg-indigo-600 text-white shadow-sm ml-3' 
+                      ? 'bg-amber-500 text-white shadow-sm ml-3'
                       : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow border border-gray-100 dark:border-gray-700'
                   }`}
                 >
@@ -158,7 +158,7 @@ export default function ImprovedChatInterface() {
                 </div>
                 
                 {message.sender === 'user' && (
-                  <div className="flex h-8 w-8 rounded-full bg-indigo-500 items-center justify-center ml-3 mt-1 shadow-sm flex-shrink-0">
+                  <div className="flex h-8 w-8 rounded-full bg-amber-500 items-center justify-center ml-3 mt-1 shadow-sm flex-shrink-0">
                     <User size={16} className="text-white" />
                   </div>
                 )}
@@ -193,7 +193,7 @@ export default function ImprovedChatInterface() {
           <button className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
             Resources
           </button>
-          <button className="px-3 py-1.5 text-xs bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+          <button className="px-3 py-1.5 text-xs bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors">
             Next Video
           </button>
         </div>
@@ -230,7 +230,7 @@ export default function ImprovedChatInterface() {
                         <button
                           key={mode.id}
                           className={`p-2 rounded-lg flex items-center justify-center ${
-                            mode.active
+                            mode.active 
                               ? 'bg-indigo-600 text-white' 
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                           } transition-all w-24`}
@@ -262,7 +262,7 @@ export default function ImprovedChatInterface() {
                         <button
                           key={mode.id}
                           className={`p-2 rounded-lg flex items-center justify-center ${
-                            mode.active
+                            mode.active 
                               ? 'bg-indigo-600 text-white'
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                           } transition-all w-24`}
@@ -278,7 +278,7 @@ export default function ImprovedChatInterface() {
             )}
             
             {/* Perplexity/Firefly Inspired Input Bar */}
-            <div className="flex bg-white dark:bg-gray-700 rounded-full border border-gray-300 dark:border-gray-600 overflow-hidden px-4 shadow-lg focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+            <div className="flex bg-white dark:bg-gray-700 rounded-full border border-gray-300 dark:border-gray-600 overflow-hidden px-4 shadow-lg focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 transition-all">
               {/* Left side icons */}
               <div className="flex items-center space-x-2 mr-2">
                 {/* Concept clarity icon (active) */}
@@ -287,7 +287,7 @@ export default function ImprovedChatInterface() {
                   className="relative p-1.5"
                   onClick={() => setActiveModePanel(activeModePanel === 'clarity' ? null : 'clarity')}
                   title="Change concept clarity level"
-                >
+                > 
                   <div className={`flex h-6 w-6 rounded-full ${activeModePanel === 'clarity' ? 'bg-indigo-500 text-white' : 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400'} items-center justify-center`}>
                     {conceptClarity.find(mode => mode.active)?.icon || <GraduationCap size={14} />}
                   </div>
@@ -299,7 +299,7 @@ export default function ImprovedChatInterface() {
                   className="relative p-1.5"
                   onClick={() => setActiveModePanel(activeModePanel === 'learning' ? null : 'learning')}
                   title="Change learning mode"
-                >
+                > 
                   <div className={`flex h-6 w-6 rounded-full ${activeModePanel === 'learning' ? 'bg-indigo-500 text-white' : 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400'} items-center justify-center`}>
                     {learningModes.find(mode => mode.active)?.icon || <Compass size={14} />}
                   </div>
@@ -310,7 +310,7 @@ export default function ImprovedChatInterface() {
                   type="button" 
                   className="p-1.5"
                   title="Show commands"
-                >
+                > 
                   <Command size={15} className="text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400" />
                 </button>
               </div>
@@ -325,21 +325,21 @@ export default function ImprovedChatInterface() {
               
               <div className="flex items-center gap-1 ml-2">
                 {/* Right side action icons */}
-                <button type="button" className="p-1.5" title="Coding Interface">
-                  <TerminalSquare size={18} className="text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400" />
+                <button type="button" className="p-1.5" title="Coding Interface"> 
+                  <TerminalSquare size={18} className="text-gray-400 hover:text-amber-500 dark:hover:text-amber-400" />
                 </button>
                 
                 <button
                   type="button"
                   className="p-1.5"
                   title="Voice input"
-                >
-                  <Mic size={18} className="text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400" />
+                > 
+                  <Mic size={18} className="text-gray-400 hover:text-amber-500 dark:hover:text-amber-400" />
                 </button>
                 
                 <button
                   type="submit"
-                  className="ml-1.5 p-2.5 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all shadow-md"
+                  className="ml-1.5 p-2.5 bg-amber-500 text-white rounded-full hover:bg-amber-600 transition-all shadow-md"
                 >
                   <SendHorizontal size={16} />
                 </button>

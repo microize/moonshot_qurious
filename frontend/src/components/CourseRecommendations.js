@@ -77,7 +77,7 @@ const TopicFilter = ({ topics, onTopicClick }) => {
           onClick={() => onTopicClick(topic.id)}
           className={`px-3 py-1 text-sm rounded-full transition-colors ${
             topic.active 
-              ? 'bg-gray-800 dark:bg-purple-600 text-white' 
+              ? 'bg-gray-800 dark:bg-amber-600 text-white' 
               : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border dark:border-gray-600'
           }`}
         >
@@ -90,8 +90,8 @@ const TopicFilter = ({ topics, onTopicClick }) => {
 
 const CourseCard = ({ course, onActionClick }) => {
   return (
-    <div className="bg-purple-50 dark:bg-gray-700 rounded-lg p-4">
-      <p className="text-sm text-purple-500 dark:text-purple-400">{course.type}</p>
+    <div className="bg-amber-50 dark:bg-gray-700 rounded-lg p-4">
+      <p className="text-sm text-amber-500 dark:text-amber-400">{course.type}</p>
       <h3 className="font-semibold mt-1 text-gray-800 dark:text-white">{course.title}</h3>
       
       <p className="text-sm mt-4 text-gray-600 dark:text-gray-300">{course.description}</p>
@@ -113,7 +113,7 @@ const CourseCard = ({ course, onActionClick }) => {
       
       <button 
         onClick={() => onActionClick(course)}
-        className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-md transition-colors"
+        className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-md transition-colors"
       >
         {course.action}
       </button>
@@ -174,7 +174,7 @@ const CourseRecommendations = () => {
       
       {isLoading ? (
         <div className="py-12 flex justify-center">
-          <div className="w-12 h-12 border-4 border-purple-400 border-t-purple-600 rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-amber-400 border-t-amber-600 rounded-full animate-spin"></div>
         </div>
       ) : courses.length === 0 ? (
         <div className="text-center py-12 text-gray-600 dark:text-gray-300">

@@ -119,14 +119,14 @@ const CommunityLeaderboard = () => {
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-purple-100 dark:border-purple-800">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-amber-100 dark:border-amber-700">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
-          <Users size={18} className="text-purple-500 mr-2" />
+          <Users size={18} className="text-amber-500 mr-2" />
           <h3 className="font-medium text-gray-800 dark:text-white">Learning Community</h3>
         </div>
         
-        {/* Tabs */}
+        {/* Tabs  */}
         <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 rounded-md p-1">
           <button 
             className={`px-3 py-1 text-xs rounded-md transition-colors ${
