@@ -74,10 +74,10 @@ const UserAvatar = ({
     return gradients[hash % gradients.length]; 
   };
 
-  // Set default avatar URL
-  useEffect(() => {
-    setAvatarUrl('https://via.placeholder.com/150/ADD8E6/000000?text=Placeholder');
-  }, []);
+// Set default avatar URL
+useEffect(() => {
+  setAvatarUrl('/api/placeholder/150/150'); // Use your app's placeholder API endpoint
+}, []);
 
   // Generate a new seed for gradient variation when avatar fails
   useEffect(() => {

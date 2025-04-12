@@ -125,7 +125,7 @@ function App() {
                         <Sidebar />
                         
                         <main 
-                          className={`flex-1 relative z-10 bg-white dark:bg-gray-900 rounded-tl-3xl rounded-bl-3xl shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
+                          className={`flex-1 relative z-10 bg-white dark:bg-gray-900 rounded-tl-none rounded-bl-none shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
                             isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
                           }`}
                         >

@@ -1,4 +1,4 @@
-// views/HomeView.js - Redesigned with cobalt blue aesthetics
+// views/HomeView.js - Redesigned with elegant aesthetics
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, BookOpen, ChevronRight, Bell, BarChart2, Award, CheckCircle, Zap, Calendar, Target } from 'lucide-react';
@@ -16,7 +16,7 @@ const Section = ({ title, icon: Icon, children, action, onActionClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-soft overflow-hidden mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden mb-6">
       <div 
         className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700"
         onMouseEnter={() => setIsHovered(true)}
@@ -27,7 +27,7 @@ const Section = ({ title, icon: Icon, children, action, onActionClick }) => {
             <Icon 
               size={18} 
               className={`mr-2 transition-all duration-300 ${
-                isHovered ? 'text-cobalt-600 dark:text-cobalt-400 scale-110' : 'text-cobalt-500 dark:text-cobalt-500'
+                isHovered ? 'text-indigo-600 dark:text-indigo-400 scale-105' : 'text-indigo-500 dark:text-indigo-500'
               }`}
             />
           )}
@@ -36,7 +36,7 @@ const Section = ({ title, icon: Icon, children, action, onActionClick }) => {
         
         {action && (
           <button 
-            className="text-sm text-cobalt-600 dark:text-cobalt-400 hover:text-cobalt-700 dark:hover:text-cobalt-300 flex items-center"
+            className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center"
             onClick={onActionClick}
           >
             {action}
@@ -65,28 +65,28 @@ const TimeBasedSessionCard = () => {
         title: "Morning Productivity Session",
         description: "Jumpstart your day with a focused 20-minute learning session",
         badge: "Morning energy boost",
-        gradient: "from-cobalt-400 to-cobalt-600"
+        gradient: "from-indigo-400 to-indigo-600"
       };
     } else if (hour >= 9 && hour < 12) {
       return {
         title: "Mid-Morning Focus Session",
         description: "Take advantage of your peak concentration hours",
         badge: "Peak productivity time",
-        gradient: "from-cobalt-500 to-cobalt-700"
+        gradient: "from-indigo-500 to-indigo-700"
       };
     } else if (hour >= 12 && hour < 17) {
       return {
         title: "Afternoon Refresher",
         description: "Beat the afternoon slump with a 15-minute learning burst",
         badge: "Afternoon recharge",
-        gradient: "from-cobalt-400 to-cobalt-600"
+        gradient: "from-indigo-400 to-indigo-600"
       };
     } else {
       return {
         title: "Evening Deep Dive Session",
         description: "Perfect for evening focus: 25-minute learning session",
         badge: "Recommended for evenings",
-        gradient: "from-cobalt-600 to-cobalt-800"
+        gradient: "from-indigo-600 to-indigo-800"
       };
     }
   };
@@ -95,8 +95,8 @@ const TimeBasedSessionCard = () => {
   
   return (
     <div 
-      className={`p-5 bg-gradient-to-r ${session.gradient} rounded-xl transition-all duration-300 shadow-soft ${
-        isHovered ? 'shadow-soft-lg translate-y-0' : ''
+      className={`p-5 bg-gradient-to-r ${session.gradient} rounded-lg transition-all duration-300 shadow-sm ${
+        isHovered ? 'shadow-md translate-y-0' : ''
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -113,7 +113,7 @@ const TimeBasedSessionCard = () => {
           </span>
         </div>
         <button 
-          className={`px-4 py-2 bg-white hover:bg-white/90 text-cobalt-700 rounded-lg text-sm font-medium transition-all duration-200 ${
+          className={`px-4 py-2 bg-white hover:bg-white/90 text-indigo-700 rounded-md text-sm font-medium transition-all duration-200 ${
             isHovered ? 'shadow-md' : 'shadow-sm'
           }`}
         >
@@ -181,7 +181,7 @@ const DailyGoals = () => {
               fill="transparent"
             />
             <circle 
-              className="text-cobalt-500 stroke-current" 
+              className="text-indigo-500 stroke-current" 
               strokeWidth="8" 
               strokeLinecap="round" 
               cx="50" 
@@ -195,7 +195,7 @@ const DailyGoals = () => {
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <span className="text-2xl font-bold text-cobalt-600 dark:text-cobalt-400">25%</span>
+              <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">25%</span>
               <span className="block text-xs text-gray-500 dark:text-gray-400">Complete</span>
             </div>
           </div>
@@ -207,10 +207,10 @@ const DailyGoals = () => {
         {goals.map(goal => {
           const Icon = goal.icon;
           return (
-            <div key={goal.id} className="flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+            <div key={goal.id} className="flex items-center p-3 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
               <div className={`p-2 rounded-full ${
                 goal.progress > 0 
-                  ? 'bg-cobalt-100 dark:bg-cobalt-900/50 text-cobalt-500 dark:text-cobalt-400' 
+                  ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-500 dark:text-indigo-400' 
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
               }`}>
                 <Icon size={16} />
@@ -218,16 +218,16 @@ const DailyGoals = () => {
               <div className="ml-3 flex-1">
                 <div className="flex justify-between">
                   <h4 className="text-sm font-medium text-gray-800 dark:text-white">{goal.title}</h4>
-                  <span className="text-xs badge-primary">
+                  <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">
                     +{goal.points} pts
                   </span>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">{goal.description}</p>
                 
                 {goal.progress > 0 && (
-                  <div className="progress-bar mt-1.5">
+                  <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
                     <div 
-                      className="progress-bar-value"
+                      className="h-full bg-indigo-500 rounded-full"
                       style={{ width: `${goal.progress}%` }}
                     ></div>
                   </div>
@@ -244,7 +244,7 @@ const DailyGoals = () => {
       {/* Rewards section */}
       <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center mb-3">
-          <Award size={16} className="text-cobalt-500 mr-2" />
+          <Award size={16} className="text-indigo-500 mr-2" />
           <h4 className="text-sm font-medium text-gray-800 dark:text-white">Today's Rewards</h4>
         </div>
         
@@ -253,17 +253,17 @@ const DailyGoals = () => {
             <div key={index} className="text-center">
               <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center border-2 ${
                 reward.unlocked 
-                  ? 'border-cobalt-500 bg-cobalt-100 dark:bg-cobalt-900/50 text-cobalt-500 dark:text-cobalt-400' 
+                  ? 'border-indigo-500 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-500 dark:text-indigo-400' 
                   : 'border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500'
               }`}>
                 <span className="text-sm font-bold">{reward.milestone}</span>
               </div>
               <p className={`text-xs mt-1 ${
                 reward.unlocked 
-                  ? 'text-cobalt-500 dark:text-cobalt-400' 
+                  ? 'text-indigo-500 dark:text-indigo-400' 
                   : 'text-gray-500 dark:text-gray-400'
               }`}>
-                {reward.reward}
+                {reward.reward.length > 15 ? reward.reward.substring(0, 15) + '...' : reward.reward}
               </p>
             </div>
           ))}
@@ -272,12 +272,12 @@ const DailyGoals = () => {
         {/* Progress bar connecting the milestones */}
         <div className="relative mt-2">
           <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-          <div className="absolute top-0 left-0 w-1/3 h-1 bg-cobalt-500 rounded-full"></div>
+          <div className="absolute top-0 left-0 w-1/3 h-1 bg-indigo-500 rounded-full"></div>
         </div>
       </div>
       
       {/* Motivational message */}
-      <div className="mt-4 p-3 bg-cobalt-50 dark:bg-cobalt-900/20 rounded-lg text-sm text-cobalt-700 dark:text-cobalt-300 flex items-center">
+      <div className="mt-4 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-md text-sm text-indigo-700 dark:text-indigo-300 flex items-center">
         <CheckCircle size={16} className="mr-2" />
         Complete all goals today to maintain your 8-day streak!
       </div>
@@ -321,7 +321,7 @@ const LearningAnalytics = () => {
                 <div 
                   className={`w-6 ${
                     day.minutes > 0 
-                      ? 'bg-gradient-to-t from-cobalt-500 to-cobalt-400' 
+                      ? 'bg-indigo-500' 
                       : 'bg-gray-200 dark:bg-gray-700'
                   } rounded-t-sm`}
                   style={{ height: `${(day.minutes / 60) * 100}px` }}
@@ -336,7 +336,7 @@ const LearningAnalytics = () => {
         
         <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-3">
           <div>
-            <span className="inline-block w-3 h-3 bg-gradient-to-t from-cobalt-500 to-cobalt-400 rounded-sm mr-1"></span>
+            <span className="inline-block w-3 h-3 bg-indigo-500 rounded-sm mr-1"></span>
             Minutes spent learning
           </div>
           <div>
@@ -347,7 +347,7 @@ const LearningAnalytics = () => {
       </div>
       
       {/* Weekly summary */}
-      <div className="mt-6 p-4 bg-cobalt-50 dark:bg-cobalt-900/20 rounded-lg">
+      <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-md">
         <div className="flex justify-between items-center">
           <div>
             <div className="text-sm text-gray-600 dark:text-gray-300">This week</div>
@@ -369,7 +369,7 @@ const LearningAnalytics = () => {
                 fill="transparent"
               />
               <circle 
-                className="text-cobalt-500 stroke-current" 
+                className="text-indigo-500 stroke-current" 
                 strokeWidth="8" 
                 strokeLinecap="round" 
                 cx="50" 
@@ -391,8 +391,8 @@ const LearningAnalytics = () => {
       
       {/* Learning insights */}
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="bg-white dark:bg-gray-750 p-3 rounded-lg shadow-sm">
-          <div className="flex items-center text-cobalt-500 mb-2">
+        <div className="bg-white dark:bg-gray-750 p-3 rounded-md shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="flex items-center text-indigo-500 mb-2">
             <Clock size={14} className="mr-1" />
             <div className="text-xs">Best learning time</div>
           </div>
@@ -400,8 +400,8 @@ const LearningAnalytics = () => {
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">You're most focused in the evening</div>
         </div>
         
-        <div className="bg-white dark:bg-gray-750 p-3 rounded-lg shadow-sm">
-          <div className="flex items-center text-cobalt-500 mb-2">
+        <div className="bg-white dark:bg-gray-750 p-3 rounded-md shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="flex items-center text-indigo-500 mb-2">
             <Calendar size={14} className="mr-1" />
             <div className="text-xs">Best learning day</div>
           </div>
@@ -413,17 +413,17 @@ const LearningAnalytics = () => {
       {/* Personalized recommendations */}
       <div className="mt-6">
         <div className="flex items-center mb-2">
-          <Zap size={14} className="text-cobalt-500 mr-1" />
+          <Zap size={14} className="text-indigo-500 mr-1" />
           <div className="text-sm font-medium text-gray-800 dark:text-white">Personalized Tips</div>
         </div>
         
         <ul className="space-y-2">
           <li className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-            <CheckCircle size={14} className="text-cobalt-500 mr-2 mt-1 flex-shrink-0" />
+            <CheckCircle size={14} className="text-indigo-500 mr-2 mt-1 flex-shrink-0" />
             Schedule 30-minute sessions on weekends to maintain your streak
           </li>
           <li className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-            <CheckCircle size={14} className="text-cobalt-500 mr-2 mt-1 flex-shrink-0" />
+            <CheckCircle size={14} className="text-indigo-500 mr-2 mt-1 flex-shrink-0" />
             Try reviewing course materials in the evening for better retention
           </li>
         </ul>
@@ -468,13 +468,12 @@ const HomeView = () => {
       {/* Header with user info */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white flex items-center">
+          <h1 className="text-3xl font-semibold text-gray-900 dark:text-white flex items-center">
             {getGreeting()}, {userProfile?.name || 'User'}
             {/* Waving hand emoji */}
             <span className="ml-2 animate-bounce-subtle">👋</span>
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Last active: 2 hours ago</p>
-          <p className="mt-2 text-cobalt-600 dark:text-cobalt-400 text-sm">
+          <p className="mt-2 text-indigo-600 dark:text-indigo-400 text-sm">
             You're making great progress! Keep up the momentum.
           </p>
         </div>
@@ -484,14 +483,16 @@ const HomeView = () => {
       </div>
       
       {/* Notification banner */}
-      <div className="mb-8 p-4 bg-gradient-to-r from-cobalt-50 to-cobalt-100 dark:from-cobalt-900/20 dark:to-cobalt-900/10 rounded-xl flex items-center justify-between group hover:shadow-soft transition-shadow duration-300 border border-cobalt-100 dark:border-cobalt-800/50">
+      <div className="mb-8 p-4 bg-white dark:bg-gray-800 rounded-md flex items-center justify-between group hover:shadow-sm transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
         <div className="flex items-center">
-          <Bell size={18} className="text-cobalt-500 mr-3 group-hover:scale-110 transition-transform duration-300" />
+          <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-md mr-3">
+            <Bell size={18} className="text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
+          </div>
           <span className="text-sm text-gray-700 dark:text-gray-300">
             <span className="font-medium">New in Data Science:</span> Live workshop on "Advanced ML Techniques" tomorrow at 7 PM
           </span>
         </div>
-        <button className="btn-primary-sm">
+        <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium transition-colors">
           RSVP
         </button>
       </div>
@@ -512,23 +513,23 @@ const HomeView = () => {
                 {enrolledCourses.slice(0, 2).map(course => (
                   <div 
                     key={course.id}
-                    className="p-4 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-750 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100 dark:border-gray-700"
+                    className="p-4 bg-white dark:bg-gray-750 rounded-md shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100 dark:border-gray-700"
                     onClick={() => navigate(`/courses/${course.id}`)}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="p-3 bg-gradient-to-br from-cobalt-400 to-cobalt-600 rounded-lg text-white">
+                      <div className="p-3 bg-indigo-500 rounded-md text-white">
                         <BookOpen size={24} />
                       </div>
                       
                       <div className="flex-1">
                         <h3 className="font-medium text-gray-800 dark:text-white">{course.title}</h3>
-                        <div className="text-sm text-cobalt-600 dark:text-cobalt-400 mt-1">Continue your learning journey</div>
+                        <div className="text-sm text-indigo-600 dark:text-indigo-400 mt-1">Continue your learning journey</div>
                         
                         {/* Progress bar */}
                         <div className="mt-3 mb-2">
-                          <div className="progress-bar">
+                          <div className="h-2 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                             <div 
-                              className="progress-bar-value"
+                              className="h-full bg-indigo-500 rounded-full"
                               style={{ width: `${course.percentComplete || 10}%` }}
                             ></div>
                           </div>
@@ -546,7 +547,7 @@ const HomeView = () => {
                               {course.nextModule || 'Introduction to the Course'}
                             </span>
                           </div>
-                          <button className="btn-primary-sm">
+                          <button className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium transition-colors">
                             Continue
                           </button>
                         </div>
@@ -562,8 +563,8 @@ const HomeView = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
-                <div className="mx-auto w-16 h-16 bg-cobalt-100 dark:bg-cobalt-900/30 rounded-full flex items-center justify-center text-cobalt-500 mb-4">
+              <div className="text-center py-8 bg-gray-50 dark:bg-gray-800/50 rounded-md">
+                <div className="mx-auto w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-500 mb-4">
                   <BookOpen size={24} />
                 </div>
                 <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">
@@ -573,7 +574,7 @@ const HomeView = () => {
                   Start your learning journey by enrolling in a course that interests you.
                 </p>
                 <button 
-                  className="btn-primary"
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium transition-colors"
                   onClick={() => navigate('/courses')}
                 >
                   Explore Courses
@@ -604,9 +605,9 @@ const HomeView = () => {
         {/* Right column - Time-based Session at top */}
         <div>
           {/* Time-based Session Card */}
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <TimeBasedSessionCard />
-          </div>
+          </div> */}
           
           {/* Today's Learning Goals section */}
           <Section title="Today's Learning Goals" icon={Target}>

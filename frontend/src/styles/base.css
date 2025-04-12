@@ -1,0 +1,70 @@
+/* src/styles/base.css */
+/* Base styling for the entire application */
+
+@tailwind base;
+
+@layer base {
+  /* Reset and base styles */
+  html, body {
+    @apply antialiased text-gray-800 dark:text-white;
+    height: 100%;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Transition for theme changes */
+  * {
+    @apply transition-colors duration-200;
+  }
+  
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+  
+  h1 {
+    @apply text-3xl mb-4;
+  }
+  
+  h2 {
+    @apply text-2xl mb-3;
+  }
+  
+  h3 {
+    @apply text-xl mb-2;
+  }
+  
+  h4 {
+    @apply text-lg mb-2;
+  }
+  
+  p {
+    @apply mb-4;
+  }
+  
+  /* Link styles */
+  a {
+    @apply text-cobalt-600 dark:text-cobalt-400 hover:text-cobalt-800 dark:hover:text-cobalt-300 transition-colors;
+  }
+  
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-cobalt-500 ring-opacity-50;
+  }
+  
+  /* Container styles */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Basic form elements */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    @apply w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-cobalt-500/20 focus:border-cobalt-300 dark:focus:border-cobalt-700;
+  }
+}

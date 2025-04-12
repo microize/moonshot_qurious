@@ -155,7 +155,7 @@ const UserHeader = () => {
           
           <div className="relative flex items-center">
             <img 
-              src="/api/placeholder/40/40" 
+              src="/assets/images/avatar-placeholder.png" 
               alt="User Avatar" 
               className="h-10 w-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 group-hover:border-cobalt-300 dark:group-hover:border-cobalt-700 transition-colors"
             />
