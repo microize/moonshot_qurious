@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardCheck, Clock, Award } from 'lucide-react';
 import PageContainer from '../components/PageContainer';
-import Card from '../components/Card';
+import Card from '../components/ui/Card';
 
 const AssessmentsView = () => {
   const navigate = useNavigate();

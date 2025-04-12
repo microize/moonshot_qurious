@@ -29,3 +29,85 @@
   .workshopGradient {
     @apply bg-gradient-to-br from-accent-400 to-accent-600;
   }
+  
+  /* Progress bar */
+  .progressBar {
+    @apply w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden;
+  }
+  
+  .progressValue {
+    @apply h-full bg-cobalt-500 rounded-full transition-all duration-500 ease-out;
+  }
+  
+  /* Interactive states */
+  .interactive {
+    @apply cursor-pointer;
+  }
+  
+  .interactive:active {
+    @apply scale-98;
+  }
+  
+  /* Card content */
+  .cardContent {
+    @apply p-5;
+  }
+  
+  .cardHeader {
+    @apply h-48 relative overflow-hidden;
+  }
+  
+  .cardStats {
+    @apply flex items-center justify-between mb-6;
+  }
+  
+  .cardStatDivider {
+    @apply h-10 w-px bg-gray-200 dark:bg-gray-700;
+  }
+  
+  .cardStat {
+    @apply flex flex-col items-center;
+  }
+  
+  .cardStatLabel {
+    @apply text-xs text-gray-500 dark:text-gray-400 mb-1;
+  }
+  
+  .cardStatValue {
+    @apply text-sm font-medium text-gray-800 dark:text-white;
+  }
+  
+  /* Card overlay */
+  .cardOverlay {
+    @apply w-full bg-gradient-to-t from-black/70 to-transparent p-4;
+  }
+  
+  .cardTitle {
+    @apply text-lg font-semibold text-white transition-all duration-300;
+  }
+  
+  /* Badge variations */
+  .badgeCourse {
+    @apply bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-600 dark:text-cobalt-300 border border-cobalt-200 dark:border-cobalt-800/60;
+  }
+  
+  .badgePathway {
+    @apply bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60;
+  }
+  
+  .badgeWorkshop {
+    @apply bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-300 border border-accent-200 dark:border-accent-800/60;
+  }
+  
+  /* Minimal card */
+  .cardMinimal {
+    @apply h-auto;
+  }
+  
+  .cardMinimalHeader {
+    @apply h-24 bg-gradient-to-r from-cobalt-400 to-cobalt-600 p-3 flex flex-col justify-between;
+  }
+  
+  .cardMinimalContent {
+    @apply p-3 bg-white dark:bg-gray-800;
+  }

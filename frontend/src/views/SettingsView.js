@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Settings, User, Bell, Lock, Moon, Sun, Globe, BarChart2 } from 'lucide-react';
 import PageContainer from '../components/PageContainer';
-import Card from '../components/Card';
+import Card from '../components/ui/Card';
 
 const SettingsView = () => {
   const [activeTab, setActiveTab] = useState('profile');

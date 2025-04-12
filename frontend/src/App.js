@@ -1,4 +1,4 @@
-// App.js - Updated with sidebar state context
+// App.js - Comprehensive fix for main content expansion
 import React, { Suspense, lazy, useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
@@ -10,7 +10,7 @@ import authService from './services/authService';
 export const SidebarContext = createContext();
 
 // Lazy load components for better performance
-const Sidebar = lazy(() => import('./components/Sidebar'));
+const Sidebar = lazy(() => import('./components/Sidebar/Sidebar'));
 // Lazy load views 
 const {
   HomeView,
@@ -122,11 +122,19 @@ function App() {
                   <ProtectedRoute>
                     <div className="flex h-screen bg-purple-50 dark:bg-gray-950 overflow-hidden">
                       <Suspense fallback={<LoadingSpinner />}>
-                        <Sidebar />
+                        {/* Fixed width sidebar with fixed positioning */}
+                        <aside 
+                          className={`fixed top-0 left-0 h-full z-30 transition-all duration-300 ease-in-out ${
+                            isCollapsed ? 'w-16' : 'w-64'
+                          }`}
+                        >
+                          <Sidebar />
+                        </aside>
                         
+                        {/* Main content - with adaptive margin */}
                         <main 
-                          className={`flex-1 relative z-10 bg-white dark:bg-gray-900 rounded-tl-none rounded-bl-none shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
-                            isCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+                          className={`flex-1 bg-white dark:bg-gray-900 rounded-tl-xl rounded-bl-xl shadow-xl overflow-y-auto min-h-screen transition-all duration-300 ease-in-out ${
+                            isCollapsed ? 'ml-16' : 'ml-64'
                           }`}
                         >
                           <Suspense fallback={<LoadingSpinner />}>

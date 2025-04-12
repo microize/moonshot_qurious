@@ -1,22 +1,10 @@
-// src/components/ui/Button.js
+// src/components/ui/Button.js - Updated with amber color scheme
 import React from 'react';
 import { classNames } from '../../utils/styleUtils';
-import { buttonStyles } from '../../styles/components';
 
 /**
  * Button component with different variants and sizes
- * 
- * @param {Object} props - Component props
- * @param {ReactNode} props.children - Button content
- * @param {string} [props.variant='primary'] - Button style variant
- * @param {string} [props.size='md'] - Button size
- * @param {boolean} [props.fullWidth=false] - Whether button takes full width
- * @param {boolean} [props.disabled=false] - Whether button is disabled
- * @param {boolean} [props.loading=false] - Whether button is in loading state
- * @param {string} [props.className=''] - Additional CSS classes
- * @param {Function} [props.onClick] - Click handler
- * @param {string} [props.type='button'] - Button type attribute
- * @param {React.ElementType} [props.as='button'] - Component to render as
+ * Updated to use amber as the primary color
  */
 const Button = ({
   children,
@@ -31,18 +19,38 @@ const Button = ({
   as: Component = 'button',
   ...props
 }) => {
-  // Get appropriate classes based on variant and size
-  const baseClasses = buttonStyles.base;
-  const variantClasses = buttonStyles.variants[variant] || buttonStyles.variants.primary;
-  const sizeClasses = buttonStyles.sizes[size] || buttonStyles.sizes.md;
+  // Button variants with amber as primary color
+  const variants = {
+    primary: `bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white dark:bg-amber-600 dark:hover:bg-amber-700 focus:ring-amber-400`,
+    secondary: `bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 focus:ring-gray-400`,
+    outline: `border border-amber-300 text-amber-600 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-900/20 focus:ring-amber-400`,
+    text: `text-amber-600 hover:bg-amber-50 dark:text-amber-400 dark:hover:bg-amber-900/20`,
+    success: `bg-success-500 hover:bg-success-600 text-white focus:ring-success-400`,
+    danger: `bg-error-500 hover:bg-error-600 text-white focus:ring-error-400`,
+  };
+  
+  // Button sizes
+  const sizes = {
+    xs: 'px-2 py-1 text-xs',
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-5 py-2.5 text-lg',
+    xl: 'px-6 py-3 text-xl',
+  };
   
   // Combine all classes
   const buttonClasses = classNames(
-    baseClasses,
-    variantClasses,
-    sizeClasses,
+    // Base styles
+    'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50',
+    // Variant styles
+    variants[variant] || variants.primary,
+    // Size styles
+    sizes[size] || sizes.md,
+    // Width style
     fullWidth ? 'w-full' : '',
-    disabled || loading ? buttonStyles.states.disabled : '',
+    // Disabled/loading state
+    disabled || loading ? 'opacity-50 cursor-not-allowed' : '',
+    // Additional custom classes
     className
   );
 

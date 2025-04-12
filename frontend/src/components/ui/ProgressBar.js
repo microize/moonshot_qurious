@@ -1,21 +1,10 @@
-// src/components/ui/ProgressBar.js
+// src/components/ui/ProgressBar.js - Updated with amber color scheme
 import React from 'react';
 import { classNames } from '../../utils/styleUtils';
-import { progressStyles } from '../../styles/components';
 
 /**
  * ProgressBar component for displaying progress
- * 
- * @param {Object} props - Component props
- * @param {number} props.value - Current progress value (0-100)
- * @param {number} [props.max=100] - Maximum value
- * @param {string} [props.variant='default'] - Progress bar style variant
- * @param {boolean} [props.showLabel=false] - Whether to show percentage label
- * @param {string} [props.labelPosition='right'] - Position of label (right, inside, top)
- * @param {string} [props.size='default'] - Size of the progress bar (sm, default, lg)
- * @param {boolean} [props.animated=false] - Whether to show animation
- * @param {string} [props.className=''] - Additional CSS classes
- * @param {string} [props.label] - Custom label (if not provided, percentage will be shown)
+ * Updated to use amber as the primary color
  */
 const ProgressBar = ({
   value = 0,
@@ -31,9 +20,15 @@ const ProgressBar = ({
   // Calculate percentage
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));
   
-  // Get appropriate classes based on variant
-  const baseClasses = progressStyles.base;
-  const indicatorClasses = progressStyles.indicator[variant] || progressStyles.indicator.default;
+  // Progress bar variants
+  const variants = {
+    default: 'bg-amber-500 dark:bg-amber-500',
+    secondary: 'bg-gray-400 dark:bg-gray-600',
+    success: 'bg-success-500 dark:bg-success-500',
+    warning: 'bg-warning-500 dark:bg-warning-500',
+    error: 'bg-error-500 dark:bg-error-500',
+    gradient: 'bg-gradient-to-r from-amber-400 to-amber-500',
+  };
   
   // Size classes
   const sizeClasses = {
@@ -49,6 +44,9 @@ const ProgressBar = ({
   // Label to display
   const label = customLabel || `${Math.round(percentage)}%`;
   
+  // Base container classes
+  const baseClasses = "w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden";
+  
   // Combine all classes
   const progressClasses = classNames(
     baseClasses,
@@ -57,8 +55,9 @@ const ProgressBar = ({
   );
   
   // Indicator classes
-  const indicatorFinalClasses = classNames(
-    indicatorClasses,
+  const indicatorClasses = classNames(
+    'h-full rounded-full transition-all duration-500 ease-out',
+    variants[variant] || variants.default,
     animationClass
   );
 
@@ -68,7 +67,7 @@ const ProgressBar = ({
       {showLabel && labelPosition === 'top' && (
         <div className="flex justify-between text-xs mb-1">
           <span className="text-gray-600 dark:text-gray-300">Progress</span>
-          <span className="text-cobalt-600 dark:text-cobalt-400">{label}</span>
+          <span className="text-amber-600 dark:text-amber-400">{label}</span>
         </div>
       )}
       
@@ -76,7 +75,7 @@ const ProgressBar = ({
       <div className={progressClasses}>
         {/* Progress indicator */}
         <div 
-          className={indicatorFinalClasses}
+          className={indicatorClasses}
           style={{ width: `${percentage}%` }}
         >
           {/* Inside label */}
@@ -90,7 +89,7 @@ const ProgressBar = ({
       
       {/* Right label */}
       {showLabel && labelPosition === 'right' && (
-        <div className="ml-2 inline-block text-xs text-cobalt-600 dark:text-cobalt-400">
+        <div className="ml-2 inline-block text-xs text-amber-600 dark:text-amber-400">
           {label}
         </div>
       )}

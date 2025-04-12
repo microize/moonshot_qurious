@@ -14,11 +14,11 @@
   }
   
   .navItem {
-    @apply flex px-3 py-2.5 rounded-md transition-all duration-300 group;
+    @apply flex px-3 py-2.5 rounded-md transition-all duration-300;
   }
   
   .navItemActive {
-    @apply bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold;
+    @apply bg-cobalt-50 dark:bg-cobalt-900/30 text-cobalt-700 dark:text-cobalt-300 font-semibold;
   }
   
   .navItemInactive {
@@ -33,4 +33,63 @@
   /* Version indicator */
   .versionInfo {
     @apply px-4 py-3 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-800;
+  }
+  
+  /* Admin mode button */
+  .adminButton {
+    @apply w-full flex px-3 py-3 rounded-lg transition-all duration-200;
+  }
+  
+  .adminButtonActive {
+    @apply bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200;
+  }
+  
+  .adminButtonInactive {
+    @apply text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white;
+  }
+  
+  /* Settings button */
+  .settingsButton {
+    @apply flex px-3 py-3 rounded-lg transition-all duration-200;
+  }
+  
+  .settingsButtonActive {
+    @apply bg-cobalt-50 dark:bg-cobalt-900/30 text-cobalt-700 dark:text-cobalt-300 font-semibold;
+  }
+  
+  .settingsButtonInactive {
+    @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+  
+  /* Theme toggle */
+  .themeToggle {
+    @apply w-full flex px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-all duration-200;
+  }
+  
+  /* Mobile menu overlay */
+  .mobileOverlay {
+    @apply fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden backdrop-blur-sm transition-opacity duration-300;
+  }
+  
+  /* Mobile menu button */
+  .mobileMenuButton {
+    @apply p-2.5 rounded-xl bg-white dark:bg-gray-800 text-cobalt-600 dark:text-cobalt-400 shadow-soft;
+  }
+  
+  /* Transition for nav item text */
+  .navItemText {
+    @apply text-sm font-medium transition-all duration-300;
+  }
+  
+  .navItemTextVisible {
+    @apply opacity-100 w-auto ml-3;
+  }
+  
+  .navItemTextHidden {
+    @apply opacity-0 w-0;
+  }
+  
+  /* Nav item indicator dot */
+  .navItemIndicator {
+    @apply ml-auto w-1.5 h-1.5 rounded-full bg-cobalt-500 dark:bg-cobalt-400;
   }

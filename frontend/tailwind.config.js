@@ -7,33 +7,46 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Primary cobalt blue color palette
+        // Primary amber color palette
+        amber: {
+          50: '#FFF8E1',
+          100: '#FFECB3',
+          200: '#FFE082',
+          300: '#FFD54F',
+          400: '#FFCA28',
+          500: '#FFC107',  // Primary brand color
+          600: '#FFB300',
+          700: '#FFA000',
+          800: '#FF8F00',
+          900: '#FF6F00',
+          950: '#E65100',
+        },// Primary amber color palette
         cobalt: {
+          50: '#FFF8E1',
+          100: '#FFECB3',
+          200: '#FFE082',
+          300: '#FFD54F',
+          400: '#FFCA28',
+          500: '#FFC107',  // Primary brand color
+          600: '#FFB300',
+          700: '#FFA000',
+          800: '#FF8F00',
+          900: '#FF6F00',
+          950: '#E65100',
+        },
+        // Secondary/accent color palette - cobalt blue for contrast when needed
+        secondary: {
           50: '#E6F0FF',
           100: '#CCE0FF',
           200: '#99C1FF',
           300: '#66A3FF',
           400: '#3384FF',
-          500: '#0066FF',  // Primary brand color
+          500: '#0066FF',
           600: '#0052CC',
           700: '#003D99',
           800: '#002966',
           900: '#001433',
           950: '#000D1F',
-        },
-        // Accent color palette - warm orange/gold for contrast
-        accent: {
-          50: '#FFF1E6',
-          100: '#FFE3CC',
-          200: '#FFC699',
-          300: '#FFA966',
-          400: '#FF8C33',
-          500: '#FF7000',
-          600: '#CC5A00',
-          700: '#994300',
-          800: '#662D00',
-          900: '#331600',
-          950: '#190B00',
         },
         // Success, error, warning colors
         success: {
@@ -135,8 +148,8 @@ module.exports = {
         'soft-lg': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
         'soft-xl': '0 20px 40px -10px rgba(0, 0, 0, 0.07), 0 12px 20px -8px rgba(0, 0, 0, 0.03)',
         'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
-        'glow': '0 0 15px rgba(0, 102, 255, 0.3)',
-        'glow-lg': '0 0 30px rgba(0, 102, 255, 0.4)',
+        'glow': '0 0 15px rgba(255, 193, 7, 0.3)',
+        'glow-lg': '0 0 30px rgba(255, 193, 7, 0.4)',
       },
       borderRadius: {
         'xl': '0.75rem',

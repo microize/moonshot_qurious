@@ -4,7 +4,7 @@ import { Search, Filter, BookOpen, Tag, Clock } from 'lucide-react';
 import CourseRecommendations from '../components/CourseRecommendations';
 import CourseProgress from '../components/CourseProgress';
 import PageContainer from '../components/PageContainer';
-import Card from '../components/Card';
+import Card from '../components/ui/Card';
 
 // Enhanced CourseCard with microstimuli
 const CourseCard = ({ course }) => {

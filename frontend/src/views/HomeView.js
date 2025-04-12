@@ -1,12 +1,13 @@
-// views/HomeView.js - Redesigned with elegant aesthetics
+// In views/HomeView.js - Updated imports
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, BookOpen, ChevronRight, Bell, BarChart2, Award, CheckCircle, Zap, Calendar, Target } from 'lucide-react';
 
-// Import custom components
+// Import custom components with updated paths
 import UserHeader from '../components/UserHeader';
-import CourseCard from '../components/CourseCard';
-import UserAvatar from '../components/UserAvatar';
+import CourseCard from '../components/CourseCard/CourseCard';
+import Avatar from '../components/ui/Avatar';
+import Card from '../components/ui/Card';
 
 // Import hooks for data
 import { useCourses, useUserCourses, useUserProfile } from '../hooks/useApi';
