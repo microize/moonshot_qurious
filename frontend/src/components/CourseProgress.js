@@ -1,6 +1,9 @@
+// Updated CourseProgress.js with expanded functionality
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, ChevronRight } from 'lucide-react';
 
+// Sample course progress data - this would normally come from an API or props
 const progressCourses = [
   {
     id: 1,
@@ -26,7 +29,11 @@ const progressCourses = [
   }
 ];
 
+// ProgressCard component for individual course progress items
 const ProgressCard = ({ course, onContinue }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+  
+  // Icons mapping
   const icons = {
     brain: (
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -51,28 +58,39 @@ const ProgressCard = ({ course, onContinue }) => {
     }
     return "Continue your learning journey!";
   };
+  
+  // Handle click events properly
+  const handleButtonClick = (e) => {
+    e.stopPropagation();
+    onContinue(course.id);
+  };
 
   return (
-    <div className="bg-amber-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div 
+      className="bg-amber-50 dark:bg-gray-800 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300 hover:-translate-y-1 transform cursor-pointer border border-amber-100 dark:border-amber-700"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => onContinue(course.id)}
+    >
       <div className="flex items-center gap-4">
-        <div className="p-3 bg-amber-200 rounded-md">
-          <div className="text-amber-700">
+        <div className="p-3 bg-amber-200 dark:bg-amber-800 rounded-md">
+          <div className="text-amber-700 dark:text-amber-300">
             {icons[course.icon]}
           </div>
         </div>
         <div className="flex-1">
-          <h3 className="font-medium text-amber-900">{course.title}</h3>
-          <div className="text-sm text-amber-600 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
+          <h3 className="font-medium text-amber-900 dark:text-amber-200">{course.title}</h3>
+          <div className="text-sm text-amber-600 dark:text-amber-400 mt-1">{getTimeBasedMessage(course.lastActivity)}</div>
           
           {/* Progress bar */}
           <div className="mt-3 mb-2">
-            <div className="w-full h-2 bg-amber-100 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-amber-100 dark:bg-amber-900/30 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-amber-300 to-amber-500 rounded-full transition-all duration-500 ease-out"
+                className="h-full bg-gradient-to-r from-amber-300 to-amber-500 dark:from-amber-400 dark:to-amber-600 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${course.progress}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-xs text-amber-600 mt-1">
+            <div className="flex justify-between text-xs text-amber-600 dark:text-amber-400 mt-1">
               <span>{course.completed}/{course.total} Lessons</span>
               <span>{course.progress}% Complete</span>
             </div>
@@ -81,23 +99,22 @@ const ProgressCard = ({ course, onContinue }) => {
           {/* Next lesson prompt */}
           <div className="mt-3 flex justify-between items-center">
             <div className="text-sm">
-              <span className="text-amber-600">Next: </span>
-              <span className="font-medium text-amber-800">{course.nextLesson}</span>
+              <span className="text-amber-600 dark:text-amber-400">Next: </span>
+              <span className="font-medium text-amber-800 dark:text-amber-200">{course.nextLesson}</span>
             </div>
             <button 
-              className="px-3 py-1 bg-amber-400 hover:bg-amber-500 text-white text-sm rounded-md transition-colors"
-              onClick={() => onContinue(course.id)}
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-700 text-white text-sm rounded-md transition-colors flex items-center"
+              onClick={handleButtonClick}
             >
               Continue
+              <ChevronRight size={16} className={`ml-1 transform transition duration-200 ${isHovered ? 'translate-x-0.5' : ''}`} />
             </button>
           </div>
         </div>
       </div>      
       {/* Time indicator */}
-      <div className="mt-3 text-xs text-amber-500 flex items-center">
-        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+      <div className="mt-3 text-xs text-amber-500 dark:text-amber-400 flex items-center">
+        <Clock size={14} className="mr-1" />
         Last activity: {course.lastActivity}
       </div>
     </div>
@@ -122,7 +139,7 @@ const CourseProgress = () => {
         {/* "Explore more courses" prompt */}
         <div className="mt-6 text-center">
           <button 
-            className="px-4 py-2 border border-dashed border-amber-300 text-amber-600 rounded-md hover:bg-amber-200/50 transition-colors"
+            className="px-4 py-2 border border-dashed border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 rounded-md hover:bg-amber-200/50 dark:hover:bg-amber-800/30 transition-colors"
             onClick={() => navigate('/courses')}
           >
             Discover more courses to continue your learning journey

@@ -394,7 +394,7 @@ const LearningAnalytics = () => {
 const ContinueLearningCard = ({ course, navigate }) => {
   return (
     <div 
-      className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1"
+      className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1"
       onClick={() => navigate(`/courses/${course.id}`)}
     >
       <div className="flex items-center gap-4">
@@ -404,8 +404,8 @@ const ContinueLearningCard = ({ course, navigate }) => {
         </div> */}
         
         <div className="flex-1">
-          <h3 className="font-normal text-gray-500 dark:text-white">{course.title}</h3>
-          <div className="text-sm bg-gradient-to-r from-red-600 to-amber-400 dark:from-amber-400 dark:to-amber-200 bg-clip-text text-transparent mt-1">Great Start - Keep up the Momentum!</div>
+          <h3 className="font-normal text-gray-600 dark:text-white">{course.title}</h3>
+          <div className="font-normal bg-gradient-to-r from-red-600 to-amber-400 dark:from-amber-400 dark:to-amber-200 bg-clip-text text-transparent mt-1">Great Start - Keep up the Momentum!</div>
           
           {/* Progress bar with improved style */}
           <div className="mt-3 mb-2">
@@ -425,7 +425,7 @@ const ContinueLearningCard = ({ course, navigate }) => {
           <div className="mt-3 flex justify-between items-center">
             <div className="text-sm">
               <span className="text-gray-600 dark:text-gray-400">Next: </span>
-              <span className="font-medium text-gray-800 dark:text-gray-200">
+              <span className="text-sm text-gray-600 dark:text-gray-200">
                 {course.nextModule || 'Introduction to the Course'}
               </span>
             </div>
