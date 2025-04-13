@@ -1,64 +1,135 @@
 /* Logo.module.css */
-/* Component-specific styles for Logo */
-
 .logoContainer {
-    @apply cursor-pointer inline-block;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Logo icon */
+.logoIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(to bottom right, #f59e0b, #d97706);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.logoIconHovered {
+  transform: rotate(6deg) scale(1.1);
+  box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5);
+}
+
+/* Glow effect */
+.logoGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background-color: #f59e0b;
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.logoGlowActive {
+  opacity: 0.5;
+}
+
+/* SVG icon */
+.logoSvg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.logoSvgHovered {
+  transform: rotate(12deg) scale(1.1);
+}
+
+/* Text container */
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Logo title */
+.logoTitle {
+  color: #000;
+  font-size: 1.25rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logoTitleHovered {
+  color: #d97706;
+}
+
+/* Dark mode for the title */
+.darkMode .logoTitle {
+  color: #e5e7eb;
+}
+
+/* Tagline container */
+.taglineContainer {
+  overflow: hidden;
+  height: 1.5rem;
+}
+
+/* Tagline animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  
-  .logoWrapper {
-    @apply flex items-center space-x-3;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  /* Logo icon */
-  .logoIcon {
-    @apply relative flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 bg-gradient-to-br from-cobalt-500 to-cobalt-600 shadow-sm;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  .logoIconHovered {
-    @apply bg-gradient-to-br from-cobalt-400 to-cobalt-600 rotate-6 scale-110 shadow-md;
+  to {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  
-  /* Glow effect */
-  .logoGlow {
-    @apply absolute inset-0 rounded-2xl bg-cobalt-400 opacity-0 blur-xl transition-opacity duration-300;
-  }
-  
-  .logoGlowVisible {
-    @apply opacity-30;
-  }
-  
-  /* SVG icon */
-  .logoSvg {
-    @apply w-6 h-6 transition-all duration-300 z-10 text-white;
-  }
-  
-  .logoSvgHovered {
-    @apply transform rotate-12;
-  }
-  
-  /* Text section */
-  .logoText {
-    @apply flex flex-col justify-center items-start text-left overflow-hidden;
-  }
-  
-  /* Logo title */
-  .logoTitle {
-    @apply text-cobalt-600 dark:text-cobalt-400 text-xl font-semibold transition-all duration-300;
-  }
-  
-  .logoTitleHovered {
-    @apply tracking-wider;
-  }
-  
-  /* Tagline */
-  .logoTagline {
-    @apply text-xs text-cobalt-500 dark:text-cobalt-400 font-medium transition-all duration-300 ease-in-out overflow-hidden;
-  }
-  
-  .logoTaglineVisible {
-    @apply opacity-100 max-h-6 mt-0;
-  }
-  
-  .logoTaglineHidden {
-    @apply opacity-0 max-h-0 -mt-1;
-  }
+}
+
+.tagline {
+  display: block;
+  font-size: 0.75rem;
+  color: #d97706;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.taglineVisible {
+  animation: slideUp 0.3s forwards;
+}
+
+.taglineHidden {
+  animation: slideDown 0.3s forwards;
+}
+
+/* Dark mode for the tagline */
+.darkMode .tagline {
+  color: #fbbf24;
+}

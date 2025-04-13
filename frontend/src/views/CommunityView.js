@@ -122,7 +122,7 @@ const CommunityView = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center px-4 py-2 mr-2 rounded-md transition-colors whitespace-nowrap ${
                     activeTab === tab.id
-                      ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300'
+                      ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300'
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
@@ -142,7 +142,7 @@ const CommunityView = () => {
                   <input
                     type="text"
                     placeholder="Search discussions..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                   />
                 </div>
                 
@@ -162,7 +162,7 @@ const CommunityView = () => {
                   <div 
                     key={discussion.id} 
                     className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors cursor-pointer ${
-                      discussion.isUser ? 'bg-purple-50 dark:bg-purple-900/10' : ''
+                      discussion.isUser ? 'bg-amber-50 dark:bg-amber-900/10' : ''
                     }`}
                   >
                     <div className="flex items-start">
@@ -185,7 +185,7 @@ const CommunityView = () => {
                             <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
                               <span>Posted by {discussion.author}</span>
                               {discussion.isUser && (
-                                <span className="ml-1 text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 px-1 rounded">You</span>
+                                <span className="ml-1 text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 px-1 rounded">You</span>
                               )}
                               <span className="mx-1">•</span>
                               <span>{discussion.time}</span>
@@ -212,7 +212,7 @@ const CommunityView = () => {
                 ))}
                 
                 <div className="p-4 text-center">
-                  <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">
+                  <button className="text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300">
                     View More Discussions
                   </button>
                 </div>
@@ -247,7 +247,7 @@ const CommunityView = () => {
                       <span className="text-xs px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                         {group.category}
                       </span>
-                      <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">
+                      <button className="text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300">
                         Join Group
                       </button>
                     </div>
@@ -255,12 +255,12 @@ const CommunityView = () => {
                 ))}
               </div>
               
-              <div className="mt-4 p-4 border border-dashed border-purple-300 dark:border-purple-700 rounded-xl text-center">
+              <div className="mt-4 p-4 border border-dashed border-amber-300 dark:border-amber-700 rounded-xl text-center">
                 <h3 className="font-medium text-gray-800 dark:text-white mb-2">Create Your Own Learning Group</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                   Connect with peers and learn together in a collaborative environment
                 </p>
-                <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-md transition-colors">
+                <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-md transition-colors">
                   Create New Group
                 </button>
               </div>
@@ -281,13 +281,13 @@ const CommunityView = () => {
                 {activeUsers.slice(0, 2).map((user, index) => (
                   <div 
                     key={index} 
-                    className="border border-gray-100 dark:border-gray-700 rounded-xl p-4 bg-gradient-to-br from-purple-50 to-white dark:from-gray-750 dark:to-gray-800"
+                    className="border border-gray-100 dark:border-gray-700 rounded-xl p-4 bg-gradient-to-br from-amber-50 to-white dark:from-gray-750 dark:to-gray-800"
                   >
                     <div className="flex items-center">
                       <img 
                         src={user.avatar} 
                         alt={user.name} 
-                        className="w-14 h-14 rounded-full mr-3 object-cover border-2 border-purple-200 dark:border-purple-800"
+                        className="w-14 h-14 rounded-full mr-3 object-cover border-2 border-amber-200 dark:border-amber-800"
                       />
                       <div>
                         <div className="flex items-center">
@@ -297,7 +297,7 @@ const CommunityView = () => {
                             {user.badge}
                           </span>
                         </div>
-                        <div className="text-sm text-purple-600 dark:text-purple-400 mt-0.5">
+                        <div className="text-sm text-amber-600 dark:text-amber-400 mt-0.5">
                           {index === 0 ? 'AI Research & Development' : 'Data Science & ML'}
                         </div>
                       </div>
@@ -314,7 +314,7 @@ const CommunityView = () => {
                         <Heart size={14} className="text-red-500 mr-1" />
                         <span>{index === 0 ? '98%' : '95%'} satisfaction</span>
                       </div>
-                      <button className="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-md transition-colors">
+                      <button className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-md transition-colors">
                         Request Mentoring
                       </button>
                     </div>
@@ -323,7 +323,7 @@ const CommunityView = () => {
               </div>
               
               <div className="mt-4 text-center">
-                <button className="px-4 py-2 border border-purple-300 dark:border-purple-700 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 text-sm rounded-md transition-colors">
+                <button className="px-4 py-2 border border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 text-sm rounded-md transition-colors">
                   Browse All Mentors
                 </button>
               </div>
@@ -331,12 +331,12 @@ const CommunityView = () => {
           )}
           
           {/* Call to action */}
-          <div className="mt-6 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white shadow-md">
+          <div className="mt-6 bg-gradient-to-r from-amber-500 to-indigo-600 rounded-xl p-6 text-white shadow-md">
             <h2 className="text-xl font-semibold mb-2">Have a question? Ask the community!</h2>
-            <p className="text-purple-100 mb-4">
+            <p className="text-amber-100 mb-4">
               Get help from peers and experts on any topic related to data science and machine learning.
             </p>
-            <button className="px-4 py-2 bg-white text-purple-600 hover:bg-purple-50 text-sm font-medium rounded-md transition-colors shadow-sm">
+            <button className="px-4 py-2 bg-white text-amber-600 hover:bg-amber-50 text-sm font-medium rounded-md transition-colors shadow-sm">
               Start a New Discussion
             </button>
           </div>
@@ -349,20 +349,20 @@ const CommunityView = () => {
             <div className="grid grid-cols-2 gap-4">
               {userStats.map((stat, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-750 p-3 rounded-lg text-center">
-                  <div className="text-xl font-semibold text-purple-600 dark:text-purple-400">{stat.value}</div>
+                  <div className="text-xl font-semibold text-amber-600 dark:text-amber-400">{stat.value}</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</div>
                 </div>
               ))}
             </div>
             
-            <div className="mt-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+            <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
               <h3 className="text-sm font-medium text-gray-800 dark:text-white">Helper Badge Progress</h3>
               <div className="mt-2 mb-1 flex justify-between text-xs">
                 <span className="text-gray-600 dark:text-gray-300">12/20 answers</span>
-                <span className="text-purple-600 dark:text-purple-400">60%</span>
+                <span className="text-amber-600 dark:text-amber-400">60%</span>
               </div>
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full" style={{ width: '60%' }}></div>
+                <div className="h-full bg-amber-500 rounded-full" style={{ width: '60%' }}></div>
               </div>
             </div>
           </Card>
@@ -374,7 +374,7 @@ const CommunityView = () => {
                 <div 
                   key={index} 
                   className={`flex items-center p-2 rounded-md ${
-                    user.isUser ? 'bg-purple-50 dark:bg-purple-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-750'
+                    user.isUser ? 'bg-amber-50 dark:bg-amber-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-750'
                   }`}
                 >
                   <div className="w-6 text-xs font-medium text-gray-500 dark:text-gray-400">
@@ -389,7 +389,7 @@ const CommunityView = () => {
                     <div className="flex items-center">
                       <span className="font-medium text-sm text-gray-800 dark:text-white">{user.name}</span>
                       {user.isUser && (
-                        <span className="ml-1 text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 px-1.5 rounded">
+                        <span className="ml-1 text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 px-1.5 rounded">
                           You
                         </span>
                       )}
@@ -401,14 +401,14 @@ const CommunityView = () => {
                       )}
                     </div>
                   </div>
-                  <div className="text-xs font-medium text-purple-600 dark:text-purple-400">
+                  <div className="text-xs font-medium text-amber-600 dark:text-amber-400">
                     {user.points} pts
                   </div>
                 </div>
               ))}
             </div>
             
-            <button className="w-full mt-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+            <button className="w-full mt-4 py-2 text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-lg transition-colors">
               View Full Leaderboard
             </button>
           </Card>
@@ -416,8 +416,8 @@ const CommunityView = () => {
           {/* Upcoming events */}
           <Card title="Upcoming Events">
             <div className="space-y-3">
-              <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
-                <div className="text-xs text-purple-500 dark:text-purple-400">Friday • 5:00 PM</div>
+              <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-800">
+                <div className="text-xs text-amber-500 dark:text-amber-400">Friday • 5:00 PM</div>
                 <h3 className="font-medium text-gray-800 dark:text-white mt-1">Python Coding Challenge</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">Weekly competition</p>
               </div>
@@ -429,7 +429,7 @@ const CommunityView = () => {
               </div>
             </div>
             
-            <button className="w-full mt-4 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+            <button className="w-full mt-4 py-2 text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-lg transition-colors">
               View All Events
             </button>
           </Card>

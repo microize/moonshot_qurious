@@ -61,7 +61,7 @@ const LeaderboardView = () => {
                     key={category.id}
                     className={`px-3 py-1 text-sm rounded-md transition-colors flex-shrink-0 ${
                       category.active
-                        ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400'
+                        ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
                   >
@@ -88,7 +88,7 @@ const LeaderboardView = () => {
                   {leaderboardData.map((person, index) => (
                     <tr
                       key={index}
-                      className={person.isUser ? 'bg-purple-50 dark:bg-purple-900/10' : 'hover:bg-gray-50 dark:hover:bg-gray-750'}
+                      className={person.isUser ? 'bg-amber-50 dark:bg-amber-900/10' : 'hover:bg-gray-50 dark:hover:bg-gray-750'}
                     >
                       <td className="py-3 px-4">
                         <div className="flex items-center">
@@ -107,7 +107,7 @@ const LeaderboardView = () => {
                             <div className="flex items-center gap-1">
                               <span className="font-medium text-gray-800 dark:text-white">{person.name}</span>
                               {person.isUser && (
-                                <span className="text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 px-1.5 py-0.5 rounded">You</span>
+                                <span className="text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded">You</span>
                               )}
                               {person.badge && (
                                 <span className="text-xs bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded">{person.badge}</span>
@@ -118,7 +118,7 @@ const LeaderboardView = () => {
                         </div>
                       </td>
                       <td className="py-3 px-4">
-                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300">
                           Level {Math.floor(person.points / 300) + 1}
                         </div>
                       </td>
@@ -148,7 +148,7 @@ const LeaderboardView = () => {
           <Card title="🎖️ Your Recent Badges">
             {badgesWithIcons.map((badge, index) => (
               <div key={index} className="flex items-start mb-3">
-                <div className="p-2 rounded-lg mr-3 bg-purple-100 dark:bg-purple-900/30 text-purple-500">
+                <div className="p-2 rounded-lg mr-3 bg-amber-100 dark:bg-amber-900/30 text-amber-500">
                   <badge.icon size={16} />
                 </div>
                 <div>
@@ -157,36 +157,36 @@ const LeaderboardView = () => {
                 </div>
               </div>
             ))}
-            <button className="w-full mt-2 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg">
+            <button className="w-full mt-2 py-2 text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-lg">
               View All Badges
             </button>
           </Card>
 
           <Card title="⚔️ Weekly Challenge">
-            <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg">
               <h3 className="font-medium text-gray-800 dark:text-white">Complete 3 Python modules</h3>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">5 days remaining</div>
-              <div className="mt-2 text-sm text-purple-700 dark:text-purple-300">{microCopy.challengeReminder}</div>
+              <div className="mt-2 text-sm text-amber-700 dark:text-amber-300">{microCopy.challengeReminder}</div>
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-2 overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full" style={{ width: '33%' }}></div>
+                <div className="h-full bg-amber-500 rounded-full" style={{ width: '33%' }}></div>
               </div>
-              <div className="mt-3 text-sm font-medium text-purple-600 dark:text-purple-400">
+              <div className="mt-3 text-sm font-medium text-amber-600 dark:text-amber-400">
                 +50 bonus points on completion
               </div>
             </div>
-            <button className="w-full mt-3 py-2 text-sm bg-purple-500 hover:bg-purple-600 text-white rounded-lg">
+            <button className="w-full mt-3 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg">
               Continue Challenge
             </button>
           </Card>
 
           <Card title="✨ Next Best Step for You">
-            <ul className="text-sm space-y-2 text-purple-700 dark:text-purple-300">
+            <ul className="text-sm space-y-2 text-amber-700 dark:text-amber-300">
               {nextBestSteps.map((step, idx) => (
                 <li key={idx}>{step}</li>
               ))}
             </ul>
             <div className="text-xs text-yellow-600 dark:text-yellow-400 mt-2">{microCopy.bonusNudge}</div>
-            <button className="w-full mt-3 py-2 text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg">
+            <button className="w-full mt-3 py-2 text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-lg">
               View All Suggestions
             </button>
           </Card>

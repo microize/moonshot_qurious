@@ -1,9 +1,18 @@
-// src/components/Logo.js - Updated with amber color scheme
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 const Logo = ({ onLogoClick, isCollapsed }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  // Add subtle continuous animation for the infinity loop
+  useEffect(() => {
+    const animationInterval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 2000);
+    }, 5000);
+    
+    return () => clearInterval(animationInterval);
+  }, []);
   
   const handleLogoClick = () => {
     if (onLogoClick) {
@@ -22,21 +31,21 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
         <div
           className={`relative flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 ${
             isHovered
-              ? 'bg-gradient-to-br from-amber-400 to-amber-600 rotate-6 scale-110 shadow-glow'
-              : 'bg-gradient-to-br from-amber-500 to-amber-600 shadow-sm'
+              ? 'bg-gradient-to-br from-red-400 to-amber-600 rotate-6 scale-110 shadow-md'
+              : isAnimating 
+                ? 'bg-gradient-to-br from-red-400 to-amber-600 shadow-sm' 
+                : 'bg-gradient-to-br from-red-500 to-amber-600 shadow-sm'
           }`}
         >
-          {/* Glow effect */}
-          <div
-            className={`absolute inset-0 rounded-2xl bg-amber-400 opacity-0 blur-xl transition-opacity duration-300 ${
-              isHovered ? 'opacity-30' : 'opacity-0'
-            }`}
-          ></div>
           {/* Infinity SVG */}
           <svg
             viewBox="0 0 24 24"
-            className={`w-6 h-6 transition-all duration-300 z-10 ${
-              isHovered ? 'text-white transform rotate-12' : 'text-white'
+            className={`w-6 h-6 transition-all duration-700 z-10 ${
+              isHovered 
+                ? 'text-white transform rotate-12' 
+                : isAnimating 
+                  ? 'text-white animate-pulse' 
+                  : 'text-white'
             }`}
             fill="none"
             stroke="currentColor"
@@ -47,25 +56,27 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
             <path d="M18 12c0-1.657-1.343-3-3-3-2.5 0-5 6-7.5 6-1.657 0-3-1.343-3-3s1.343-3 3-3c2.5 0 5 6 7.5 6 1.657 0 3-1.343 3-3z" />
           </svg>
         </div>
+        
         {/* Logo Text + Tagline (Conditionally Rendered) */}
         {!isCollapsed && (
-          <div className="flex flex-col justify-center items-start text-left overflow-hidden">
-            {/* Main title */}
+          <div className="flex flex-col justify-center">
+            {/* Main title - now in gray */}
             <span
-              className={`text-black dark:text-gray-200 text-xl font-semibold transition-all duration-300 ${
-                isHovered ? 'tracking-wider' : ''
+              className={`text-black-600 dark:text-black-400 text-xl font-normal tracking-tight transition-all duration-300 ${
+                isHovered ? 'translate-x-0.5' : ''
               }`}
             >
               Qurius.ai
             </span>
-            {/* Tagline */}
-            <span
-              className={`text-xs text-amber-600 dark:text-amber-400 font-medium transition-all duration-300 ease-in-out ${
-                isHovered ? 'opacity-100 max-h-6 mt-0' : 'opacity-0 max-h-0 -mt-1'
-              } overflow-hidden`}
-            >
-              Learn. Practice. Apply.
-            </span>
+            
+            {/* Tagline - Always visible now */}
+            <div className="h-5 overflow-hidden">
+              <span
+                className="text-xs text-gray-500 dark:text-gray-500 font-normal tracking-wide block"
+              >
+                Learn. Practice. Apply.
+              </span>
+            </div>
           </div>
         )}
       </div>

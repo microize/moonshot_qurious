@@ -15,7 +15,7 @@ const CourseCard = ({ course }) => {
   const getBadgeColor = (type) => {
     switch(type) {
       case 'Course': 
-        return 'bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300';
+        return 'bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300';
       case 'Pathway': 
         return 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300';
       case 'Workshop':
@@ -29,7 +29,7 @@ const CourseCard = ({ course }) => {
     <div 
       className={`rounded-xl p-6 transition-all duration-300 group ${
         isPressed
-          ? 'bg-purple-50 dark:bg-gray-750 scale-98 shadow-sm'
+          ? 'bg-amber-50 dark:bg-gray-750 scale-98 shadow-sm'
           : isHovered 
             ? 'bg-white dark:bg-gray-800 shadow-md transform -translate-y-1' 
             : 'bg-white dark:bg-gray-800 shadow-sm'
@@ -60,7 +60,7 @@ const CourseCard = ({ course }) => {
       </div>
       
       <h3 className={`font-semibold mt-3 transition-all duration-300 ${
-        isHovered ? 'text-purple-700 dark:text-purple-300' : 'text-gray-800 dark:text-white'
+        isHovered ? 'text-amber-700 dark:text-amber-300' : 'text-gray-800 dark:text-white'
       }`}>
         {course.title}
       </h3>
@@ -85,12 +85,12 @@ const CourseCard = ({ course }) => {
       </div>
       
       <button 
-        className={`w-full mt-5 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 ${
+        className={`w-full mt-5 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
           isPressed
-            ? 'bg-purple-700 text-white scale-95 shadow-inner'
+            ? 'bg-amber-700 text-white scale-95 shadow-inner'
             : isHovered
-              ? 'bg-purple-600 text-white shadow-md'
-              : 'bg-purple-500 hover:bg-purple-600 text-white'
+              ? 'bg-amber-600 text-white shadow-md'
+              : 'bg-amber-500 hover:bg-amber-600 text-white'
         }`}
       >
         <span className="inline-flex items-center">
@@ -122,8 +122,8 @@ const TopicFilter = ({ topics, onTopicClick }) => {
           onClick={() => onTopicClick(topic.id)}
           className={`px-3 py-1.5 text-sm rounded-full transition-all duration-200 ${
             topic.active 
-              ? 'bg-purple-500 text-white shadow-sm transform scale-105' 
-              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-500'
+              ? 'bg-amber-500 text-white shadow-sm transform scale-105' 
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-500'
           }`}
         >
           {topic.name}
@@ -221,8 +221,8 @@ const CoursesView = () => {
           <button 
             className={`px-4 py-2 text-sm rounded-md transition-colors ${
               activeTab === 'catalog' 
-                ? 'bg-white dark:bg-gray-700 text-purple-600 dark:text-purple-400 shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400'
+                ? 'bg-white dark:bg-gray-700 text-amber-600 dark:text-amber-400 shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400'
             }`}
             onClick={() => setActiveTab('catalog')}
           >
@@ -231,8 +231,8 @@ const CoursesView = () => {
           <button 
             className={`px-4 py-2 text-sm rounded-md transition-colors ${
               activeTab === 'mylearning' 
-                ? 'bg-white dark:bg-gray-700 text-purple-600 dark:text-purple-400 shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400'
+                ? 'bg-white dark:bg-gray-700 text-amber-600 dark:text-amber-400 shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400'
             }`}
             onClick={() => setActiveTab('mylearning')}
           >
@@ -254,7 +254,7 @@ const CoursesView = () => {
               placeholder="Search for courses..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
             />
           </div>
           

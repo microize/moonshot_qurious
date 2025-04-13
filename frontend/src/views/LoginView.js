@@ -33,7 +33,7 @@ const LoginView = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-purple-50 dark:bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-amber-50 dark:bg-gray-900 p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Quriousity</h1>
@@ -58,7 +58,7 @@ const LoginView = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                 placeholder="you@example.com"
                 required
               />
@@ -72,12 +72,12 @@ const LoginView = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                 placeholder="••••••••"
                 required
               />
               <div className="mt-1 text-right">
-                <a href="#" className="text-sm text-purple-600 dark:text-purple-400 hover:underline">
+                <a href="#" className="text-sm text-amber-600 dark:text-amber-400 hover:underline">
                   Forgot password?
                 </a>
               </div>
@@ -86,7 +86,7 @@ const LoginView = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center"
+              className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50 flex items-center justify-center"
             >
               {loading ? (
                 <>
@@ -103,14 +103,14 @@ const LoginView = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{' '}
-              <a href="#" className="text-purple-600 dark:text-purple-400 hover:underline">
+              <a href="#" className="text-amber-600 dark:text-amber-400 hover:underline">
                 Sign up
               </a>
             </p>
           </div>
           
           {/* Demo credentials info */}
-          <div className="mt-8 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+          <div className="mt-8 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
             <p className="text-sm text-gray-700 dark:text-gray-300 text-center">
               <strong>For Demo:</strong> You can use any email and password
             </p>

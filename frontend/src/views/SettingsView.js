@@ -57,7 +57,7 @@ const SettingsView = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center px-4 py-3 rounded-lg transition-colors ${
                   activeTab === tab.id
-                    ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400'
+                    ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
@@ -82,9 +82,9 @@ const SettingsView = () => {
                       <img 
                         src={userProfile.avatar} 
                         alt="Profile picture" 
-                        className="w-24 h-24 rounded-full object-cover border-2 border-purple-200 dark:border-purple-800"
+                        className="w-24 h-24 rounded-full object-cover border-2 border-amber-200 dark:border-amber-800"
                       />
-                      <button className="absolute bottom-0 right-0 p-1 bg-purple-500 text-white rounded-full shadow-sm">
+                      <button className="absolute bottom-0 right-0 p-1 bg-amber-500 text-white rounded-full shadow-sm">
                         <User size={16} />
                       </button>
                     </div>
@@ -99,7 +99,7 @@ const SettingsView = () => {
                         <input 
                           type="text" 
                           value={userProfile.name}
-                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -109,7 +109,7 @@ const SettingsView = () => {
                         <input 
                           type="email" 
                           value={userProfile.email}
-                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -119,14 +119,14 @@ const SettingsView = () => {
                         <input 
                           type="text" 
                           value={userProfile.role}
-                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                          className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Learning Focus
                         </label>
-                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                           <option>Data Science</option>
                           <option>Machine Learning</option>
                           <option>Data Engineering</option>
@@ -144,7 +144,7 @@ const SettingsView = () => {
                   <textarea 
                     rows="4"
                     placeholder="Tell us about yourself and your learning goals..."
-                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent"
                   ></textarea>
                 </div>
                 
@@ -152,23 +152,23 @@ const SettingsView = () => {
                   <h3 className="text-md font-medium text-gray-800 dark:text-white mb-3">Skills</h3>
                   <div className="flex flex-wrap gap-2">
                     {['Python', 'SQL', 'Machine Learning', 'Data Visualization'].map((skill, index) => (
-                      <div key={index} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-sm flex items-center">
+                      <div key={index} className="px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full text-sm flex items-center">
                         {skill}
-                        <button className="ml-1 p-0.5 hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full">
+                        <button className="ml-1 p-0.5 hover:bg-amber-200 dark:hover:bg-amber-800 rounded-full">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M18 6L6 18M6 6l12 12" />
                           </svg>
                         </button>
                       </div>
                     ))}
-                    <button className="px-3 py-1 border border-dashed border-purple-300 dark:border-purple-700 text-purple-500 dark:text-purple-400 rounded-full text-sm hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                    <button className="px-3 py-1 border border-dashed border-amber-300 dark:border-amber-700 text-amber-500 dark:text-amber-400 rounded-full text-sm hover:bg-amber-50 dark:hover:bg-amber-900/20">
                       + Add Skill
                     </button>
                   </div>
                 </div>
                 
                 <div className="flex justify-end">
-                  <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition-colors">
+                  <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg transition-colors">
                     Save Changes
                   </button>
                 </div>
@@ -194,7 +194,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('emailNotifications')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('pushNotifications')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -230,7 +230,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('learningReminders')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -248,7 +248,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('streakAlerts')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -261,7 +261,7 @@ const SettingsView = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Preferred Time
                       </label>
-                      <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                      <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                         <option>Morning (8:00 AM - 10:00 AM)</option>
                         <option>Afternoon (12:00 PM - 2:00 PM)</option>
                         <option>Evening (6:00 PM - 8:00 PM)</option>
@@ -272,7 +272,7 @@ const SettingsView = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Reminder Frequency
                       </label>
-                      <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                      <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                         <option>Daily</option>
                         <option>Weekdays only</option>
                         <option>Weekly</option>
@@ -283,7 +283,7 @@ const SettingsView = () => {
                 </div>
                 
                 <div className="flex justify-end mt-6">
-                  <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition-colors">
+                  <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg transition-colors">
                     Save Notification Settings
                   </button>
                 </div>
@@ -309,7 +309,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('showProgressToFriends')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -327,7 +327,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('shareBadges')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -345,7 +345,7 @@ const SettingsView = () => {
                           onChange={() => handleToggleChange('showInLeaderboard')}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                       </label>
                     </div>
                   </div>
@@ -370,7 +370,7 @@ const SettingsView = () => {
                 </div>
                 
                 <div className="flex justify-end mt-6">
-                  <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition-colors">
+                  <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg transition-colors">
                     Save Privacy Settings
                   </button>
                 </div>
@@ -398,7 +398,7 @@ const SettingsView = () => {
                             onChange={() => handleToggleChange('darkMode')}
                             className="sr-only peer"
                           />
-                          <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                          <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                         </label>
                         <Moon size={16} className="text-gray-400 dark:text-gray-500 ml-2" />
                       </div>
@@ -416,7 +416,7 @@ const SettingsView = () => {
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Globe size={16} className="text-gray-400 dark:text-gray-500" />
                           </div>
-                          <select className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                          <select className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                             <option>English</option>
                             <option>Spanish</option>
                             <option>French</option>
@@ -430,7 +430,7 @@ const SettingsView = () => {
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Timezone
                         </label>
-                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                           <option>Asia/Kolkata (GMT +5:30)</option>
                           <option>America/New_York (GMT -4:00)</option>
                           <option>Europe/London (GMT +1:00)</option>
@@ -447,7 +447,7 @@ const SettingsView = () => {
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Daily Learning Goal
                         </label>
-                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                           <option>15 minutes</option>
                           <option>30 minutes</option>
                           <option>45 minutes</option>
@@ -459,7 +459,7 @@ const SettingsView = () => {
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Content Difficulty
                         </label>
-                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent">
+                        <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-transparent">
                           <option>Beginner</option>
                           <option>Intermediate</option>
                           <option>Advanced</option>
@@ -470,9 +470,9 @@ const SettingsView = () => {
                   </div>
                 </div>
                 
-                <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
                   <h3 className="font-medium text-gray-800 dark:text-white flex items-center">
-                    <BarChart2 size={16} className="text-purple-500 mr-2" />
+                    <BarChart2 size={16} className="text-amber-500 mr-2" />
                     Learning Analytics
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
@@ -480,14 +480,14 @@ const SettingsView = () => {
                   </p>
                   <div className="mt-3">
                     <label className="inline-flex items-center">
-                      <input type="checkbox" checked className="rounded text-purple-500 focus:ring-purple-400" />
+                      <input type="checkbox" checked className="rounded text-amber-500 focus:ring-amber-400" />
                       <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">Collect learning analytics to improve your experience</span>
                     </label>
                   </div>
                 </div>
                 
                 <div className="flex justify-end mt-6">
-                  <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition-colors">
+                  <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg transition-colors">
                     Save Preferences
                   </button>
                 </div>

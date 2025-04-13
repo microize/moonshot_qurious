@@ -11,13 +11,13 @@ export const buttonStyles = {
   
   // Button variants
   variants: {
-    primary: `bg-cobalt-500 hover:bg-cobalt-600 text-white focus:ring-cobalt-400`,
+    primary: `bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-400`,
     secondary: `bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-gray-400`,
-    outline: `border border-cobalt-300 dark:border-cobalt-700 text-cobalt-600 dark:text-cobalt-400 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20 focus:ring-cobalt-400`,
+    outline: `border border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 focus:ring-amber-400`,
     accent: `bg-accent-500 hover:bg-accent-600 text-white focus:ring-accent-400`,
     success: `bg-success-500 hover:bg-success-600 text-white focus:ring-success-400`,
     danger: `bg-error-500 hover:bg-error-600 text-white focus:ring-error-400`,
-    text: `text-cobalt-600 dark:text-cobalt-400 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20`,
+    text: `text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20`,
   },
   
   // Button sizes
@@ -46,7 +46,7 @@ export const cardStyles = {
     default: 'rounded-lg shadow-sm border border-gray-100 dark:border-gray-700',
     elevated: 'rounded-xl shadow-md border border-gray-100 dark:border-gray-700', 
     flat: 'rounded-lg border border-gray-200 dark:border-gray-700',
-    branded: `rounded-lg bg-cobalt-50 dark:bg-cobalt-900/20 border border-cobalt-100 dark:border-cobalt-800`,
+    branded: `rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800`,
   },
   
   // Card parts
@@ -118,11 +118,11 @@ export const progressStyles = {
   
   // Progress indicator
   indicator: {
-    default: 'h-full bg-cobalt-500 rounded-full transition-all duration-500 ease-out',
+    default: 'h-full bg-amber-500 rounded-full transition-all duration-500 ease-out',
     success: 'h-full bg-success-500 rounded-full transition-all duration-500 ease-out',
     warning: 'h-full bg-warning-500 rounded-full transition-all duration-500 ease-out',
     error: 'h-full bg-error-500 rounded-full transition-all duration-500 ease-out',
-    gradient: 'h-full bg-gradient-to-r from-cobalt-400 to-cobalt-500 rounded-full transition-all duration-500 ease-out',
+    gradient: 'h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500 ease-out',
   }
 };
 
@@ -130,7 +130,7 @@ export const progressStyles = {
 export const alertStyles = {
   base: 'p-4 rounded-lg border',
   variants: {
-    info: 'bg-cobalt-50 dark:bg-cobalt-900/20 border-cobalt-100 dark:border-cobalt-800 text-cobalt-700 dark:text-cobalt-300',
+    info: 'bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800 text-amber-700 dark:text-amber-300',
     success: 'bg-success-50 dark:bg-success-900/20 border-success-100 dark:border-success-800 text-success-700 dark:text-success-300',
     warning: 'bg-warning-50 dark:bg-warning-900/20 border-warning-100 dark:border-warning-800 text-warning-700 dark:text-warning-300',
     error: 'bg-error-50 dark:bg-error-900/20 border-error-100 dark:border-error-800 text-error-700 dark:text-error-300',
@@ -158,7 +158,7 @@ export const avatarStyles = {
 
 // Course types badge colors
 export const courseBadgeStyles = {
-  Course: 'bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-600 dark:text-cobalt-300 border border-cobalt-200 dark:border-cobalt-800/60',
+  Course: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60',
   Pathway: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60',
   Workshop: 'bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-300 border border-accent-200 dark:border-accent-800/60',
   default: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700',
@@ -171,7 +171,7 @@ export const sidebarStyles = {
   expanded: 'w-64',
   navItem: {
     base: 'flex px-3 py-2.5 rounded-md transition-all duration-300 group',
-    active: 'bg-cobalt-50 dark:bg-cobalt-900 text-cobalt-700 dark:text-cobalt-300 font-semibold',
+    active: 'bg-amber-50 dark:bg-amber-900 text-amber-700 dark:text-amber-300 font-semibold',
     inactive: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
   }
 };

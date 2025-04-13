@@ -45,16 +45,16 @@ const LearningReminders = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-purple-100 dark:border-purple-800">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-amber-100 dark:border-amber-800">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
-          <Bell size={18} className="text-purple-500 mr-2" />
+          <Bell size={18} className="text-amber-500 mr-2" />
           <h3 className="font-medium text-gray-800 dark:text-white">Learning Reminders</h3>
         </div>
         
         <button 
           onClick={() => setShowReminderForm(!showReminderForm)}
-          className="text-xs px-2 py-1 bg-purple-100 dark:bg-purple-800 text-purple-600 dark:text-purple-300 rounded-md hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors"
+          className="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-800 text-amber-600 dark:text-amber-300 rounded-md hover:bg-amber-200 dark:hover:bg-amber-700 transition-colors"
         >
           {showReminderForm ? "Cancel" : "Add Reminder"}
         </button>
@@ -62,7 +62,7 @@ const LearningReminders = () => {
       
       {/* Add reminder form */}
       {showReminderForm && (
-        <div className="mb-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-md">
+        <div className="mb-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-md">
           <h4 className="text-sm font-medium text-gray-800 dark:text-white mb-3">Create Reminder</h4>
           
           <div className="space-y-3">
@@ -71,7 +71,7 @@ const LearningReminders = () => {
               <input 
                 type="text" 
                 placeholder="What do you want to be reminded about?"
-                className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
+                className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
               />
             </div>
             
@@ -80,21 +80,21 @@ const LearningReminders = () => {
                 <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1">Date</label>
                 <input 
                   type="date" 
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
+                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
                 />
               </div>
               <div className="flex-1">
                 <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1">Time</label>
                 <input 
                   type="time" 
-                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
+                  className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
                 />
               </div>
             </div>
             
             <div>
               <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1">Course (Optional)</label>
-              <select className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400">
+              <select className="w-full p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400">
                 <option>Select a course</option>
                 <option>Understanding Machine Learning Algorithms</option>
                 <option>Introduction to coding with Python</option>
@@ -102,7 +102,7 @@ const LearningReminders = () => {
             </div>
             
             <div className="flex justify-end pt-2">
-              <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-md transition-colors">
+              <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-md transition-colors">
                 Set Reminder
               </button>
             </div>
@@ -118,7 +118,7 @@ const LearningReminders = () => {
           }`}>
             <div className={`p-2 rounded-full mr-3 ${
               reminder.isActive 
-                ? 'bg-purple-100 dark:bg-purple-800 text-purple-500 dark:text-purple-300' 
+                ? 'bg-amber-100 dark:bg-amber-800 text-amber-500 dark:text-amber-300' 
                 : 'bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400'
             }`}>
               <Clock size={16} />
@@ -131,11 +131,11 @@ const LearningReminders = () => {
                 {reminder.title}
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400">{reminder.time}</div>
-              <div className="text-xs text-purple-500 dark:text-purple-400 mt-0.5">{reminder.course}</div>
+              <div className="text-xs text-amber-500 dark:text-amber-400 mt-0.5">{reminder.course}</div>
             </div>
             
             <div className="flex space-x-1">
-              <button className="p-1.5 text-gray-500 hover:text-purple-500 dark:text-gray-400 dark:hover:text-purple-400 transition-colors">
+              <button className="p-1.5 text-gray-500 hover:text-amber-500 dark:text-gray-400 dark:hover:text-amber-400 transition-colors">
                 <Edit2 size={14} />
               </button>
               <button className="p-1.5 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:text-green-400 transition-colors">
@@ -149,7 +149,7 @@ const LearningReminders = () => {
       {/* Learning schedule */}
       <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center mb-3">
-          <Calendar size={16} className="text-purple-500 mr-2" />
+          <Calendar size={16} className="text-amber-500 mr-2" />
           <h4 className="text-sm font-medium text-gray-800 dark:text-white">Your Learning Schedule</h4>
         </div>
         
@@ -158,7 +158,7 @@ const LearningReminders = () => {
             <div key={index} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700/50 rounded-md">
               <div>
                 <div className="font-medium text-sm text-gray-800 dark:text-white">{item.day}</div>
-                <div className="text-xs text-purple-500 dark:text-purple-400">{item.focus}</div>
+                <div className="text-xs text-amber-500 dark:text-amber-400">{item.focus}</div>
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-700 px-2 py-1 rounded-md">
                 {item.time}
@@ -172,7 +172,7 @@ const LearningReminders = () => {
       <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-medium text-gray-800 dark:text-white">Your Preferences</h4>
-          <button className="text-xs text-purple-500 dark:text-purple-400 hover:text-purple-600 dark:hover:text-purple-300">
+          <button className="text-xs text-amber-500 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300">
             Edit
           </button>
         </div>

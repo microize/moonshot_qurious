@@ -56,8 +56,8 @@ const AssessmentsView = () => {
           <Card key={assessment.id} className={assessment.status === 'locked' ? 'opacity-60' : ''}>
             <div className="flex justify-between items-start">
               <div className="flex items-start">
-                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg mr-4">
-                  <ClipboardCheck size={24} className="text-purple-600 dark:text-purple-400" />
+                <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg mr-4">
+                  <ClipboardCheck size={24} className="text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-1">{assessment.title}</h3>
@@ -87,7 +87,7 @@ const AssessmentsView = () => {
                 className={`px-4 py-1.5 rounded-lg text-sm font-medium ${
                   assessment.status === 'locked'
                     ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                    : 'bg-purple-500 hover:bg-purple-600 text-white transition-colors'
+                    : 'bg-amber-500 hover:bg-amber-600 text-white transition-colors'
                 }`}
                 disabled={assessment.status === 'locked'}
                 onClick={() => assessment.status !== 'locked' && handleStartAssessment(assessment.id)}
@@ -101,13 +101,13 @@ const AssessmentsView = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
         <Card title="Upcoming Events" className="md:col-span-2">
-          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
-            <div className="text-xs text-purple-500 dark:text-purple-400">Friday • 5:00 PM</div>
+          <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-800">
+            <div className="text-xs text-amber-500 dark:text-amber-400">Friday • 5:00 PM</div>
             <h3 className="font-medium text-gray-800 dark:text-white mt-1">Python Coding Challenge</h3>
             <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">Weekly competition</p>
           </div>
           
-          <button className="w-full mt-4 py-2 text-sm text-purple-500 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+          <button className="w-full mt-4 py-2 text-sm text-amber-500 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-lg transition-colors">
             View All Events
           </button>
         </Card>
@@ -127,13 +127,13 @@ const AssessmentsView = () => {
               <span className="text-lg font-medium text-gray-800 dark:text-white">4</span>
             </div>
             
-            <div className="mt-2 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+            <div className="mt-2 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
               <div className="flex justify-between text-xs text-gray-600 dark:text-gray-300">
                 <span>Next achievement:</span>
-                <span className="text-purple-600 dark:text-purple-400">75%</span>
+                <span className="text-amber-600 dark:text-amber-400">75%</span>
               </div>
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-2">
-                <div className="h-full bg-purple-500 rounded-full" style={{ width: '75%' }}></div>
+                <div className="h-full bg-amber-500 rounded-full" style={{ width: '75%' }}></div>
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 "Assessment Master" - Complete 5 more assessments
