@@ -62,7 +62,7 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
           <div className="flex flex-col justify-center">
             {/* Main title - now in gray */}
             <span
-              className={`text-gray-600 dark:text-gray-400 text-xl font-normal  tracking-tight transition-all duration-300 ${
+              className={`text-gray-800 dark:text-gray-400 text-xl font-semibold  tracking-tight transition-all duration-300 ${
                 isHovered ? 'translate-x-0.5' : ''
               }`}
             >
@@ -72,7 +72,7 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
             {/* Tagline - Always visible now */}
             <div className="h-5 overflow-hidden">
               <span
-                className="text-xs text-gray-400 dark:text-gray-500 font-normal tracking-wide block"
+                className="text-xs text-red-600 dark:text-gray-500 font-normal tracking-wide block"
               >
                 Learn. Practice. Apply.
               </span>

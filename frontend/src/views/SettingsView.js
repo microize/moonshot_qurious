@@ -81,7 +81,7 @@ const SettingsView = () => {
                     <div className="relative">
                       <img 
                         src={userProfile.avatar} 
-                        alt="Profile picture" 
+                        alt="User profile" 
                         className="w-24 h-24 rounded-full object-cover border-2 border-amber-200 dark:border-amber-800"
                       />
                       <button className="absolute bottom-0 right-0 p-1 bg-amber-500 text-white rounded-full shadow-sm">

@@ -1,6 +1,4 @@
-// src/components/CourseCard/CourseCard.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Clock, Users, BookOpen, Star, ChevronRight } from 'lucide-react';
 
 // Simple utility function to combine class names - consistent with sidebar
@@ -12,43 +10,50 @@ const classNames = (...classes) => {
 const getBadgeStyle = (type) => {
   switch(type) {
     case 'Course':
-      return 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10';
+      return 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10';
     case 'Pathway':
-      return 'bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 shadow-md dark:shadow-lg shadow-blue-500/10 dark:shadow-blue-400/10';
+      return 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 shadow-md dark:shadow-lg shadow-blue-500/10 dark:shadow-blue-400/10';
     case 'Workshop':
-      return 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 shadow-md dark:shadow-lg shadow-green-500/10 dark:shadow-green-400/10';
+      return 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 shadow-md dark:shadow-lg shadow-green-500/10 dark:shadow-green-400/10';
     default:
-      return 'bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-md dark:shadow-lg shadow-gray-500/10 dark:shadow-gray-400/10';
+      return 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md dark:shadow-lg shadow-gray-500/10 dark:shadow-gray-400/10';
   }
 };
 
 const CourseCard = ({ course, minimal = false }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate();
+  const [isPressed, setIsPressed] = useState(false);
   
-  const handleClick = () => {
-    navigate(`/courses/${course.id || 1}`);
-  };
-
   return (
     <div
-      className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 ease-in-out shadow-md dark:shadow-lg dark:shadow-gray-800/50 hover:shadow-xl dark:hover:shadow-xl dark:hover:shadow-gray-800/30"
+      className={classNames(
+        "bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 ease-in-out border border-gray-100 dark:border-gray-700",
+        isPressed ? "shadow-sm scale-98" : isHovered ? "shadow-xl translate-y-[-4px]" : "shadow-md"
+      )}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClick}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setIsPressed(false);
+      }}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
       role="button"
       tabIndex={0}
       aria-label={`${course.title || 'Course'} - Click to view details`}
-      onKeyDown={(e) => {if (e.key === 'Enter' || e.key === ' ') handleClick()}}
     >
       {/* Course card header with improved styling */}
       <div className="relative">
-        <div className="h-32 bg-gradient-to-br from-amber-500 to-amber-600 dark:from-amber-600 dark:to-amber-700 p-4 flex flex-col justify-between overflow-hidden">
+        <div className={classNames(
+          "h-32 p-4 flex flex-col justify-between overflow-hidden",
+          "bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700",
+          isHovered ? "bg-gradient-to-br from-amber-300 to-amber-500 dark:from-amber-400 dark:to-amber-600" : ""
+        )}>
           {/* Top row with badges */}
           <div className="flex justify-between relative z-10">
             <span className={classNames(
-              "text-xs font-medium px-2 py-1 rounded-lg transition-all duration-200",
-              getBadgeStyle(course.type)
+              "text-xs font-medium px-2.5 py-1 rounded-lg transition-all duration-200",
+              getBadgeStyle(course.type),
+              isHovered ? "translate-y-[-2px]" : ""
             )}>
               {course.type || 'Course'}
             </span>
@@ -67,6 +72,9 @@ const CourseCard = ({ course, minimal = false }) => {
               {course.title || 'Course Title'}
             </h3>
           </div>
+          
+          {/* Overlay gradient for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
         </div>
         
         {/* Card content with consistent styling */}
@@ -100,12 +108,22 @@ const CourseCard = ({ course, minimal = false }) => {
           
           {/* Action button with hover effects matching sidebar */}
           <button
-            className="w-full px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-800 dark:hover:text-amber-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-500 group"
+            className={classNames(
+              "w-full px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium group",
+              isPressed 
+                ? "bg-amber-600 text-white shadow-inner transform scale-98" 
+                : isHovered 
+                  ? "bg-amber-500 text-white shadow-md" 
+                  : "bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-700 dark:hover:text-amber-300"
+            )}
             aria-label={course.isEnrolled ? 'Continue learning' : 'Start learning'}
           >
             <span className="relative inline-flex items-center justify-center">
               <span className="mr-1.5">{course.isEnrolled ? 'Continue' : 'Start Learning'}</span>
-              <ChevronRight size={16} className="transition-all duration-300 group-hover:translate-x-0.5 text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400" />
+              <ChevronRight size={16} className={classNames(
+                "transition-all duration-300 text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400",
+                isHovered ? "transform translate-x-0.5" : ""
+              )} />
             </span>
           </button>
         </div>

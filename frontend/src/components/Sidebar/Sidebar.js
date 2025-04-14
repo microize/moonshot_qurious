@@ -164,7 +164,7 @@ const Sidebar = () => {
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className={`px-4 py-4 flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
+          <div className={`px-5 py-5  flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
             <Logo onLogoClick={toggleSidebar} isCollapsed={isCollapsed} />
           </div>
 

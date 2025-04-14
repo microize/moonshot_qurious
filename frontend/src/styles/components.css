@@ -22,9 +22,8 @@
   }
   
   .btn-secondary-sm {
-    @apply btn px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 focus:ring-gray-400 active:scale-98;
+    @apply btn px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-gray-400 active:scale-95;
   }
-  
   .btn-outline {
     @apply btn px-4 py-2 bg-transparent text-cobalt-600 dark:text-cobalt-400 border border-cobalt-200 dark:border-cobalt-700 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20 focus:ring-cobalt-500 active:scale-98;
   }
