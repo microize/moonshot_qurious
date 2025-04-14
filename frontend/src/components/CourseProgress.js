@@ -1,4 +1,4 @@
-// Updated CourseProgress.js with minimal styling
+// src/components/CourseProgress.js - Updated with navigation to CourseChat
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight } from 'lucide-react';
@@ -118,8 +118,9 @@ const ProgressCard = ({ course, onContinue }) => {
 const CourseProgress = () => {
   const navigate = useNavigate();
   
-  // Handle continue button click
+  // Handle continue button click - Navigate to CourseContentView with CourseChat
   const handleContinue = (courseId) => {
+    // Navigate to the course content view which contains the CourseChat component
     navigate(`/courses/${courseId}`);
   };
 

@@ -1,0 +1,71 @@
+/* Add these styles to your global CSS file (e.g., components.css) */
+
+/* Animation keyframes */
+@keyframes fade-in-fast {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  /* Animations */
+  .animate-fade-in-fast {
+    animation: fade-in-fast 0.2s ease-out;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+  
+  /* Button styles */
+  .btn-icon {
+    @apply p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors;
+  }
+  
+  .btn-icon-sm {
+    @apply p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors;
+  }
+  
+  .btn-send {
+    @apply p-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary-sm {
+    @apply px-3 py-1.5 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg flex items-center transition-colors;
+  }
+  
+  .btn-secondary-sm {
+    @apply px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+  }
+  
+  .btn-mode {
+    @apply px-2.5 py-1.5 text-xs rounded-md flex items-center space-x-1 transition-colors;
+  }
+  
+  .btn-mode-active {
+    @apply bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 shadow-sm;
+  }
+  
+  .btn-mode-inactive {
+    @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/70;
+  }
+  
+  .btn-mode-selector {
+    @apply px-3 py-1.5 rounded-md flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+  }
+  
+  .btn-mode-selector-active {
+    @apply bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300;
+  }
+  
+  /* Input styles */
+  .input-main {
+    @apply w-full p-3 pl-4 pr-12 border border-gray-300 dark:border-gray-600 rounded-full bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500;
+  }
+  
+  .input-asking-doubt {
+    @apply border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/10;
+  }
