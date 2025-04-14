@@ -9,9 +9,6 @@ export const VIDEO_PROGRESS_INTERVAL = 1000; // ms
 export const INITIAL_MESSAGES = [
   { id: 1, sender: 'bot', content: "Welcome to the Generative AI for Developers professional learning track. This course will provide comprehensive coverage of implementing generative AI in production applications.", timestamp: new Date(Date.now() - 60000 * 5) }, // 5 mins ago
   { id: 2, sender: 'bot', content: "Type 'start' to begin the first module, or ask me any questions about generative AI!", timestamp: new Date(Date.now() - 60000 * 4.9) }, // ~4.9 mins ago
-  { id: 3, sender: 'user', content: "start", timestamp: new Date(Date.now() - 60000 * 3) }, // 3 mins ago
-  { id: 4, sender: 'bot', content: "Let's begin with Module 1: Introduction to Generative AI. This module covers the fundamental concepts and architecture behind modern generative AI systems.", timestamp: new Date(Date.now() - 60000 * 2.9) }, // ~2.9 mins ago
-  { id: 5, sender: 'bot', type: 'video', title: "Introduction to Transformer Architecture", videoNumber: 1, totalVideos: 12, moduleSection: "Foundations", videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", timestamp: new Date(Date.now() - 60000 * 2.8), status: 'active', position: 0, duration: 212, isCollapsed: false }
 ];
 
 // Clarity levels

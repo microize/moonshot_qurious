@@ -48,6 +48,8 @@ export const generateDoubtResponse = (doubt, context, clarity, mode) => {
     // Modify based on clarity level
     if (clarity === 'basic') {
       response += "In simple terms, it relates to how AI systems process information. ";
+    } else if (clarity === 'advanced') {
+      response += "From a technical perspective, this involves the model's attention mechanisms and contextual embeddings. ";
     } else {
       response += "This touches upon core principles in modern AI development. ";
     }
@@ -55,6 +57,12 @@ export const generateDoubtResponse = (doubt, context, clarity, mode) => {
     // Add mode-specific prompts
     if (mode === 'assessment') {
       response += "Would you like to try a quick quiz question on this topic before we continue the lesson?";
+    } else if (mode === 'express') {
+      response += "Let's move on to the next key concept to maintain our efficient pace.";
+    } else if (mode === 'comprehensive') {
+      response += "I can provide more detailed examples if you're interested in exploring this topic further.";
+    } else if (mode === 'practical') {
+      response += "In practice, you would implement this using libraries like Hugging Face Transformers or OpenAI's API.";
     } else {
       response += "How would you like to proceed? Continue the lesson or explore this topic further?";
     }

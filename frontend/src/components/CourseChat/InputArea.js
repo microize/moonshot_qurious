@@ -1,5 +1,5 @@
 // src/components/CourseChat/InputArea.js
-// Chat input component
+// Simplified Chat input component
 import React, { useRef } from 'react';
 import { SendHorizontal, Mic, X, HelpCircle } from 'lucide-react';
 import { formatVideoPosition } from './utils/formatters';
@@ -56,7 +56,7 @@ const InputArea = ({
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder={isAskingDoubt ? "Type your question about the video..." : "Ask anything or type 'next video'..."}
-          className={`input-main flex-1 ${isAskingDoubt ? 'input-asking-doubt' : ''}`}
+          className={`w-full p-3 pl-4 pr-12 border border-gray-300 dark:border-gray-600 rounded-full bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 ${isAskingDoubt ? 'border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/10' : ''}`}
           disabled={isLoading} // Disable input while bot is typing
           aria-label="Chat input"
         />
@@ -64,7 +64,7 @@ const InputArea = ({
         {/* Voice Input Button (Placeholder) */}
         <button 
           type="button" 
-          className="btn-icon" 
+          className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" 
           title="Voice Input (coming soon)" 
           disabled
         >
@@ -74,7 +74,7 @@ const InputArea = ({
         {/* Send Button */}
         <button
           type="submit"
-          className="btn-send"
+          className="p-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!inputValue.trim() || isLoading} // Disable if input is empty or bot is loading
           aria-label="Send message"
         >
