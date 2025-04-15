@@ -18,7 +18,7 @@ const ActionMessage = ({ message, onContinueLearning }) => {
 
   // Component for Continue Learning action
   const ContinueLearningAction = () => (
-    <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-dashed border-amber-200 dark:border-amber-800/50 mt-1 animate-fade-in shadow-sm">
+    <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-dashed border-amber-200 dark:border-amber-800/50 mt-1 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <CornerUpLeft size={18} className="text-amber-500 dark:text-amber-400 mr-3 flex-shrink-0" />
@@ -27,7 +27,7 @@ const ActionMessage = ({ message, onContinueLearning }) => {
           </p>
         </div>
         <button
-          className="btn-primary-sm"
+          className="px-3 py-1.5 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg flex items-center transition-colors"
           onClick={() => onContinueLearning(message.relatedToVideo)}
         >
           Continue Learning

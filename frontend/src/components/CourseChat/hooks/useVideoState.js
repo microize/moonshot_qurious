@@ -4,51 +4,14 @@ import { useState, useRef, useEffect } from 'react';
 
 /**
  * Custom hook to manage video states across multiple videos
- * @param {Array} messages - The messages array to scan for videos
  * @returns {Object} Video state management methods and data
  */
-const useVideoState = (messages) => {
+const useVideoState = () => {
   // Store playback state for each video message ID
   const [videoStates, setVideoStates] = useState({});
   
   // Refs for ReactPlayer instances
   const playerRefs = useRef({});
-
-  // Initialize video states when video messages are loaded or added
-  useEffect(() => {
-    const initialVideoStates = {};
-    let needsUpdate = false;
-    
-    messages.forEach(msg => {
-      if (msg.type === 'video') {
-        // Only initialize if not already present
-        if (!videoStates[msg.id]) {
-          initialVideoStates[msg.id] = {
-            isPlaying: false,
-            progress: msg.position || 0, // Use stored position if available
-            speed: 1,
-            volume: 0.8,
-            muted: false,
-            duration: msg.duration || 0, // Use stored duration if available
-          };
-          needsUpdate = true;
-        }
-        // Ensure duration from message is updated if video state already exists but has no duration
-        else if (msg.duration && !videoStates[msg.id].duration) {
-           initialVideoStates[msg.id] = {
-               ...videoStates[msg.id],
-               duration: msg.duration,
-           };
-           needsUpdate = true;
-        }
-      }
-    });
-    
-    // Update state only if new initializations are needed
-    if (needsUpdate) {
-      setVideoStates(prev => ({ ...prev, ...initialVideoStates }));
-    }
-  }, [messages]); // Rerun if the messages array changes
 
   /**
    * Updates the state for a specific video
@@ -153,6 +116,36 @@ const useVideoState = (messages) => {
     }
   };
 
+  /**
+   * Initialize state for a new video
+   * @param {number} messageId - ID of the video message
+   * @param {number} duration - Initial duration if known
+   */
+  const initializeVideo = (messageId, duration = 0) => {
+    if (!videoStates[messageId]) {
+      handleVideoStateChange(messageId, {
+        isPlaying: false,
+        progress: 0,
+        speed: 1,
+        volume: 0.8,
+        muted: false,
+        duration: duration
+      });
+    }
+  };
+
+  /**
+   * Pause all videos except the one with the given ID
+   * @param {number} activeVideoId - ID of the video that should continue playing
+   */
+  const pauseOtherVideos = (activeVideoId) => {
+    Object.keys(videoStates).forEach(id => {
+      if (Number(id) !== activeVideoId && videoStates[id]?.isPlaying) {
+        handleVideoStateChange(Number(id), { isPlaying: false });
+      }
+    });
+  };
+
   return {
     videoStates,
     playerRefs: playerRefs.current,
@@ -161,7 +154,9 @@ const useVideoState = (messages) => {
     handleVideoDuration,
     handleVideoReady,
     setPlayerRef,
-    seekTo
+    seekTo,
+    initializeVideo,
+    pauseOtherVideos
   };
 };
 

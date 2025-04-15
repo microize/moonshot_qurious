@@ -1,6 +1,6 @@
 // src/components/CourseChat/InputArea.js
 // Simplified Chat input component
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { SendHorizontal, Mic, X, HelpCircle } from 'lucide-react';
 import { formatVideoPosition } from './utils/formatters';
 
@@ -27,6 +27,11 @@ const InputArea = ({
   cancelDoubt 
 }) => {
   const inputRef = useRef(null);
+  
+  // Focus input on mount
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <>

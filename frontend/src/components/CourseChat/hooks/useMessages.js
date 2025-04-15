@@ -1,16 +1,22 @@
 // src/components/CourseChat/hooks/useMessages.js
 // Custom hook for message management
-import { useState, useEffect } from 'react';
-import { INITIAL_MESSAGES, BOT_TYPING_DELAY } from '../utils/constants';
+import { useState } from 'react';
 import { generateDoubtResponse, generateGeneralResponse } from '../utils/messageGenerators';
+import { BOT_TYPING_DELAY } from '../utils/constants';
 
 /**
  * Custom hook to manage chat messages
  * @param {Object} options - Configuration options
  * @returns {Object} Message management methods and data
  */
-const useMessages = ({ doubtContext, doubtThreads, addToDoubtThread, selectedClarity, selectedLearningMode }) => {
-  const [messages, setMessages] = useState(INITIAL_MESSAGES);
+const useMessages = ({ 
+  doubtContext, 
+  doubtThreads, 
+  addToDoubtThread, 
+  selectedClarity, 
+  selectedLearningMode 
+}) => {
+  const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // For bot typing indicator
 
   /**
@@ -45,7 +51,7 @@ const useMessages = ({ doubtContext, doubtThreads, addToDoubtThread, selectedCla
    */
   const addBotMessage = (messageData) => {
     const botMessage = {
-      id: Date.now(),
+      id: Date.now() + Math.random(), // Ensure unique ID
       sender: 'bot',
       timestamp: new Date(),
       ...messageData
@@ -93,11 +99,11 @@ const useMessages = ({ doubtContext, doubtThreads, addToDoubtThread, selectedCla
     setIsLoading(true);
     
     setTimeout(() => {
-      let botResponse;
+      const lowerInput = userInput.toLowerCase();
       
-      // Case 1: Responding to a specific doubt
+      // Case 1: Responding to a specific doubt about a video
       if (currentDoubtContext) {
-        botResponse = {
+        const botResponse = {
           content: generateDoubtResponse(userInput, currentDoubtContext, selectedClarity, selectedLearningMode),
           isDoubtResponse: true,
           relatedToVideo: currentDoubtContext.videoId,
@@ -116,62 +122,139 @@ const useMessages = ({ doubtContext, doubtThreads, addToDoubtThread, selectedCla
         }, 600);
       }
       // Case 2: User asks for the next video or to continue
-      else if (userInput.toLowerCase().includes('next video') || userInput.toLowerCase().includes('continue')) {
+      else if (lowerInput.includes('next video') || lowerInput.includes('continue')) {
         // Find the last video message
         const lastVideoIndex = messages.findLastIndex(m => m.type === 'video');
         const lastVideo = lastVideoIndex !== -1 ? messages[lastVideoIndex] : null;
         const nextVideoNumber = lastVideo ? lastVideo.videoNumber + 1 : 1;
         
-        botResponse = {
-          type: 'video',
-          title: `Advanced Topic ${nextVideoNumber}`,
-          videoNumber: nextVideoNumber,
-          totalVideos: 12,
-          moduleSection: "Advanced",
-          videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          status: 'active',
-          isCollapsed: false,
-          position: 0,
-          duration: 300
-        };
+        // First add a text response
+        addBotMessage({
+          content: `Let's move on to the next video.`
+        });
         
-        addBotMessage(botResponse);
+        // Then add the video message (we'll handle actual video content in CourseChat component)
+        setTimeout(() => {
+          // This will be a simplified message - the main component will need to find the actual next video
+          addBotMessage({
+            type: 'video',
+            videoNumber: nextVideoNumber,
+            requestNextVideo: true // Flag for the main component to identify this request
+          });
+        }, 500);
       }
       // Case 3: User types 'start' when no video has been shown yet
-      else if (userInput.toLowerCase() === 'start' && !messages.some(m => m.type === 'video')) {
-        botResponse = { 
-          content: "Okay, starting Module 1: Introduction to Generative AI. Here's the first video:" 
-        };
+      else if (lowerInput === 'start' && !messages.some(m => m.type === 'video')) {
+        addBotMessage({ 
+          content: "Great! Let's start with Module 1: Introduction to Generative AI."
+        });
         
-        addBotMessage(botResponse);
-        
-        // Add the actual first video message shortly after
+        // Adding a delay before showing the first video
         setTimeout(() => {
           addBotMessage({
             type: 'video',
-            title: "Introduction to Transformer Architecture",
-            videoNumber: 1,
-            totalVideos: 12,
-            moduleSection: "Foundations",
-            videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            status: 'active',
-            position: 0,
-            duration: 212,
-            isCollapsed: false
+            requestFirstVideo: true // Flag for main component to find first video
           });
         }, 500);
       }
       // Case 4: General bot response
       else {
-        botResponse = {
+        addBotMessage({
           content: generateGeneralResponse(userInput, selectedClarity, selectedLearningMode)
-        };
-        
-        addBotMessage(botResponse);
+        });
       }
       
       setIsLoading(false);
     }, BOT_TYPING_DELAY);
+  };
+
+  /**
+   * Clear all messages
+   */
+  const clearMessages = () => {
+    setMessages([]);
+  };
+
+  /**
+   * Remove a specific message
+   * @param {number} messageId - ID of the message to remove
+   */
+  const removeMessage = (messageId) => {
+    setMessages(prev => prev.filter(m => m.id !== messageId));
+  };
+
+  /**
+   * Update a specific message
+   * @param {number} messageId - ID of the message to update
+   * @param {Object} updates - Properties to update
+   */
+  const updateMessage = (messageId, updates) => {
+    setMessages(prev => prev.map(m => 
+      m.id === messageId ? { ...m, ...updates } : m
+    ));
+  };
+
+  /**
+   * Find a message by ID
+   * @param {number} messageId - ID of the message to find
+   * @returns {Object|null} The message object or null
+   */
+  const findMessage = (messageId) => {
+    return messages.find(m => m.id === messageId) || null;
+  };
+
+  /**
+   * Find the last message of a specific type
+   * @param {string} type - Message type to search for
+   * @returns {Object|null} The message object or null
+   */
+  const findLastMessageOfType = (type) => {
+    const index = messages.findLastIndex(m => m.type === type);
+    return index !== -1 ? messages[index] : null;
+  };
+
+  /**
+   * Process a special command from the user
+   * @param {string} command - The command to process
+   * @param {Object} context - Additional context for the command
+   */
+  const processCommand = (command, context = {}) => {
+    switch (command.toLowerCase()) {
+      case 'clear':
+        clearMessages();
+        addBotMessage({ content: "I've cleared our conversation history." });
+        break;
+      case 'restart':
+        clearMessages();
+        addBotMessage({ 
+          content: "Let's start fresh! What would you like to learn about?",
+          isIntro: true,
+          showStartButton: true
+        });
+        break;
+      case 'help':
+        addBotMessage({ 
+          content: "Here are some commands you can use:\n• start - Begin the first lesson\n• continue - Move to the next video\n• clear - Clear chat history\n• restart - Start over completely"
+        });
+        break;
+      default:
+        addBotMessage({ content: `I don't recognize the command '${command}'. Try 'help' to see available commands.` });
+    }
+  };
+
+  /**
+   * Add a video message to the chat
+   * @param {Object} videoData - Video data to display
+   * @param {boolean} autoPlay - Whether to auto-play the video
+   */
+  const addVideoMessage = (videoData, autoPlay = true) => {
+    addBotMessage({
+      type: 'video',
+      video: {
+        ...videoData,
+        autoPlay
+      }
+    });
   };
 
   return {
@@ -180,7 +263,14 @@ const useMessages = ({ doubtContext, doubtThreads, addToDoubtThread, selectedCla
     addUserMessage,
     addBotMessage,
     toggleVideoCollapse,
-    generateBotResponse
+    generateBotResponse,
+    clearMessages,
+    removeMessage,
+    updateMessage,
+    findMessage,
+    findLastMessageOfType,
+    processCommand,
+    addVideoMessage
   };
 };
 

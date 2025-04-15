@@ -81,21 +81,21 @@ const VideoControls = ({
         {/* Left Controls: Playback */}
         <div className="flex items-center space-x-1 sm:space-x-2">
           <button
-            className="btn-icon p-1.5" // Slightly smaller padding
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             onClick={() => onStateChange(messageId, { isPlaying: !isPlaying })}
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? <PauseCircle size={20} /> : <PlayCircle size={20} />}
           </button>
           <button
-            className="btn-icon p-1.5 hidden sm:inline-flex" // Hide on small screens
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors hidden sm:inline-flex"
             onClick={() => onSeek(messageId, Math.max(0, progress - 10), true)}
             aria-label="Rewind 10 seconds"
           >
             <Rewind size={16} />
           </button>
           <button
-            className="btn-icon p-1.5 hidden sm:inline-flex" // Hide on small screens
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors hidden sm:inline-flex"
             onClick={() => onSeek(messageId, Math.min(duration, progress + 10), true)}
             aria-label="Fast Forward 10 seconds"
           >
@@ -105,10 +105,10 @@ const VideoControls = ({
 
         {/* Right Controls: Settings & Actions */}
         <div className="flex items-center space-x-1 sm:space-x-2">
-          {/* Playback Speed Dropdown (Simplified Button) */}
+          {/* Playback Speed Button */}
           <div className="relative group">
             <button 
-              className="btn-icon p-1.5 text-xs font-medium" 
+              className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-xs font-medium" 
               title={`Playback speed: ${speed}x`}
               onClick={() => {
                 // Cycle through common speeds
@@ -125,7 +125,7 @@ const VideoControls = ({
           {/* Volume Control */}
           <div className="flex items-center group">
             <button
-              className="btn-icon p-1.5"
+              className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               onClick={() => onStateChange(messageId, { muted: !muted })}
               aria-label={muted ? "Unmute" : "Mute"}
             >
@@ -149,7 +149,7 @@ const VideoControls = ({
           
           {/* Ask Question Button */}
           <button
-            className="btn-icon p-1.5"
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             onClick={() => onAskQuestion(messageId)}
             aria-label="Ask Question about this video"
           >
@@ -158,7 +158,7 @@ const VideoControls = ({
           
           {/* Collapse Video Button */}
           <button
-            className="btn-icon p-1.5"
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             onClick={() => onCollapse(messageId)}
             aria-label="Collapse Video"
           >

@@ -4,7 +4,7 @@ import React from 'react';
 import ReactPlayer from 'react-player/lazy'; // Lazy load for better performance
 import {
   Bookmark, FileText, Download, HelpCircle, 
-  ChevronRight, MessageSquare, CheckCircle
+  ChevronRight, BookOpen, CheckCircle
 } from 'lucide-react';
 import { formatTime } from './utils/formatters';
 import VideoControls from './VideoControls';
@@ -40,14 +40,27 @@ const VideoMessage = ({
     toggleVideoCollapse
   } = videoHandlers;
 
+  // Get video data from message
+  const video = message.video || {};
+  const videoNumber = video.videoNumber || message.videoNumber || 1;
+  const totalVideos = video.totalVideos || message.totalVideos || 1;
+  const moduleSection = video.module || message.moduleSection || "Module";
+  const videoTitle = video.title || message.title || "Video";
+  const videoUrl = video.url || message.videoUrl || "";
+  const isCompleted = message.isCompleted || false;
+
   // If the video is collapsed, render the collapsed view
   if (message.isCollapsed) {
     return (
       <CollapsedVideo 
-        message={message} 
+        message={{
+          ...message,
+          id: message.id,
+          title: videoTitle
+        }}
         videoState={videoState} 
         onExpand={() => toggleVideoCollapse(message.id, false)} 
-        onAskQuestion={onAskQuestion}
+        onAskQuestion={() => onAskQuestion(message.id)}
       />
     );
   }
@@ -56,16 +69,30 @@ const VideoMessage = ({
     <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700/50 w-full animate-fade-in">
       {/* Video Header */}
       <div className="flex items-center mb-3">
-        <div className="flex-1">
-          <p className="font-semibold text-gray-800 dark:text-white text-base leading-tight">
-            {message.title}
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            Video {message.videoNumber} of {message.totalVideos} • {message.moduleSection}
-          </p>
+        {/* Icon and Title */}
+        <div className="flex items-center min-w-0 flex-1">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 flex items-center justify-center text-white shadow-md flex-shrink-0 mr-3">
+            <BookOpen size={20} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-gray-800 dark:text-white truncate">{videoTitle}</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+              Video {videoNumber} of {totalVideos} • {moduleSection}
+            </p>
+          </div>
         </div>
-        <div className="text-xs text-gray-400 dark:text-gray-500 ml-2">
-          {formatTime(message.timestamp)}
+        
+        {/* Completion Status and Duration */}
+        <div className="flex items-center flex-shrink-0 ml-2">
+          {isCompleted && (
+            <span className="text-xs flex items-center text-green-500 mr-2 whitespace-nowrap">
+              <CheckCircle size={14} className="mr-1" />
+              Completed
+            </span>
+          )}
+          <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap">
+            {formatTime(message.timestamp)}
+          </span>
         </div>
       </div>
 
@@ -73,7 +100,7 @@ const VideoMessage = ({
       <div className="aspect-video bg-black rounded-lg overflow-hidden shadow-inner relative group mb-2">
         <ReactPlayer
           ref={(player) => setPlayerRef(message.id, player)}
-          url={message.videoUrl}
+          url={videoUrl}
           playing={videoState?.isPlaying || false}
           controls={false} // Disable default controls; we use custom ones
           width="100%"
@@ -109,7 +136,7 @@ const VideoMessage = ({
             title="Ask question at current timestamp"
           >
             <HelpCircle size={14} className="mr-1" />
-            Ask at {formatTime(new Date(videoState?.progress * 1000 || 0))}
+            Ask Question
           </button>
         </div>
       </div>
@@ -124,25 +151,37 @@ const VideoMessage = ({
         onCollapse={() => toggleVideoCollapse(message.id, true)}
       />
 
+      {/* Video description if available */}
+      {video.description && (
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-2">{video.description}</p>
+      )}
+
       {/* Action Buttons Below Video */}
       <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700/50 flex flex-wrap gap-2 justify-between items-center">
         {/* Left: Resources */}
         <div className="flex items-center space-x-2">
-          <button className="btn-icon-sm" title="Bookmark (coming soon)">
+          <button 
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" 
+            title="Bookmark (coming soon)"
+          >
             <Bookmark size={14} />
           </button>
           <button
-            className={`btn-icon-sm ${
+            className={`p-1.5 ${
               transcriptVisible 
-                ? 'text-amber-500 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/30' : ''
-            }`}
+                ? 'text-amber-500 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/30' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            } rounded-lg transition-colors`}
             onClick={onToggleTranscript}
             title={transcriptVisible ? "Hide Transcript" : "Show Transcript"}
             aria-pressed={transcriptVisible}
           >
             <FileText size={14} />
           </button>
-          <button className="btn-icon-sm" title="Download Resources (coming soon)">
+          <button 
+            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" 
+            title="Download Resources (coming soon)"
+          >
             <Download size={14} />
           </button>
         </div>
@@ -150,14 +189,14 @@ const VideoMessage = ({
         {/* Right: Actions */}
         <div className="flex space-x-2">
           <button
-            className="btn-secondary-sm"
+            className="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             onClick={() => onAskQuestion(message.id)}
           >
             <HelpCircle size={14} className="mr-1" />
             Ask Question
           </button>
           <button
-            className="btn-primary-sm"
+            className="px-3 py-1.5 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg flex items-center transition-colors"
             onClick={() => {
               // This should trigger the next video in the main component
               // We'll implement this via a custom event or callback

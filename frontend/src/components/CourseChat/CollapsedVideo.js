@@ -15,11 +15,16 @@ import { formatVideoPosition } from './utils/formatters';
  * @returns {JSX.Element} Rendered component
  */
 const CollapsedVideo = ({ message, videoState = {}, onExpand, onAskQuestion }) => {
+  // Extract data from video message
+  const title = message.title || 'Video';
+  const progress = videoState?.progress || 0;
+  const duration = videoState?.duration || message.duration || 0;
+
   return (
     <div
       className="flex items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm"
       onClick={() => onExpand(message.id)} // Click anywhere to expand
-      title={`Expand video: ${message.title}`}
+      title={`Expand video: ${title}`}
     >
       {/* Play Icon */}
       <div className="w-10 h-10 bg-amber-500 rounded-md flex items-center justify-center text-white mr-3 flex-shrink-0 shadow">
@@ -29,14 +34,14 @@ const CollapsedVideo = ({ message, videoState = {}, onExpand, onAskQuestion }) =
       {/* Video Info */}
       <div className="flex-1 overflow-hidden min-w-0">
         <div className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
-          {message.title}
+          {title}
         </div>
         <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center mt-0.5">
           <Clock size={11} className="mr-1 flex-shrink-0" />
           {/* Display progress and duration */}
           <span>
-            {formatVideoPosition(videoState?.progress || 0)} / 
-            {formatVideoPosition(videoState?.duration || message.duration)}
+            {formatVideoPosition(progress)} / 
+            {formatVideoPosition(duration)}
           </span>
         </div>
       </div>
