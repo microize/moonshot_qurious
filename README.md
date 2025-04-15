@@ -91,6 +91,7 @@ moonshot_qurious/
 │       │   │   ├── CollapsedVideo.js      # Collapsed video view
 │       │   │   ├── CourseChat.js          # Main chat component
 │       │   │   ├── CourseChat.module.css  # Scoped styles for chat
+│       │   │   ├── ChatSidebar.js         # Displays chat history and learning tool options
 │       │   │   ├── Header.js              # Chat header component
 │       │   │   ├── InputArea.js           # Chat input component
 │       │   │   ├── MessageList.js         # Message display component

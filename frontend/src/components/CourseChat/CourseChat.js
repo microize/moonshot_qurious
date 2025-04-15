@@ -1,7 +1,9 @@
-// src/components/CourseChat/CourseChat.js
-// Enhanced CourseChat component with simplified state management
+// src/components/CourseChat/CourseChat.js - Complete version with sidebar integration
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, User, ChevronRight, HelpCircle, BookOpen } from 'lucide-react';
+import { Bot, User, ChevronRight, HelpCircle, BookOpen, Menu } from 'lucide-react';
+
+// Import the new ChatSidebar component
+import ChatSidebar from './ChatSidebar';
 
 // Define constants here for simplicity (these should be moved to constants.js in a real implementation)
 const CLARITY_LEVELS = {
@@ -28,8 +30,8 @@ const formatTime = (date) => {
 };
 
 /**
- * Enhanced CourseChat component with simplified state management
- * This version is a more standalone implementation to avoid dependency issues
+ * Enhanced CourseChat component with sidebar integration
+ * This version now includes a sidebar for chat history and learning tools
  */
 const CourseChat = () => {
   // Basic state management
@@ -53,8 +55,26 @@ const CourseChat = () => {
   const [selectedLearningMode, setSelectedLearningMode] = useState(LEARNING_MODES.NORMAL);
   const [activeModePanel, setActiveModePanel] = useState(null);
   
+  // Sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [activeTool, setActiveTool] = useState('history');
+  
+  // Track completed videos
+  const [completedVideos, setCompletedVideos] = useState([1]); // Assuming video ID 1 is completed
+  
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  
+  // Chat history for the sidebar (derived from messages)
+  const chatHistory = [
+    { 
+      id: 1, 
+      title: "Generative AI Introduction", 
+      date: "Today", 
+      preview: "Welcome to the Generative AI for Developers course. Type 'start' to begin."
+    }
+  ];
   
   // Auto-scroll to bottom of chat when new messages arrive
   useEffect(() => {
@@ -65,6 +85,35 @@ const CourseChat = () => {
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+  
+  // Toggle sidebar visibility
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+  
+  // Toggle sidebar collapse state (narrow vs. wide)
+  const toggleSidebarCollapse = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+  
+  // Handle tool selection in sidebar
+  const handleSelectTool = (toolId) => {
+    setActiveTool(toolId);
+  };
+  
+  // Handle chat selection in sidebar
+  const handleSelectChat = (chatId) => {
+    console.log(`Selected chat: ${chatId}`);
+    // In a real app, this would load the selected chat
+  };
+  
+  // Handle video completion
+  const markVideoCompleted = (videoId) => {
+    if (!completedVideos.includes(videoId)) {
+      setCompletedVideos(prev => [...prev, videoId]);
+      console.log(`Video ${videoId} marked as completed`);
+    }
+  };
   
   // Handle message submission
   const handleSendMessage = (e) => {
@@ -103,6 +152,7 @@ const CourseChat = () => {
             id: Date.now() + 2,
             sender: 'bot',
             type: 'video',
+            videoId: 1, // Important for tracking completion
             title: "Introduction to Transformer Architecture",
             videoNumber: 1,
             totalVideos: 12,
@@ -127,6 +177,7 @@ const CourseChat = () => {
           id: Date.now() + 1,
           sender: 'bot',
           type: 'video',
+          videoId: nextVideoNumber, // Important for tracking completion
           title: `Advanced Topic ${nextVideoNumber}`,
           videoNumber: nextVideoNumber,
           totalVideos: 12,
@@ -269,6 +320,12 @@ const CourseChat = () => {
           <button
             className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm flex items-center"
             onClick={() => {
+              // Mark current video as completed
+              if (message.videoId) {
+                markVideoCompleted(message.videoId);
+              }
+              
+              // Request next video
               const userMessage = {
                 id: Date.now(),
                 sender: 'user',
@@ -307,6 +364,15 @@ const CourseChat = () => {
           <div className="flex items-center justify-between">
             {/* Left Side: Course Information */}
             <div className="flex items-center gap-3">
+              {/* Mobile sidebar toggle */}
+              <button
+                className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 lg:hidden"
+                onClick={toggleSidebar}
+                aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+              >
+                <Menu size={20} className="text-gray-600 dark:text-gray-300" />
+              </button>
+              
               {/* Course Icon */}
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 flex items-center justify-center text-white shadow-md flex-shrink-0">
                 <BookOpen size={20} />
@@ -326,80 +392,96 @@ const CourseChat = () => {
         </div>
       </header>
       
-      {/* Main Content Area (Chat) */}
-      <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 lg:p-6" aria-live="polite">
-        <div className="max-w-4xl mx-auto space-y-5">
-          {/* Map through messages and render each one */}
-          {messages.map(message => (
-            <article
-              key={message.id}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} items-start gap-2 sm:gap-3 relative`}
-            >
-              {/* Bot Avatar */}
-              {message.sender === 'bot' && !message.type && (
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600">
-                  <Bot size={16} />
-                </div>
-              )}
-
-              {/* Message Content Container */}
-              <div className={`${
-                message.sender === 'user' 
-                  ? 'max-w-[75%] sm:max-w-[70%]' 
-                  : (message.type === 'video' ? 'w-full' : 'max-w-[75%] sm:max-w-[70%]')
-              }`}>
-                {/* Text Message */}
-                {!message.type && (
-                  <div className={`rounded-xl px-4 py-3 text-sm shadow-md relative ${
-                    message.sender === 'user'
-                      ? 'bg-amber-500 text-white rounded-br-none' // User message style
-                      : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700/50 text-gray-800 dark:text-gray-100 rounded-bl-none' // Bot message style
-                  }`}>
-                    <div className="whitespace-pre-wrap leading-relaxed">
-                      {message.content}
-                    </div>
-                    
-                    {/* Timestamp */}
-                    <div className={`text-xs mt-1 ${
-                      message.sender === 'user' 
-                        ? 'text-amber-100/80 text-right' 
-                        : 'text-gray-400 dark:text-gray-500 text-left'
-                    }`}>
-                      {formatTime(message.timestamp)}
-                    </div>
+      {/* Main Content Area with flexible layout to accommodate sidebar */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        {isSidebarOpen && (
+          <ChatSidebar 
+            chatHistory={chatHistory}
+            activeTool={activeTool}
+            onSelectTool={handleSelectTool}
+            onSelectChat={handleSelectChat}
+            isCollapsed={isSidebarCollapsed}
+            toggleSidebar={toggleSidebarCollapse}
+            completedVideos={completedVideos}
+          />
+        )}
+      
+        {/* Chat Content */}
+        <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 lg:p-6" aria-live="polite">
+          <div className="max-w-4xl mx-auto space-y-5">
+            {/* Map through messages and render each one */}
+            {messages.map(message => (
+              <article
+                key={message.id}
+                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} items-start gap-2 sm:gap-3 relative`}
+              >
+                {/* Bot Avatar */}
+                {message.sender === 'bot' && !message.type && (
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600">
+                    <Bot size={16} />
                   </div>
                 )}
-                
-                {/* Video Message */}
-                {message.type === 'video' && renderVideoMessage(message)}
-              </div>
 
-              {/* User Avatar */}
-              {message.sender === 'user' && (
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-amber-400 to-amber-500 text-white">
-                  <User size={16} />
+                {/* Message Content Container */}
+                <div className={`${
+                  message.sender === 'user' 
+                    ? 'max-w-[75%] sm:max-w-[70%]' 
+                    : (message.type === 'video' ? 'w-full' : 'max-w-[75%] sm:max-w-[70%]')
+                }`}>
+                  {/* Text Message */}
+                  {!message.type && (
+                    <div className={`rounded-xl px-4 py-3 text-sm shadow-md relative ${
+                      message.sender === 'user'
+                        ? 'bg-amber-500 text-white rounded-br-none' // User message style
+                        : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700/50 text-gray-800 dark:text-gray-100 rounded-bl-none' // Bot message style
+                    }`}>
+                      <div className="whitespace-pre-wrap leading-relaxed">
+                        {message.content}
+                      </div>
+                      
+                      {/* Timestamp */}
+                      <div className={`text-xs mt-1 ${
+                        message.sender === 'user' 
+                          ? 'text-amber-100/80 text-right' 
+                          : 'text-gray-400 dark:text-gray-500 text-left'
+                      }`}>
+                        {formatTime(message.timestamp)}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Video Message */}
+                  {message.type === 'video' && renderVideoMessage(message)}
                 </div>
-              )}
-            </article>
-          ))}
 
-          {/* Bot Loading/Typing Indicator */}
-          {isLoading && (
-            <div className="flex justify-start items-start gap-3 animate-pulse">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 text-white">
-                <Bot size={16} />
-              </div>
-              
-              <div className="bg-white dark:bg-gray-800 rounded-xl rounded-bl-none px-4 py-3 text-sm shadow-md border border-gray-100 dark:border-gray-700/50 text-gray-500 dark:text-gray-400 italic">
-                Typing...
-              </div>
-            </div>
-          )}
+                {/* User Avatar */}
+                {message.sender === 'user' && (
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-amber-400 to-amber-500 text-white">
+                    <User size={16} />
+                  </div>
+                )}
+              </article>
+            ))}
 
-          {/* Invisible element at the end of the list to target for scrolling */}
-          <div ref={messagesEndRef} style={{ height: '1px' }} />
-        </div>
-      </main>
+            {/* Bot Loading/Typing Indicator */}
+            {isLoading && (
+              <div className="flex justify-start items-start gap-3 animate-pulse">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 text-white">
+                  <Bot size={16} />
+                </div>
+                
+                <div className="bg-white dark:bg-gray-800 rounded-xl rounded-bl-none px-4 py-3 text-sm shadow-md border border-gray-100 dark:border-gray-700/50 text-gray-500 dark:text-gray-400 italic">
+                  Typing...
+                </div>
+              </div>
+            )}
+
+            {/* Invisible element at the end of the list to target for scrolling */}
+            <div ref={messagesEndRef} style={{ height: '1px' }} />
+          </div>
+        </main>
+      </div>
 
       {/* Fixed Bottom Section: Mode Selection & Input Area */}
       <footer className="border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800 p-3 shadow-inner sticky bottom-0 z-20">
