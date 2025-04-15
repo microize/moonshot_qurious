@@ -1,6 +1,6 @@
 // src/components/CourseChat/VideoMessage.js
-// Video message component with player and controls
-import React from 'react';
+// Fixed Video message component with player and controls
+import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player/lazy'; // Lazy load for better performance
 import {
   Bookmark, FileText, Download, HelpCircle, 
@@ -37,7 +37,8 @@ const VideoMessage = ({
     handleVideoReady, 
     handleVideoStateChange, 
     seekTo,
-    toggleVideoCollapse
+    toggleVideoCollapse,
+    handleVideoCompletion
   } = videoHandlers;
 
   // Get video data from message
@@ -48,6 +49,16 @@ const VideoMessage = ({
   const videoTitle = video.title || message.title || "Video";
   const videoUrl = video.url || message.videoUrl || "";
   const isCompleted = message.isCompleted || false;
+
+  // Check for video completion when progress is near the end
+  useEffect(() => {
+    if (videoState && videoState.duration && videoState.progress) {
+      // Consider video complete when within 2 seconds of the end
+      if (videoState.duration - videoState.progress <= 2) {
+        handleVideoCompletion?.(message.id);
+      }
+    }
+  }, [videoState?.progress, videoState?.duration, message.id, handleVideoCompletion]);
 
   // If the video is collapsed, render the collapsed view
   if (message.isCollapsed) {
@@ -114,7 +125,10 @@ const VideoMessage = ({
           onPlay={() => handleVideoStateChange(message.id, { isPlaying: true })}
           onPause={() => handleVideoStateChange(message.id, { isPlaying: false })}
           onError={(e) => console.error('Video Error:', e)}
-          onEnded={() => handleVideoStateChange(message.id, { isPlaying: false })}
+          onEnded={() => {
+            handleVideoStateChange(message.id, { isPlaying: false });
+            handleVideoCompletion?.(message.id);
+          }}
           config={{ 
             youtube: { 
               playerVars: { 
@@ -123,6 +137,11 @@ const VideoMessage = ({
                 iv_load_policy: 3,
                 playsinline: 1 
               } 
+            },
+            file: {
+              attributes: {
+                controlsList: 'nodownload'
+              }
             }
           }}
           style={{ position: 'absolute', top: 0, left: 0 }}

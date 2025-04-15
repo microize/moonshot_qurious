@@ -1,5 +1,5 @@
 // src/components/CourseChat/hooks/useVideoState.js
-// Custom hook for video state management
+// Fixed custom hook for video state management
 import { useState, useRef, useEffect } from 'react';
 
 /**
@@ -19,6 +19,8 @@ const useVideoState = () => {
    * @param {object} newState - New state values to apply
    */
   const handleVideoStateChange = (messageId, newState) => {
+    if (!messageId) return;
+    
     setVideoStates(prev => {
       const current = prev[messageId] || {};
       
@@ -29,14 +31,32 @@ const useVideoState = () => {
       
       // If changing muted state, ensure volume reflects this visually if needed
       if (newState.muted === true && current.volume > 0) {
-        // Optional: Store previous volume to restore on unmute
-        // newState.previousVolume = current.volume;
-        // newState.volume = 0; // Or just keep volume state and rely on muted flag
-      } else if (newState.muted === false && current.volume === 0) {
-        // Optional: Restore previous volume if stored, or set to default
-        // newState.volume = current.previousVolume || 0.8;
+        // Store previous volume to restore on unmute
+        newState.previousVolume = current.volume;
+      } else if (newState.muted === false && (current.volume === 0 || current.previousVolume)) {
+        // Restore previous volume if stored, or set to default
+        newState.volume = current.previousVolume || 0.8;
       }
       
+      // If we're setting a video to playing, pause all other videos
+      if (newState.isPlaying) {
+        // First update current video state
+        const updatedState = {
+          ...prev,
+          [messageId]: { ...current, ...newState }
+        };
+        
+        // Then pause all other videos
+        Object.keys(updatedState).forEach(id => {
+          if (Number(id) !== messageId && updatedState[id]?.isPlaying) {
+            updatedState[id] = { ...updatedState[id], isPlaying: false };
+          }
+        });
+        
+        return updatedState;
+      }
+      
+      // Regular state update for single video
       return {
         ...prev,
         [messageId]: { ...current, ...newState }
@@ -62,7 +82,9 @@ const useVideoState = () => {
    * @param {number} duration - Duration in seconds
    */
   const handleVideoDuration = (messageId, duration) => {
-    handleVideoStateChange(messageId, { duration: duration });
+    if (duration && duration > 0) {
+      handleVideoStateChange(messageId, { duration: duration });
+    }
   };
 
   /**
@@ -72,6 +94,17 @@ const useVideoState = () => {
   const handleVideoReady = (messageId) => {
     const player = playerRefs.current[messageId];
     if (!player) return; // Should not happen, but safety check
+
+    // Initialize the video state if not already done
+    if (!videoStates[messageId]) {
+      handleVideoStateChange(messageId, {
+        isPlaying: false,
+        progress: 0,
+        speed: 1,
+        volume: 0.8,
+        muted: false
+      });
+    }
 
     // Apply any pending seek operation that was requested before the player was ready
     if (videoStates[messageId]?.seekTo !== undefined) {
@@ -83,6 +116,14 @@ const useVideoState = () => {
         return { ...prev, [messageId]: updatedState };
       });
     }
+    
+    // Auto-play the video if requested
+    if (videoStates[messageId]?.isPlaying) {
+      // Using a slight delay helps ensure the video is ready to play
+      setTimeout(() => {
+        player.seekTo(videoStates[messageId]?.progress || 0, 'seconds');
+      }, 100);
+    }
   };
 
   /**
@@ -91,7 +132,9 @@ const useVideoState = () => {
    * @param {object} player - ReactPlayer instance
    */
   const setPlayerRef = (messageId, player) => {
-    playerRefs.current[messageId] = player;
+    if (messageId && player) {
+      playerRefs.current[messageId] = player;
+    }
   };
 
   /**
@@ -134,17 +177,12 @@ const useVideoState = () => {
     }
   };
 
-  /**
-   * Pause all videos except the one with the given ID
-   * @param {number} activeVideoId - ID of the video that should continue playing
-   */
-  const pauseOtherVideos = (activeVideoId) => {
-    Object.keys(videoStates).forEach(id => {
-      if (Number(id) !== activeVideoId && videoStates[id]?.isPlaying) {
-        handleVideoStateChange(Number(id), { isPlaying: false });
-      }
-    });
-  };
+  // Clean up stale player refs when component unmounts
+  useEffect(() => {
+    return () => {
+      playerRefs.current = {};
+    };
+  }, []);
 
   return {
     videoStates,
@@ -155,8 +193,7 @@ const useVideoState = () => {
     handleVideoReady,
     setPlayerRef,
     seekTo,
-    initializeVideo,
-    pauseOtherVideos
+    initializeVideo
   };
 };
 

@@ -52,7 +52,7 @@ const CourseChat = () => {
     
     // Set up custom hooks
     // Video state hook (manages playback for multiple videos)
-    const videoStateManager = useVideoState([]);
+    const videoStateManager = useVideoState();
     
     // Doubt context hook (manages asking questions about videos)
     const doubtManager = useDoubtContext((videoId, newState) => {
@@ -164,6 +164,37 @@ const CourseChat = () => {
         };
     }, [currentVideoId, doubtManager.isAskingDoubt]);
 
+    // Listen for custom events
+    useEffect(() => {
+        // Focus input when "Ask Question" button is clicked
+        const handleFocusInput = () => {
+            inputRef.current?.focus();
+        };
+        
+        // Handle "Next Video" button click
+        const handleRequestNextVideo = (event) => {
+            const { currentVideoId } = event.detail;
+            const currentIndex = courseVideos.findIndex(v => v.id === currentVideoId);
+            const nextVideoIndex = currentIndex + 1;
+            
+            if (nextVideoIndex < courseVideos.length) {
+                addNextVideo(courseVideos[nextVideoIndex]);
+            } else {
+                messageManager.addBotMessage({
+                    content: "Congratulations! You've completed all videos in this module."
+                });
+            }
+        };
+        
+        document.addEventListener('focus-chat-input', handleFocusInput);
+        document.addEventListener('request-next-video', handleRequestNextVideo);
+        
+        return () => {
+            document.removeEventListener('focus-chat-input', handleFocusInput);
+            document.removeEventListener('request-next-video', handleRequestNextVideo);
+        };
+    }, []);
+
     // ---------- EVENT HANDLERS ----------
 
     // --- Sidebar Handlers ---
@@ -185,6 +216,24 @@ const CourseChat = () => {
                 isPlaying: !currentState?.isPlaying 
             });
         }
+    };
+
+    // Add next video to the chat
+    const addNextVideo = (video) => {
+        if (!video) return;
+        
+        messageManager.addBotMessage({
+            type: 'video',
+            id: video.id, // Important: use video.id as the message id for video messages
+            video: video
+        });
+        
+        setCurrentVideoId(video.id);
+        videoStateManager.handleVideoStateChange(video.id, {
+            isPlaying: true,
+            progress: 0,
+            duration: video.duration
+        });
     };
 
     // Handle video completion logic
@@ -211,7 +260,8 @@ const CourseChat = () => {
                 messageManager.addBotMessage({
                     content: `Ready for the next lesson: "${nextVideo.title}"?`,
                     showContinueButton: true,
-                    nextVideoId: nextVideo.id
+                    nextVideoId: nextVideo.id,
+                    onContinueButtonClick: handleContinueButtonClick
                 });
             } else {
                 messageManager.addBotMessage({
@@ -251,17 +301,7 @@ const CourseChat = () => {
         setTimeout(() => {
             const nextVideo = courseVideos.find(v => v.id === nextVideoId);
             if (nextVideo) {
-                messageManager.addBotMessage({
-                    type: 'video',
-                    video: nextVideo
-                });
-                
-                setCurrentVideoId(nextVideoId);
-                videoStateManager.handleVideoStateChange(nextVideoId, {
-                    isPlaying: true,
-                    progress: 0,
-                    duration: nextVideo.duration
-                });
+                addNextVideo(nextVideo);
             }
         }, 800);
     };
@@ -388,7 +428,8 @@ const CourseChat = () => {
                         handleVideoReady,
                         handleVideoStateChange: videoStateManager.handleVideoStateChange,
                         seekTo: videoStateManager.seekTo,
-                        toggleVideoCollapse
+                        toggleVideoCollapse,
+                        handleVideoCompletion
                     }}
                     onAskQuestion={startAskingDoubt}
                     onToggleTranscript={() => setTranscriptVisible(!transcriptVisible)}
@@ -412,6 +453,9 @@ const CourseChat = () => {
             <TextMessage 
                 message={message}
                 onTimestampClick={handleTimestampClick}
+                onStartButtonClick={message.showStartButton ? handleStartButtonClick : undefined}
+                onContinueButtonClick={message.showContinueButton ? handleContinueButtonClick : undefined}
+                onResumeButtonClick={message.includeResumePrompt ? handleResumeButtonClick : undefined}
             />
         );
     };
@@ -504,40 +548,46 @@ const CourseChat = () => {
 
                         {/* Input Area */}
                         <div className="max-w-4xl mx-auto">
-                            <InputArea 
-                                inputValue={inputValue}
-                                setInputValue={setInputValue}
-                                handleSendMessage={handleSendMessage}
-                                isLoading={messageManager.isLoading}
-                                doubtContext={doubtManager.doubtContext}
-                                isAskingDoubt={doubtManager.isAskingDoubt}
-                                cancelDoubt={doubtManager.cancelDoubt}
-                            />
-
-                            {/* Mode Selection Buttons */}
-                            <div className="flex justify-center mt-3 space-x-2">
-                                <button 
-                                    type="button" 
-                                    onClick={() => setActiveModePanel(prev => prev === 'clarity' ? null : 'clarity')}
-                                    className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activeModePanel === 'clarity' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                                    aria-expanded={activeModePanel === 'clarity'} 
-                                    title="Adjust explanation clarity"
-                                >
-                                    <Settings size={14} className="mr-1.5" />
-                                    <span className="capitalize">{selectedClarity}</span>
-                                </button>
-                                <button 
-                                    type="button" 
-                                    onClick={() => setActiveModePanel(prev => prev === 'learning' ? null : 'learning')}
-                                    className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activeModePanel === 'learning' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                                    aria-expanded={activeModePanel === 'learning'} 
-                                    title="Change learning mode"
-                                >
-                                    <Settings size={14} className="mr-1.5" />
-                                    <span className="capitalize">{selectedLearningMode}</span>
-                                </button>
-                            </div>
-                        </div>
+  <div className="flex items-center gap-2"> {/* This flex container will put elements side by side */}
+    {/* Input Area */}
+    <div className="flex-grow"> {/* Takes available space */}
+      <InputArea
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        handleSendMessage={handleSendMessage}
+        isLoading={messageManager.isLoading}
+        doubtContext={doubtManager.doubtContext}
+        isAskingDoubt={doubtManager.isAskingDoubt}
+        cancelDoubt={doubtManager.cancelDoubt}
+        inputRef={inputRef}
+      />
+    </div>
+    
+    {/* Mode Selection Buttons */}
+    <div className="flex space-x-2"> {/* Keeps buttons together */}
+      <button
+        type="button"
+        onClick={() => setActiveModePanel(prev => prev === 'clarity' ? null : 'clarity')}
+        className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activeModePanel === 'clarity' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+        aria-expanded={activeModePanel === 'clarity'}
+        title="Adjust explanation clarity"
+      >
+        <Settings size={14} className="mr-1.5" />
+        <span className="capitalize">{selectedClarity}</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => setActiveModePanel(prev => prev === 'learning' ? null : 'learning')}
+        className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activeModePanel === 'learning' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+        aria-expanded={activeModePanel === 'learning'}
+        title="Change learning mode"
+      >
+        <Settings size={14} className="mr-1.5" />
+        <span className="capitalize">{selectedLearningMode}</span>
+      </button>
+    </div>
+  </div>
+</div>
                     </footer>
                 </div> {/* End Main Panel */}
                 

@@ -1,5 +1,5 @@
 // src/components/CourseChat/hooks/useDoubtContext.js
-// Custom hook for doubt context management
+// Fixed custom hook for doubt context management
 import { useState } from 'react';
 import { formatVideoPosition } from '../utils/formatters';
 
@@ -17,33 +17,47 @@ const useDoubtContext = (handleVideoStateChange) => {
   /**
    * Initiates the "ask a doubt" mode for a specific video
    * @param {number} videoId - ID of the video message
-   * @param {number} timestamp - Optional specific timestamp, otherwise uses current video progress
+   * @param {number} timestamp - Specific timestamp (in seconds)
    * @param {Object} videoStates - Current video states
    * @param {function} focusInput - Function to focus the input field
    */
   const startDoubt = (videoId, timestamp, videoStates, focusInput) => {
-    // Find the video in messages
-    // NOTE: This needs to be adjusted based on how you get messages in your main component
-    const video = { id: videoId, title: "Video Title" }; // Placeholder, replace with actual lookup
+    if (!videoId) return; // Exit if no videoId provided
     
-    if (!video) return; // Exit if video not found
-
+    // Find the video title from available data
+    // In a real app, you might want to fetch this from your API
+    const videoTitle = getVideoTitle(videoId);
+    
     // Pause the video if it's currently playing
     handleVideoStateChange(videoId, { isPlaying: false });
-
-    // Determine the timestamp for the doubt context
-    const currentTimestamp = timestamp ?? videoStates[videoId]?.progress ?? 0;
 
     // Set the doubt context state
     setDoubtContext({
       videoId,
-      videoTitle: video.title,
-      timestamp: currentTimestamp
+      videoTitle,
+      timestamp
     });
+    
     setIsAskingDoubt(true); // Set the flag to indicate doubt mode
 
     // Focus the input field after a short delay
-    setTimeout(() => focusInput(), 100);
+    setTimeout(() => focusInput && focusInput(), 100);
+  };
+
+  /**
+   * Helper function to get video title given a video ID
+   * In a real app, you would fetch this from your video data source
+   */
+  const getVideoTitle = (videoId) => {
+    // This is a placeholder - in a real app you would fetch the title
+    // from your data source or from the videoStates object
+    const commonTitles = {
+      1: "Introduction to Generative AI",
+      2: "Understanding Transformer Architecture",
+      3: "Prompt Engineering Techniques"
+    };
+    
+    return commonTitles[videoId] || "Video";
   };
 
   /**
@@ -60,7 +74,7 @@ const useDoubtContext = (handleVideoStateChange) => {
    * @param {Object} context - Doubt context
    */
   const addToDoubtThread = (messageId, context) => {
-    if (!context) return;
+    if (!context || !context.videoId) return;
     
     const threadId = `doubt-${context.videoId}`;
     setDoubtThreads(prev => ({

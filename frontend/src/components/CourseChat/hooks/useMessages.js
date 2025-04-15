@@ -1,5 +1,5 @@
 // src/components/CourseChat/hooks/useMessages.js
-// Custom hook for message management
+// Fixed custom hook for message management
 import { useState } from 'react';
 import { generateDoubtResponse, generateGeneralResponse } from '../utils/messageGenerators';
 import { BOT_TYPING_DELAY } from '../utils/constants';
@@ -126,36 +126,34 @@ const useMessages = ({
         // Find the last video message
         const lastVideoIndex = messages.findLastIndex(m => m.type === 'video');
         const lastVideo = lastVideoIndex !== -1 ? messages[lastVideoIndex] : null;
-        const nextVideoNumber = lastVideo ? lastVideo.videoNumber + 1 : 1;
         
         // First add a text response
         addBotMessage({
           content: `Let's move on to the next video.`
         });
         
-        // Then add the video message (we'll handle actual video content in CourseChat component)
+        // Then add a custom event to trigger the next video action
         setTimeout(() => {
-          // This will be a simplified message - the main component will need to find the actual next video
-          addBotMessage({
-            type: 'video',
-            videoNumber: nextVideoNumber,
-            requestNextVideo: true // Flag for the main component to identify this request
-          });
+          if (lastVideo) {
+            const event = new CustomEvent('request-next-video', {
+              detail: { currentVideoId: lastVideo.id }
+            });
+            document.dispatchEvent(event);
+          } else {
+            // If no previous video, start with the first one
+            addBotMessage({
+              content: "Let's start with the first video.",
+              requestFirstVideo: true
+            });
+          }
         }, 500);
       }
       // Case 3: User types 'start' when no video has been shown yet
-      else if (lowerInput === 'start' && !messages.some(m => m.type === 'video')) {
+      else if (lowerInput === 'start' || lowerInput === 'begin') {
         addBotMessage({ 
-          content: "Great! Let's start with Module 1: Introduction to Generative AI."
+          content: "Great! Let's start with the first module: Introduction to Generative AI.",
+          requestFirstVideo: true
         });
-        
-        // Adding a delay before showing the first video
-        setTimeout(() => {
-          addBotMessage({
-            type: 'video',
-            requestFirstVideo: true // Flag for main component to find first video
-          });
-        }, 500);
       }
       // Case 4: General bot response
       else {
@@ -219,7 +217,7 @@ const useMessages = ({
    * @param {Object} context - Additional context for the command
    */
   const processCommand = (command, context = {}) => {
-    switch (command.toLowerCase()) {
+    switch(command.toLowerCase()) {
       case 'clear':
         clearMessages();
         addBotMessage({ content: "I've cleared our conversation history." });
@@ -250,6 +248,7 @@ const useMessages = ({
   const addVideoMessage = (videoData, autoPlay = true) => {
     addBotMessage({
       type: 'video',
+      id: videoData.id, // Use the video ID as the message ID for consistency
       video: {
         ...videoData,
         autoPlay

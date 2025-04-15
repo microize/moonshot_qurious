@@ -1,5 +1,5 @@
 // src/components/CourseChat/TextMessage.js
-// Text message bubble component
+// Text message bubble component with fixed button handling
 import React from 'react';
 import { CornerDownRight, Lightbulb } from 'lucide-react';
 import { formatTime, formatVideoPosition } from './utils/formatters';
@@ -10,9 +10,18 @@ import { formatTime, formatVideoPosition } from './utils/formatters';
  * @param {Object} props - Component props
  * @param {Object} props.message - Message data to display
  * @param {Function} props.onTimestampClick - Callback when a timestamp is clicked
+ * @param {Function} props.onStartButtonClick - Callback for start button click
+ * @param {Function} props.onContinueButtonClick - Callback for continue button click
+ * @param {Function} props.onResumeButtonClick - Callback for resume button click
  * @returns {JSX.Element} Rendered component
  */
-const TextMessage = ({ message, onTimestampClick }) => {
+const TextMessage = ({ 
+  message, 
+  onTimestampClick,
+  onStartButtonClick,
+  onContinueButtonClick,
+  onResumeButtonClick
+}) => {
   const isUser = message.sender === 'user';
 
   /**
@@ -118,10 +127,10 @@ const TextMessage = ({ message, onTimestampClick }) => {
       </div>
 
       {/* Action Buttons (for bot messages with special actions) */}
-      {message.showStartButton && !isUser && (
+      {message.showStartButton && !isUser && onStartButtonClick && (
         <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-600 flex justify-center">
           <button
-            onClick={() => message.onStartButtonClick?.() || console.log('Start button clicked but no handler')}
+            onClick={onStartButtonClick}
             className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-md shadow-sm hover:shadow-md transition-all duration-200"
           >
             Start Learning
@@ -130,10 +139,10 @@ const TextMessage = ({ message, onTimestampClick }) => {
       )}
 
       {/* Continue button for next video */}
-      {message.showContinueButton && !isUser && (
+      {message.showContinueButton && !isUser && onContinueButtonClick && (
         <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-600 flex justify-center">
           <button
-            onClick={() => message.onContinueButtonClick?.(message.nextVideoId) || console.log('Continue button clicked but no handler')}
+            onClick={() => onContinueButtonClick(message.nextVideoId)}
             className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-md shadow-sm hover:shadow-md transition-all duration-200 flex items-center"
           >
             Continue to Next Lesson
@@ -142,10 +151,10 @@ const TextMessage = ({ message, onTimestampClick }) => {
       )}
 
       {/* Resume button after doubt resolution */}
-      {message.includeResumePrompt && !isUser && (
+      {message.includeResumePrompt && !isUser && onResumeButtonClick && (
         <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-600 flex justify-end">
           <button
-            onClick={() => message.onResumeButtonClick?.() || console.log('Resume button clicked but no handler')}
+            onClick={onResumeButtonClick}
             className="px-3 py-1 bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-md text-sm hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-colors flex items-center"
           >
             Resume Video
