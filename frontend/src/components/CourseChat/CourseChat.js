@@ -389,10 +389,16 @@ Would you like me to explain this in more detail or jump to the related section 
   };
 
   // Jump to video (used when clicking "Continue Learning" or from floating player)
-  const jumpToVideo = () => {
+  const jumpToVideo = (videoId) => {
+    // Use the provided videoId or fall back to currentVideoId
+    const targetVideoId = videoId || currentVideoId;
+
+    // Only proceed if we have a valid video ID
+    if (!targetVideoId) return;
+
     // Expand video if collapsed
     setActiveVideoCollapsed(false);
-    
+
     // Scroll to the video
     setTimeout(() => {
       activeVideoRef.current?.scrollIntoView({ behavior: 'smooth' });

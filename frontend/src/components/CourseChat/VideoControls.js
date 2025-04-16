@@ -62,11 +62,11 @@ const VideoControls = ({
         const clickPosition = (e.clientX - rect.left) / rect.width;
         onSeek(messageId, clickPosition * duration, true);
       }}
-      onMouseOver={() => {
+      onMouseOver={(e) => {
         // Expand the progress bar on hover for easier seeking
         e.currentTarget.classList.add('h-2.5');
       }}
-      onMouseOut={() => {
+      onMouseOut={(e) => {
         // Return to normal size on mouse out
         e.currentTarget.classList.remove('h-2.5');
       }}
