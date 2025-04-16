@@ -494,7 +494,7 @@ Would you like me to explain this in more detail or jump to the related section 
               }));
             }}
             onSeek={(time) => seekTo(message.videoId, time)}
-            ref={(videoId === currentVideoId) ? activeVideoRef : null}
+                onAskQuestionref={(message.videoId === currentVideoId) ? activeVideoRef : null}
           />
         );
       case 'action':
@@ -552,35 +552,35 @@ Would you like me to explain this in more detail or jump to the related section 
 
   // ---------- MAIN RENDER ----------
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans overflow-hidden">
-      {/* Header */}
-      <Header 
-        courseTitle="Generative AI for Developers"
-        moduleInfo={`${completedVideos.length} of ${courseVideos.length} completed`}
-        learningMode={learningMode}
-        clarityLevel={clarityLevel}
-        onToggleTranscript={toggleTranscript}
-        transcriptVisible={transcriptVisible}
-      />
-
-      {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        {sidebarOpen && (
-          <ChatSidebar 
-            chatHistory={chatHistory}
-            activeTool={activeTool}
-            onSelectTool={handleSelectTool}
-            onSelectChat={handleSelectChat}
-            isCollapsed={sidebarCollapsed}
-            toggleSidebar={toggleSidebarCollapse}
-            completedVideos={completedVideos}
-            courseVideos={courseVideos}
-            currentVideoId={currentVideoId}
-          />
-        )}
-
-        {/* Main Panel (Chat Area) */}
+    <div className="flex h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans overflow-hidden">
+      {/* Sidebar - Now takes full height */}
+      {sidebarOpen && (
+        <ChatSidebar 
+          chatHistory={chatHistory}
+          activeTool={activeTool}
+          onSelectTool={handleSelectTool}
+          onSelectChat={handleSelectChat}
+          isCollapsed={sidebarCollapsed}
+          toggleSidebar={toggleSidebarCollapse}
+          completedVideos={completedVideos}
+          courseVideos={courseVideos}
+          currentVideoId={currentVideoId}
+        />
+      )}
+  
+      {/* Right section with Header and Main Content */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Header - Now only spans the right section */}
+        <Header 
+          courseTitle="Generative AI for Developers"
+          moduleInfo={`${completedVideos.length} of ${courseVideos.length} completed`}
+          learningMode={learningMode}
+          clarityLevel={clarityLevel}
+          onToggleTranscript={toggleTranscript}
+          transcriptVisible={transcriptVisible}
+        />
+  
+        {/* Main Content Area */}
         <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900">
           {/* Collapsed Video (if collapsed) */}
           {activeVideoCollapsed && (
@@ -594,7 +594,7 @@ Would you like me to explain this in more detail or jump to the related section 
               onAskQuestion={() => startAskingDoubt(currentVideoId)}
             />
           )}
-
+  
           {/* Chat Messages Area */}
           <main className="flex-1 overflow-y-auto p-4 lg:p-6" aria-live="polite">
             <div className="max-w-4xl mx-auto space-y-5">
@@ -612,12 +612,12 @@ Would you like me to explain this in more detail or jump to the related section 
                       <MessageSquare size={16} />
                     </div>
                   )}
-
+  
                   {/* Message Content */}
                   <div className={`${message.type === 'video' ? 'w-full' : (message.sender === 'user' ? 'max-w-[80%] sm:max-w-[75%]' : 'max-w-[80%] sm:max-w-[75%]')}`}>
                     {renderMessageContent(message)}
                   </div>
-
+  
                   {/* User Avatar */}
                   {message.sender === 'user' && (
                     <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-500 dark:to-blue-600 text-white mt-1">
@@ -626,15 +626,15 @@ Would you like me to explain this in more detail or jump to the related section 
                   )}
                 </article>
               ))}
-
+  
               {/* Bot Typing Indicator */}
               <TypingIndicator isVisible={isLoading} />
-
+  
               {/* Invisible element for scrolling */}
               <div ref={messagesEndRef} style={{ height: '1px' }} />
             </div>
           </main>
-
+  
           {/* Mode Panel and Input Area */}
           <footer className="border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800 p-3 shadow-inner sticky bottom-0 z-20">
             <ModePanel 
@@ -681,7 +681,7 @@ Would you like me to explain this in more detail or jump to the related section 
             />
           </footer>
         </div>
-
+  
         {/* Transcript Panel */}
         {transcriptVisible && (
           <TranscriptPanel
@@ -690,7 +690,7 @@ Would you like me to explain this in more detail or jump to the related section 
           />
         )}
       </div>
-
+  
       {/* Floating Video Player (appears when active video is out of view) */}
       <FloatingVideoPlayer />
     </div>
