@@ -38,7 +38,6 @@ const ChatSidebar = ({
 }) => {
   // Search and filter states
   const [searchQuery, setSearchQuery] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
   const [progressFilter, setProgressFilter] = useState('all'); // 'all', 'completed', 'incomplete'
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const searchInputRef = useRef(null);
@@ -98,15 +97,10 @@ const ChatSidebar = ({
   
   const filteredCourseVideos = getFilteredVideos();
   
-  // Toggle search input visibility with animation focus
-  const toggleSearch = () => {
-    setShowSearch(!showSearch);
-    if (!showSearch) {
-      // Focus the input after the transition
-      setTimeout(() => searchInputRef.current?.focus(), 150);
-    } else {
-      setSearchQuery(''); // Clear search when hiding
-    }
+  // Clear search query function
+  const clearSearch = () => {
+    setSearchQuery('');
+    searchInputRef.current?.focus();
   };
 
   // Toggle section expansion
@@ -143,8 +137,7 @@ const ChatSidebar = ({
             break;
           case 'f': // Focus search
             if (!isCollapsed) {
-              setShowSearch(true);
-              setTimeout(() => searchInputRef.current?.focus(), 150);
+              setTimeout(() => searchInputRef.current?.focus(), 100);
             }
             break;
           case 'n': // New chat (new shortcut)
@@ -159,16 +152,16 @@ const ChatSidebar = ({
       if (e.key === 'Escape') {
         if (showFilterDropdown) {
           setShowFilterDropdown(false);
-        } else if (showSearch) {
-          setShowSearch(false);
-          setSearchQuery('');
+        } else if (document.activeElement === searchInputRef.current) {
+          searchInputRef.current.blur();
+          if (searchQuery) setSearchQuery('');
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onSelectTool, isCollapsed, onCreateNewChat, showSearch, showFilterDropdown]);
+  }, [onSelectTool, isCollapsed, onCreateNewChat, searchQuery, showFilterDropdown]);
   
   // Close filter dropdown when clicking outside
   useEffect(() => {
@@ -184,32 +177,82 @@ const ChatSidebar = ({
 
   return (
     <>
-      {/* Sidebar with proper ARIA roles and improved animations */}
+      {/* Main sidebar container with improved animations */}
       <div
         id="chat-sidebar-menu"
         role="complementary"
         aria-label="Course Learning Tools"
         className={`h-full bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 ease-in-out backdrop-blur-lg
-        border-r border-gray-200 dark:border-gray-700/50 ${isCollapsed ? 'w-12' : 'w-72'} flex-shrink-0`}
+        border-r border-gray-200 dark:border-gray-700/50 ${isCollapsed ? 'w-16' : 'w-72'} flex-shrink-0 relative`}
       >
         <div className="h-full flex flex-col">
-          {/* Sidebar Header with Toggle Button - Always visible */}
-          <div className="flex items-center justify-center p-2 border-b border-gray-200 dark:border-gray-700/50">
-            <button
-              onClick={toggleSidebar}
-              className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full flex items-center justify-center"
-              aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            >
-              {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-              {!isCollapsed && <span className="ml-2 text-sm font-medium">Collapse</span>}
-            </button>
+          {/* Sidebar Header with logo or branding - always visible */}
+          <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700/50">
+            {!isCollapsed && (
+              <div className="flex items-center">
+                <span className="text-lg font-semibold text-amber-600 dark:text-amber-400">Course</span>
+              </div>
+            )}
+            {isCollapsed && (
+              <div className="flex items-center justify-center w-full">
+                <span className="h-8 w-8 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
+                  <MessageSquare size={18} className="text-amber-600 dark:text-amber-400" />
+                </span>
+              </div>
+            )}
+            {!isCollapsed && (
+              <button
+                onClick={toggleSidebar}
+                className="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                aria-label="Collapse sidebar"
+                title="Collapse Sidebar"
+              >
+                <ChevronLeft size={18} />
+              </button>
+            )}
           </div>
           
-          {/* Tab Navigation - Only visible when expanded */}
+          {/* Vertical Navigation Icons - Collapsed State */}
+          {isCollapsed && (
+            <div className="flex flex-col items-center py-4 space-y-6">
+              {tools.map((tool) => (
+                <button
+                  key={tool.id}
+                  onClick={() => onSelectTool(tool.id)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ${
+                    activeTool === tool.id
+                      ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                  aria-pressed={activeTool === tool.id}
+                  title={`${tool.label} (${tool.shortcut})`}
+                >
+                  <tool.icon
+                    size={20}
+                    className="transition-all duration-300"
+                    aria-hidden="true"
+                  />
+                </button>
+              ))}
+              
+              {/* New Chat Button - Collapsed State */}
+              {activeTool === 'history' && (
+                <button
+                  onClick={onCreateNewChat}
+                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700 text-white transition-all duration-200 shadow-sm"
+                  aria-label="New chat"
+                  title="New Chat (Alt+N)"
+                >
+                  <PlusCircle size={20} />
+                </button>
+              )}
+            </div>
+          )}
+          
+          {/* Horizontal Tab Navigation - Expanded state */}
           {!isCollapsed && (
             <div className="border-b border-gray-200 dark:border-gray-700/50">
-              <div className="flex items-center px-2">
+              <div className="flex items-center">
                 <nav className="flex-1 flex">
                   {tools.map((tool) => (
                     <button
@@ -243,7 +286,55 @@ const ChatSidebar = ({
             </div>
           )}
 
-          {/* New Chat button - visible in Chat History view */}
+          {/* Collapsed state - moved toggle expand button to top header */}
+          {isCollapsed && (
+            <div className="absolute top-3 right-1">
+              <button
+                onClick={toggleSidebar}
+                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                aria-label="Expand sidebar"
+                title="Expand Sidebar"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
+          
+          {/* Always visible persistent search bar - Expanded state */}
+          {!isCollapsed && (
+            <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-700/50">
+              <div className="relative">
+                <input
+                  ref={searchInputRef}
+                  id="chat-search-input"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={
+                    activeTool === 'history' 
+                      ? "Search chats..." 
+                      : activeTool === 'progress' 
+                        ? "Search videos..." 
+                        : "Search notes..."
+                  }
+                  className="w-full px-3 py-2.5 pl-9 pr-9 text-sm rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-800 dark:text-gray-200 transition-all duration-300"
+                  aria-label="Search"
+                />
+                <Search size={16} className="absolute left-3 top-3 text-gray-400" />
+                {searchQuery && (
+                  <button 
+                    onClick={clearSearch}
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    aria-label="Clear search"
+                  >
+                    <XCircle size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* New Chat button - Expanded State */}
           {activeTool === 'history' && !isCollapsed && (
             <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-700/50">
               <button
@@ -258,115 +349,8 @@ const ChatSidebar = ({
             </div>
           )}
 
-          {/* Search input with improved focus and animation */}
-          {showSearch && !isCollapsed && (
-            <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-700/50 animate-fadeIn">
-              <div className="relative">
-                <input
-                  ref={searchInputRef}
-                  id="chat-search-input"
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={activeTool === 'history' ? "Search chats..." : activeTool === 'progress' ? "Search videos..." : "Search notes..."}
-                  className="w-full px-3 py-2.5 pl-9 pr-9 text-sm rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 text-gray-800 dark:text-gray-200 transition-all duration-300"
-                  aria-label="Search"
-                />
-                <Search size={16} className="absolute left-3 top-3 text-gray-400" />
-                {searchQuery && (
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                    aria-label="Clear search"
-                  >
-                    <XCircle size={16} />
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Search toggle - Only visible when expanded */}
-          {!isCollapsed && (
-            <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-700/50">
-              <button
-                onClick={toggleSearch}
-                className={`w-full flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 group
-                  ${showSearch ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300' : 
-                  'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'}`}
-                aria-pressed={showSearch}
-                title="Toggle Search (Alt+F)"
-              >
-                <Search 
-                  size={18} 
-                  className={`mr-3 transition-all duration-300 ${
-                    showSearch ? 'text-amber-600 dark:text-amber-400' : 'text-gray-500 dark:text-gray-500'
-                  }`} 
-                  aria-hidden="true"
-                />
-                <span className="text-sm font-medium transition-all duration-200 flex-1">
-                  Search
-                </span>
-                <kbd className="text-xs text-gray-400 dark:text-gray-500 px-1.5 py-0.5 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 ml-1">
-                  Alt+F
-                </kbd>
-              </button>
-            </div>
-          )}
-
-          {/* Quick Action Menu - for collapsed state only */}
-          {isCollapsed && (
-            <div className="flex flex-col items-center py-3 border-b border-gray-200 dark:border-gray-700/50">
-              {/* Active tool indicator */}
-              <div className="w-8 h-8 flex items-center justify-center mb-2">
-                <div 
-                  className="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400"
-                  aria-label={`Active tool: ${activeTool === 'history' ? 'Chats' : activeTool === 'progress' ? 'Progress' : 'Notes'}`}
-                ></div>
-              </div>
-              
-              {/* New chat button (collapsed state) */}
-              {activeTool === 'history' && (
-                <button
-                  onClick={onCreateNewChat}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700 text-white shadow-sm mb-1"
-                  aria-label="New chat"
-                  title="New Chat (Alt+N)"
-                >
-                  <PlusCircle size={16} />
-                </button>
-              )}
-            </div>
-          )}
-
           {/* Content Area with improved scrolling behavior */}
           <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
-            {/* Active Tool Indicator for Collapsed State */}
-            {isCollapsed && (
-              <div className="p-2 flex flex-col items-center">
-                <div className="my-2 py-1 w-full text-center">
-                  {activeTool === 'history' && (
-                    <>
-                      <MessageSquare size={20} className="mx-auto mb-1 text-amber-500 dark:text-amber-400" />
-                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block">Chats</span>
-                    </>
-                  )}
-                  {activeTool === 'progress' && (
-                    <>
-                      <Award size={20} className="mx-auto mb-1 text-amber-500 dark:text-amber-400" />
-                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block">Progress</span>
-                    </>
-                  )}
-                  {activeTool === 'learning' && (
-                    <>
-                      <Book size={20} className="mx-auto mb-1 text-amber-500 dark:text-amber-400" />
-                      <span className="text-[10px] text-gray-500 dark:text-gray-400 block">Notes</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-          
             {/* Chat History View with improved organization */}
             {activeTool === 'history' && (
               <div className="space-y-1 p-2">
@@ -476,25 +460,30 @@ const ChatSidebar = ({
                   </div>
                 )}
                 
-                {/* Collapsed view for Chat History - Minimalist Dots */}
+                {/* Collapsed view for Chat History - Vertical Dots with Labels */}
                 {isCollapsed && filteredChatHistory.length > 0 && (
                   <div className="flex flex-col items-center space-y-4 py-2">
-                    {filteredChatHistory.slice(0, 3).map((chat) => (
+                    {filteredChatHistory.slice(0, 5).map((chat) => (
                       <button
                         key={chat.id}
                         onClick={() => onSelectChat(chat.id)}
-                        className="w-6 h-6 rounded-full transition-all duration-200 hover:bg-amber-100 dark:hover:bg-amber-900/30 flex items-center justify-center relative group"
+                        className="w-10 h-10 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex flex-col items-center justify-center relative group"
                         aria-label={`Chat: ${chat.title}`}
                         title={chat.title}
                       >
-                        <div className={`w-2 h-2 rounded-full ${chat.isSaved ? 'bg-amber-500' : 'bg-gray-400 group-hover:bg-amber-500'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${
+                          chat.isSaved ? 'bg-amber-500' : 'bg-gray-400 group-hover:bg-amber-500'
+                        }`}></div>
+                        <span className="text-[8px] mt-1 text-gray-500 dark:text-gray-400 max-w-full truncate px-1">
+                          {chat.title.substring(0, 8)}
+                        </span>
                       </button>
                     ))}
-                    {filteredChatHistory.length > 3 && (
-                      <div className="w-6 h-6 flex items-center justify-center">
-                        <div className="w-4 h-4 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600">
+                    {filteredChatHistory.length > 5 && (
+                      <div className="w-10 h-10 flex items-center justify-center">
+                        <div className="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600">
                           <span className="text-[8px] text-gray-500 dark:text-gray-400">
-                            +{filteredChatHistory.length - 3}
+                            +{filteredChatHistory.length - 5}
                           </span>
                         </div>
                       </div>
@@ -508,7 +497,7 @@ const ChatSidebar = ({
                     <Search size={24} className="mb-2 opacity-70" />
                     <p className="text-sm">No chats match your search</p>
                     <button 
-                      onClick={() => setSearchQuery('')}
+                      onClick={clearSearch}
                       className="mt-2 text-xs text-amber-600 dark:text-amber-400 hover:underline"
                     >
                       Clear search
@@ -640,16 +629,18 @@ const ChatSidebar = ({
                         ? Math.round((moduleVideos.filter(v => completedVideos.includes(v.id)).length / moduleVideos.length) * 100)
                         : 0;
                         
+                      const sectionKey = `module_${module.id}`;
+                      
                       return (
                         <div key={module.id} className="mb-3">
                           <div 
                             className="flex items-center justify-between px-2 py-1.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-md transition-all"
-                            onClick={() => toggleSection(`module_${module.id}`)}
+                            onClick={() => toggleSection(sectionKey)}
                           >
                             <h3 className="text-xs font-medium text-gray-600 dark:text-gray-300 flex items-center">
                               <ChevronDown 
                                 size={14} 
-                                className={`mr-1 transition-transform duration-200 ${expandedSections[`module_${module.id}`] ? '' : '-rotate-90'}`} 
+                                className={`mr-1 transition-transform duration-200 ${expandedSections[sectionKey] ? '' : '-rotate-90'}`} 
                               />
                               {module.title}
                             </h3>
@@ -660,7 +651,7 @@ const ChatSidebar = ({
                             </div>
                           </div>
                           
-                          {expandedSections[`module_${module.id}`] !== false && (
+                          {expandedSections[sectionKey] !== false && (
                             <div className="mt-1 space-y-1 pl-2 animate-fadeIn">
                               {moduleVideos.map((video, index) => (
                                 <div
@@ -737,12 +728,12 @@ const ChatSidebar = ({
                   </div>
                 )}
                 
-                {/* Collapsed view for progress - Minimalist visualization */}
+                {/* Collapsed view for progress - Vertical Visualization */}
                 {isCollapsed && (
-                  <div className="flex flex-col items-center space-y-2 py-3">
-                    {/* Progress mini-visualization */}
-                    <div className="relative w-8 h-8 mb-1">
-                      <svg className="w-8 h-8" viewBox="0 0 36 36">
+                  <div className="flex flex-col items-center space-y-4 py-3">
+                    {/* Progress visualization */}
+                    <div className="relative w-10 h-10 flex items-center justify-center">
+                      <svg className="w-10 h-10" viewBox="0 0 36 36">
                         <circle 
                           cx="18" cy="18" r="16" 
                           fill="none" 
@@ -761,16 +752,24 @@ const ChatSidebar = ({
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-[9px] font-medium text-gray-700 dark:text-gray-300">
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           {completionPercentage}%
                         </span>
                       </div>
                     </div>
                     
+                    {/* Video count indicator */}
+                    <div className="text-center">
+                      <span className="text-xs font-medium text-amber-600 dark:text-amber-400 block">
+                        {completedVideos.length}/{courseVideos.length}
+                      </span>
+                      <span className="text-[9px] text-gray-500 dark:text-gray-400">videos</span>
+                    </div>
+                    
                     {/* Current video indicator */}
                     {currentVideoId && (
                       <div 
-                        className="w-6 h-6 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40 border border-amber-300 dark:border-amber-700"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40 border border-amber-300 dark:border-amber-700"
                         title={currentVideoPlaying?.title || "Current Video"}
                       >
                         <Play size={12} className="text-amber-700 dark:text-amber-300" />
@@ -859,18 +858,32 @@ const ChatSidebar = ({
                   </div>
                 )}
                 
-                {/* Collapsed view for Learning Notes - Minimalist dots */}
+                {/* Collapsed view for Learning Notes - Vertical icons */}
                 {isCollapsed && (
-                  <div className="flex flex-col items-center space-y-2 py-2">
+                  <div className="flex flex-col items-center space-y-4 py-2">
+                    {/* Note count indicator */}
+                    <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                      <span className="text-xs font-medium text-amber-700 dark:text-amber-300">5</span>
+                    </div>
+                    
+                    {/* Note icons */}
                     {[1, 2, 3].map((id) => (
                       <div 
                         key={id}
-                        className="w-6 h-6 flex items-center justify-center"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
                         title={`Note ${id}`}
                       >
-                        <div className="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400"></div>
+                        <Book size={14} className="text-gray-500 dark:text-gray-400" />
                       </div>
                     ))}
+                    
+                    {/* Add note button */}
+                    <button
+                      className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-all duration-200"
+                      title="Add a new note"
+                    >
+                      <PlusCircle size={14} className="text-amber-600 dark:text-amber-400" />
+                    </button>
                   </div>
                 )}
               </div>
@@ -894,7 +907,7 @@ const ChatSidebar = ({
         <div 
           className="fixed inset-0 bg-transparent z-[-1]"
           onClick={toggleSidebar}
-          style={{ width: '20px', left: '48px' }}
+          style={{ width: '20px', left: '64px' }}
           aria-label="Expand sidebar"
           title="Expand sidebar"
         />
