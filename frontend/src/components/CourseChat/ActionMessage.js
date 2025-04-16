@@ -1,5 +1,4 @@
 // src/components/CourseChat/ActionMessage.js
-// Action message components (Continue Learning, etc.)
 import React from 'react';
 import { CornerUpLeft, ChevronRight } from 'lucide-react';
 import { ACTION_TYPES } from './utils/constants';

@@ -1,5 +1,4 @@
 // src/components/CourseChat/TextMessage.js
-// Text message bubble component with fixed button handling
 import React from 'react';
 import { CornerDownRight, Lightbulb } from 'lucide-react';
 import { formatTime, formatVideoPosition } from './utils/formatters';
@@ -151,13 +150,13 @@ const TextMessage = ({
       )}
 
       {/* Resume button after doubt resolution */}
-      {message.includeResumePrompt && !isUser && onResumeButtonClick && (
+      {message.relatedToCurrentVideo && !isUser && onResumeButtonClick && (
         <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-600 flex justify-end">
           <button
             onClick={onResumeButtonClick}
             className="px-3 py-1 bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-md text-sm hover:bg-amber-200 dark:hover:bg-amber-900/40 transition-colors flex items-center"
           >
-            Resume Video
+            Jump to Video
           </button>
         </div>
       )}

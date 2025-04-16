@@ -1,5 +1,4 @@
 // src/components/CourseChat/CollapsedVideo.js
-// Collapsed video thumbnail component
 import React from 'react';
 import { PlayCircle, Clock, HelpCircle, Maximize2 } from 'lucide-react';
 import { formatVideoPosition } from './utils/formatters';
@@ -22,7 +21,7 @@ const CollapsedVideo = ({ message, videoState = {}, onExpand, onAskQuestion }) =
 
   return (
     <div
-      className="flex items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm"
+      className="flex items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm mb-3"
       onClick={() => onExpand(message.id)} // Click anywhere to expand
       title={`Expand video: ${title}`}
     >
@@ -38,7 +37,6 @@ const CollapsedVideo = ({ message, videoState = {}, onExpand, onAskQuestion }) =
         </div>
         <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center mt-0.5">
           <Clock size={11} className="mr-1 flex-shrink-0" />
-          {/* Display progress and duration */}
           <span>
             {formatVideoPosition(progress)} / 
             {formatVideoPosition(duration)}

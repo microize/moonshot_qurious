@@ -7,8 +7,18 @@ export const VIDEO_PROGRESS_INTERVAL = 1000; // ms
 
 // Default initial messages
 export const INITIAL_MESSAGES = [
-  { id: 1, sender: 'bot', content: "Welcome to the Generative AI for Developers professional learning track. This course will provide comprehensive coverage of implementing generative AI in production applications.", timestamp: new Date(Date.now() - 60000 * 5) }, // 5 mins ago
-  { id: 2, sender: 'bot', content: "Type 'start' to begin the first module, or ask me any questions about generative AI!", timestamp: new Date(Date.now() - 60000 * 4.9) }, // ~4.9 mins ago
+  { 
+    id: 1, 
+    sender: 'bot', 
+    content: "Welcome to the Generative AI for Developers professional learning track. This course will provide comprehensive coverage of implementing generative AI in production applications.", 
+    timestamp: new Date(Date.now() - 60000 * 5) // 5 mins ago
+  },
+  { 
+    id: 2, 
+    sender: 'bot', 
+    content: "Type 'start' to begin the first module, or ask me any questions about generative AI!", 
+    timestamp: new Date(Date.now() - 60000 * 4.9) // ~4.9 mins ago
+  },
 ];
 
 // Clarity levels
@@ -46,4 +56,40 @@ export const BUTTON_STYLES = {
   SECONDARY: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600',
   OUTLINE: 'border border-amber-300 text-amber-600 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-900/20',
   TEXT: 'text-amber-600 hover:bg-amber-50 dark:text-amber-400 dark:hover:bg-amber-900/20',
+};
+
+// Video player states
+export const PLAYER_STATES = {
+  PLAYING: 'playing',
+  PAUSED: 'paused',
+  BUFFERING: 'buffering',
+  ENDED: 'ended',
+};
+
+// Sidebar tools
+export const SIDEBAR_TOOLS = {
+  HISTORY: 'history',
+  PROGRESS: 'progress',
+};
+
+// Input modes
+export const INPUT_MODES = {
+  NORMAL: 'normal',
+  DOUBT: 'doubt',
+  CODE: 'code',
+};
+
+// Export all constants
+export default {
+  BOT_TYPING_DELAY,
+  VIDEO_PROGRESS_INTERVAL,
+  INITIAL_MESSAGES,
+  CLARITY_LEVELS,
+  LEARNING_MODES,
+  MESSAGE_TYPES,
+  ACTION_TYPES,
+  BUTTON_STYLES,
+  PLAYER_STATES,
+  SIDEBAR_TOOLS,
+  INPUT_MODES,
 };

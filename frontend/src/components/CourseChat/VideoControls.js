@@ -1,6 +1,5 @@
 // src/components/CourseChat/VideoControls.js
-// Video controls component
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PlayCircle, PauseCircle, Rewind, FastForward, 
   VolumeX, Volume2, HelpCircle, Minimize2
@@ -27,6 +26,9 @@ const VideoControls = ({
   onSeek,
   onCollapse 
 }) => {
+  const [isVolumeControlVisible, setIsVolumeControlVisible] = useState(false);
+  const [isSpeedControlVisible, setIsSpeedControlVisible] = useState(false);
+  
   // Extract video state with default values
   const { 
     isPlaying = false, 
@@ -46,16 +48,27 @@ const VideoControls = ({
     );
   }
 
+  // Speed options
+  const speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
   /**
    * Component for the video progress bar
    */
   const VideoProgressBar = () => (
     <div 
-      className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden my-1 cursor-pointer"
+      className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden my-1 cursor-pointer group"
       onClick={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const clickPosition = (e.clientX - rect.left) / rect.width;
         onSeek(messageId, clickPosition * duration, true);
+      }}
+      onMouseOver={() => {
+        // Expand the progress bar on hover for easier seeking
+        e.currentTarget.classList.add('h-2.5');
+      }}
+      onMouseOut={() => {
+        // Return to normal size on mouse out
+        e.currentTarget.classList.remove('h-2.5');
       }}
     >
       <div
@@ -82,7 +95,7 @@ const VideoControls = ({
         <div className="flex items-center space-x-1 sm:space-x-2">
           <button
             className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            onClick={() => onStateChange(messageId, { isPlaying: !isPlaying })}
+            onClick={() => onStateChange({ isPlaying: !isPlaying })}
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? <PauseCircle size={20} /> : <PlayCircle size={20} />}
@@ -101,50 +114,78 @@ const VideoControls = ({
           >
             <FastForward size={16} />
           </button>
-        </div>
-
-        {/* Right Controls: Settings & Actions */}
-        <div className="flex items-center space-x-1 sm:space-x-2">
+          
           {/* Playback Speed Button */}
           <div className="relative group">
             <button 
               className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-xs font-medium" 
               title={`Playback speed: ${speed}x`}
-              onClick={() => {
-                // Cycle through common speeds
-                const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
-                const currentIndex = speeds.indexOf(speed);
-                const nextIndex = (currentIndex + 1) % speeds.length;
-                onStateChange(messageId, { speed: speeds[nextIndex] });
-              }}
+              onClick={() => setIsSpeedControlVisible(!isSpeedControlVisible)}
+              onBlur={() => setTimeout(() => setIsSpeedControlVisible(false), 200)}
             >
               {speed}x
             </button>
+            
+            {/* Speed Dropdown */}
+            {isSpeedControlVisible && (
+              <div className="absolute bottom-full left-0 mb-1 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-100 dark:border-gray-700 z-10 py-1">
+                {speedOptions.map((speedOption) => (
+                  <button
+                    key={speedOption}
+                    className={`block w-full text-left px-4 py-1 text-xs ${
+                      speed === speedOption 
+                        ? 'bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400' 
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => {
+                      onStateChange({ speed: speedOption });
+                      setIsSpeedControlVisible(false);
+                    }}
+                  >
+                    {speedOption}x
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-          
+        </div>
+        
+        {/* Right Controls: Settings & Actions */}
+        <div className="flex items-center space-x-1 sm:space-x-2">
           {/* Volume Control */}
-          <div className="flex items-center group">
+          <div className="relative flex items-center group">
             <button
               className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              onClick={() => onStateChange(messageId, { muted: !muted })}
+              onClick={() => onStateChange({ muted: !muted })}
+              onMouseEnter={() => setIsVolumeControlVisible(true)}
+              onMouseLeave={() => setTimeout(() => setIsVolumeControlVisible(false), 1000)}
               aria-label={muted ? "Unmute" : "Mute"}
             >
               {muted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
+            
             {/* Volume Slider (Appears on Hover) */}
-            <input
-              type="range" 
-              min="0" 
-              max="1" 
-              step="0.05"
-              value={muted ? 0 : volume}
-              onChange={(e) => onStateChange(messageId, { 
-                volume: parseFloat(e.target.value), 
-                muted: false 
-              })}
-              className="w-16 h-1 ml-1 hidden group-hover:inline-block accent-amber-500 cursor-pointer"
-              aria-label="Volume"
-            />
+            {isVolumeControlVisible && (
+              <div 
+                className="absolute bottom-full left-0 mb-1 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-100 dark:border-gray-700 z-10 p-2 w-32"
+                onMouseEnter={() => setIsVolumeControlVisible(true)}
+                onMouseLeave={() => setIsVolumeControlVisible(false)}
+              >
+                <input
+                  type="range" 
+                  min="0" 
+                  max="1" 
+                  step="0.05"
+                  value={muted ? 0 : volume}
+                  onChange={(e) => onStateChange({ 
+                    volume: parseFloat(e.target.value), 
+                    muted: false 
+                  })}
+                  className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full accent-amber-500 cursor-pointer"
+                  aria-label="Volume"
+                />
+              </div>
+            )}
           </div>
           
           {/* Ask Question Button */}
@@ -159,7 +200,7 @@ const VideoControls = ({
           {/* Collapse Video Button */}
           <button
             className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            onClick={() => onCollapse(messageId)}
+            onClick={onCollapse}
             aria-label="Collapse Video"
           >
             <Minimize2 size={16} />

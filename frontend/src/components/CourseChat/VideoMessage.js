@@ -1,14 +1,14 @@
 // src/components/CourseChat/VideoMessage.js
-// Fixed Video message component with player and controls
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import ReactPlayer from 'react-player/lazy'; // Lazy load for better performance
-import {
-  Bookmark, FileText, Download, HelpCircle, 
-  ChevronRight, BookOpen, CheckCircle
+import { 
+  PlayCircle, PauseCircle, Rewind, FastForward, 
+  VolumeX, Volume2, HelpCircle, Minimize2, 
+  FileText, Download, BookOpen, ChevronRight,CheckCircle,
+  Clock
 } from 'lucide-react';
-import { formatTime } from './utils/formatters';
+import { formatVideoPosition } from './utils/formatters';
 import VideoControls from './VideoControls';
-import CollapsedVideo from './CollapsedVideo';
 
 /**
  * Component to render video messages, either expanded or collapsed
@@ -16,93 +16,120 @@ import CollapsedVideo from './CollapsedVideo';
  * @param {Object} props - Component props
  * @param {Object} props.message - Video message data
  * @param {Object} props.videoState - Video state for this message
- * @param {Object} props.videoHandlers - Video handler functions
- * @param {Function} props.onAskQuestion - Callback to initiate a question
- * @param {Function} props.onToggleTranscript - Callback to toggle transcript panel
- * @param {boolean} props.transcriptVisible - Whether transcript panel is visible
+ * @param {Function} props.onToggleCollapse - Function to toggle video collapse state
+ * @param {Function} props.onAskQuestion - Function to initiate a question
+ * @param {Function} props.onVideoStateChange - Function to update video state
+ * @param {Function} props.onSeek - Function to seek to a position in the video
+ * @param {Function} props.onToggleTranscript - Function to toggle transcript panel
  * @returns {JSX.Element} Rendered component
  */
-const VideoMessage = ({ 
+const VideoMessage = forwardRef(({ 
   message, 
   videoState = {}, 
-  videoHandlers, 
+  onToggleCollapse, 
   onAskQuestion, 
-  onToggleTranscript, 
-  transcriptVisible 
-}) => {
-  const { 
-    setPlayerRef, 
-    handleVideoProgress, 
-    handleVideoDuration, 
-    handleVideoReady, 
-    handleVideoStateChange, 
-    seekTo,
-    toggleVideoCollapse,
-    handleVideoCompletion
-  } = videoHandlers;
+  onVideoStateChange,
+  onSeek,
+  onToggleTranscript,
+  transcriptVisible,
+}, ref) => {
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [playerInstance, setPlayerInstance] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Get video data from message
-  const video = message.video || {};
-  const videoNumber = video.videoNumber || message.videoNumber || 1;
-  const totalVideos = video.totalVideos || message.totalVideos || 1;
-  const moduleSection = video.module || message.moduleSection || "Module";
-  const videoTitle = video.title || message.title || "Video";
-  const videoUrl = video.url || message.videoUrl || "";
-  const isCompleted = message.isCompleted || false;
+  // Extract necessary information from the message
+  const videoTitle = message.title || 'Video';
+  const videoModule = message.module || 'Module';
+  const videoId = message.videoId;
+  const videoUrl = message.url || '';
+  const videoDuration = message.duration || 0;
+  const videoDescription = message.description || '';
+  
+  // Default video state
+  const {
+    isPlaying = false,
+    progress = 0,
+    volume = 0.8,
+    muted = false,
+    speed = 1
+  } = videoState;
 
-  // Check for video completion when progress is near the end
+  // Effect to handle video completion
   useEffect(() => {
-    if (videoState && videoState.duration && videoState.progress) {
+    if (isPlayerReady && playerInstance && progress > 0 && videoDuration > 0) {
       // Consider video complete when within 2 seconds of the end
-      if (videoState.duration - videoState.progress <= 2) {
-        handleVideoCompletion?.(message.id);
+      if (videoDuration - progress <= 2 && isPlaying) {
+        // Handle video completion
+        onVideoStateChange({ isPlaying: false });
+        
+        // Dispatch a completion event
+        const event = new CustomEvent('video-completed', {
+          detail: { videoId }
+        });
+        document.dispatchEvent(event);
       }
     }
-  }, [videoState?.progress, videoState?.duration, message.id, handleVideoCompletion]);
+  }, [progress, videoDuration, isPlaying, isPlayerReady, playerInstance, videoId, onVideoStateChange]);
 
-  // If the video is collapsed, render the collapsed view
-  if (message.isCollapsed) {
-    return (
-      <CollapsedVideo 
-        message={{
-          ...message,
-          id: message.id,
-          title: videoTitle
-        }}
-        videoState={videoState} 
-        onExpand={() => toggleVideoCollapse(message.id, false)} 
-        onAskQuestion={() => onAskQuestion(message.id)}
-      />
+  const handlePlayerReady = (player) => {
+    setIsPlayerReady(true);
+    setPlayerInstance(player);
+  };
+
+  // Handle visibility changes when the video scrolls out of view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          // When video is 50% or less visible, collapse it
+          if (entry.intersectionRatio <= 0.5 && isPlaying) {
+            // Suggest collapsing the video
+            onToggleCollapse(true);
+          }
+        });
+      },
+      { threshold: [0.5] } // Trigger when 50% or less is visible
     );
-  }
+
+    const videoElement = ref?.current;
+    if (videoElement) {
+      observer.observe(videoElement);
+    }
+
+    return () => {
+      if (videoElement) {
+        observer.unobserve(videoElement);
+      }
+    };
+  }, [ref, isPlaying, onToggleCollapse]);
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700/50 w-full animate-fade-in">
+    <div 
+      ref={ref}
+      className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700/50 w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Video Header */}
       <div className="flex items-center mb-3">
-        {/* Icon and Title */}
-        <div className="flex items-center min-w-0 flex-1">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 flex items-center justify-center text-white shadow-md flex-shrink-0 mr-3">
-            <BookOpen size={20} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-800 dark:text-white truncate">{videoTitle}</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              Video {videoNumber} of {totalVideos} • {moduleSection}
-            </p>
-          </div>
+        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 flex items-center justify-center text-white shadow-md flex-shrink-0 mr-3">
+          <BookOpen size={20} />
         </div>
-        
-        {/* Completion Status and Duration */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-800 dark:text-white truncate">{videoTitle}</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+            {videoModule}
+          </p>
+        </div>
         <div className="flex items-center flex-shrink-0 ml-2">
-          {isCompleted && (
+          {videoState.completed && (
             <span className="text-xs flex items-center text-green-500 mr-2 whitespace-nowrap">
               <CheckCircle size={14} className="mr-1" />
               Completed
             </span>
           )}
           <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap">
-            {formatTime(message.timestamp)}
+            {formatVideoPosition(videoDuration)}
           </span>
         </div>
       </div>
@@ -110,24 +137,28 @@ const VideoMessage = ({
       {/* React Player Wrapper */}
       <div className="aspect-video bg-black rounded-lg overflow-hidden shadow-inner relative group mb-2">
         <ReactPlayer
-          ref={(player) => setPlayerRef(message.id, player)}
           url={videoUrl}
-          playing={videoState?.isPlaying || false}
+          playing={isPlaying}
           controls={false} // Disable default controls; we use custom ones
           width="100%"
           height="100%"
-          volume={videoState?.volume ?? 0.8}
-          muted={videoState?.muted || false}
-          playbackRate={videoState?.speed ?? 1}
-          onProgress={(state) => handleVideoProgress(message.id, state)}
-          onDuration={(duration) => handleVideoDuration(message.id, duration)}
-          onReady={() => handleVideoReady(message.id)}
-          onPlay={() => handleVideoStateChange(message.id, { isPlaying: true })}
-          onPause={() => handleVideoStateChange(message.id, { isPlaying: false })}
+          volume={volume}
+          muted={muted}
+          playbackRate={speed}
+          progressInterval={500}
+          onProgress={(state) => onVideoStateChange({ progress: state.playedSeconds })}
+          onDuration={(duration) => onVideoStateChange({ duration })}
+          onReady={(player) => handlePlayerReady(player)}
+          onPlay={() => onVideoStateChange({ isPlaying: true })}
+          onPause={() => onVideoStateChange({ isPlaying: false })}
           onError={(e) => console.error('Video Error:', e)}
           onEnded={() => {
-            handleVideoStateChange(message.id, { isPlaying: false });
-            handleVideoCompletion?.(message.id);
+            onVideoStateChange({ isPlaying: false });
+            // Dispatch completion event
+            const event = new CustomEvent('video-completed', {
+              detail: { videoId }
+            });
+            document.dispatchEvent(event);
           }}
           config={{ 
             youtube: { 
@@ -148,10 +179,15 @@ const VideoMessage = ({
         />
         
         {/* Overlay for Ask Question Button */}
-        <div className="absolute bottom-4 left-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className={`absolute bottom-4 left-4 z-10 transition-opacity duration-300 ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}>
           <button
             className="bg-black/50 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-lg hover:bg-black/70"
-            onClick={() => onAskQuestion(message.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAskQuestion(videoId);
+            }}
             title="Ask question at current timestamp"
           >
             <HelpCircle size={14} className="mr-1" />
@@ -162,17 +198,17 @@ const VideoMessage = ({
 
       {/* Custom Video Controls */}
       <VideoControls 
-        messageId={message.id} 
+        messageId={videoId} 
         videoState={videoState} 
-        onStateChange={handleVideoStateChange}
+        onStateChange={onVideoStateChange}
         onAskQuestion={onAskQuestion}
-        onSeek={seekTo}
-        onCollapse={() => toggleVideoCollapse(message.id, true)}
+        onSeek={onSeek}
+        onCollapse={() => onToggleCollapse(true)}
       />
 
       {/* Video description if available */}
-      {video.description && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-2">{video.description}</p>
+      {videoDescription && (
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-2">{videoDescription}</p>
       )}
 
       {/* Action Buttons Below Video */}
@@ -180,12 +216,6 @@ const VideoMessage = ({
         {/* Left: Resources */}
         <div className="flex items-center space-x-2">
           <button 
-            className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" 
-            title="Bookmark (coming soon)"
-          >
-            <Bookmark size={14} />
-          </button>
-          <button
             className={`p-1.5 ${
               transcriptVisible 
                 ? 'text-amber-500 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/30' 
@@ -209,7 +239,10 @@ const VideoMessage = ({
         <div className="flex space-x-2">
           <button
             className="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-            onClick={() => onAskQuestion(message.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAskQuestion(videoId);
+            }}
           >
             <HelpCircle size={14} className="mr-1" />
             Ask Question
@@ -218,9 +251,9 @@ const VideoMessage = ({
             className="px-3 py-1.5 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg flex items-center transition-colors"
             onClick={() => {
               // This should trigger the next video in the main component
-              // We'll implement this via a custom event or callback
+              // Using custom events for loose coupling
               const event = new CustomEvent('request-next-video', {
-                detail: { currentVideoId: message.id }
+                detail: { currentVideoId: videoId }
               });
               document.dispatchEvent(event);
             }}
@@ -232,6 +265,8 @@ const VideoMessage = ({
       </div>
     </div>
   );
-};
+});
 
+// Default export with display name for better debugging
+VideoMessage.displayName = 'VideoMessage';
 export default VideoMessage;
