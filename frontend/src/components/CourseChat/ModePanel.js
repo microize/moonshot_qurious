@@ -16,7 +16,7 @@ import { CLARITY_LEVELS, LEARNING_MODES } from './utils/constants';
  * @param {Function} props.handleLearningModeChange - Function to change learning mode
  * @returns {JSX.Element|null} Rendered component or null if no panel is active
  */
-const ModePanel = ({
+const ModelPanel = ({
   activeModePanel,
   setActiveModePanel,
   selectedClarity,
@@ -27,8 +27,13 @@ const ModePanel = ({
   // If no panel is active, don't render anything
   if (!activeModePanel) return null;
 
+  // Simple utility function to combine class names
+  const classNames = (...classes) => {
+    return classes.filter(Boolean).join(' ');
+  };
+  
   return (
-    <div className="max-w-4xl mx-auto mb-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 animate-fade-in-fast">
+    <div className="max-w-4xl mx-auto mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-all duration-200 animate-fade-in-fast">
       {/* Panel Header */}
       <div className="flex justify-between items-center mb-2">
         <label className="text-xs text-gray-600 dark:text-gray-300 font-medium uppercase tracking-wider">
@@ -36,8 +41,9 @@ const ModePanel = ({
         </label>
         <button 
           onClick={() => setActiveModePanel(null)} 
-          className="btn-icon-sm" 
+          className="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500" 
           title="Close Panel"
+          aria-label="Close Panel"
         >
           <X size={16} />
         </button>
@@ -54,11 +60,29 @@ const ModePanel = ({
           <button
             key={mode.id}
             onClick={() => handleClarityChange(mode.id)}
-            className={`btn-mode ${selectedClarity === mode.id ? 'btn-mode-active' : 'btn-mode-inactive'}`}
+            className={classNames(
+              "px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium group",
+              selectedClarity === mode.id 
+                ? "bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10" 
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white hover:shadow-md"
+            )}
             aria-pressed={selectedClarity === mode.id}
+            title={`${mode.label} clarity level`}
           >
-            <mode.icon size={14} /> {mode.label} 
-            {selectedClarity === mode.id && <Check size={12} className="ml-auto pl-1" />}
+            <div className="flex items-center w-full">
+              <mode.icon 
+                size={18} 
+                className={classNames(
+                  "transition-all duration-200 flex-shrink-0 mr-3",
+                  selectedClarity === mode.id 
+                    ? "text-amber-600 dark:text-amber-400 drop-shadow-md" 
+                    : "text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400"
+                )}
+                aria-hidden="true"
+              />
+              <span className="flex-grow text-left">{mode.label}</span>
+
+            </div>
           </button>
         ))}
         
@@ -74,11 +98,29 @@ const ModePanel = ({
           <button
             key={mode.id}
             onClick={() => handleLearningModeChange(mode.id)}
-            className={`btn-mode ${selectedLearningMode === mode.id ? 'btn-mode-active' : 'btn-mode-inactive'}`}
+            className={classNames(
+              "px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium group",
+              selectedLearningMode === mode.id 
+                ? "bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10" 
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white hover:shadow-md"
+            )}
             aria-pressed={selectedLearningMode === mode.id}
+            title={`${mode.label} learning mode`}
           >
-            <mode.icon size={14} /> {mode.label} 
-            {selectedLearningMode === mode.id && <Check size={12} className="ml-auto pl-1" />}
+            <div className="flex items-center w-full">
+              <mode.icon 
+                size={18} 
+                className={classNames(
+                  "transition-all duration-200 flex-shrink-0 mr-3",
+                  selectedLearningMode === mode.id 
+                    ? "text-amber-600 dark:text-amber-400 drop-shadow-md" 
+                    : "text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400"
+                )}
+                aria-hidden="true"
+              />
+              <span className="flex-grow text-left">{mode.label}</span>
+
+            </div>
           </button>
         ))}
       </div>
@@ -86,4 +128,4 @@ const ModePanel = ({
   );
 };
 
-export default ModePanel;
+export default ModelPanel;

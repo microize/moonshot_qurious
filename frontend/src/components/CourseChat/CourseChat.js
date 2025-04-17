@@ -637,49 +637,46 @@ Would you like me to explain this in more detail or jump to the related section 
   
           {/* Mode Panel and Input Area */}
           <footer className="border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800 p-3 shadow-inner sticky bottom-0 z-20">
-            <ModePanel 
-              activeModePanel={activePanel}
-              setActiveModePanel={setActivePanel}
-              selectedClarity={clarityLevel}
-              handleClarityChange={setClarityLevel}
-              selectedLearningMode={learningMode}
-              handleLearningModeChange={setLearningMode}
-            />
-            
-            <div className="max-w-4xl mx-auto flex space-x-2 mb-2">
-              <button
-                type="button"
-                onClick={() => setActivePanel(prev => prev === 'clarity' ? null : 'clarity')}
-                className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activePanel === 'clarity' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                aria-expanded={activePanel === 'clarity'}
-                title="Adjust explanation clarity"
-              >
-                <Settings size={14} className="mr-1.5" />
-                <span className="capitalize">{clarityLevel}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setActivePanel(prev => prev === 'learning' ? null : 'learning')}
-                className={`px-3 py-1.5 rounded-md flex items-center text-sm transition-colors ${activePanel === 'learning' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                aria-expanded={activePanel === 'learning'}
-                title="Change learning mode"
-              >
-                <Settings size={14} className="mr-1.5" />
-                <span className="capitalize">{learningMode}</span>
-              </button>
-            </div>
-            
-            <InputArea
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              handleSendMessage={handleSendMessage}
-              isLoading={isLoading}
-              doubtContext={doubtContext}
-              isAskingDoubt={isAskingDoubt}
-              cancelDoubt={cancelDoubt}
-              inputRef={inputRef}
-            />
-          </footer>
+  <ModePanel 
+    activeModePanel={activePanel}
+    setActiveModePanel={setActivePanel}
+    selectedClarity={clarityLevel}
+    handleClarityChange={setClarityLevel}
+    selectedLearningMode={learningMode}
+    handleLearningModeChange={setLearningMode}
+  />
+  
+  <div className="max-w-4xl mx-auto flex space-x-2 mb-2">
+    <button
+      type="button"
+      onClick={() => setActivePanel(prev => prev === 'clarity' ? null : 'clarity')}
+      className={`p-1.5 rounded-md flex items-center justify-center transition-colors ${activePanel === 'clarity' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+      aria-expanded={activePanel === 'clarity'}
+      title="Adjust explanation clarity"
+    >
+      <Settings size={16} />
+    </button>
+    <button
+      type="button"
+      onClick={() => setActivePanel(prev => prev === 'learning' ? null : 'learning')}
+      className={`p-1.5 rounded-md flex items-center justify-center transition-colors ${activePanel === 'learning' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+      aria-expanded={activePanel === 'learning'}
+      title="Change learning mode"
+    >
+      <Settings size={16} />
+    </button>
+    <InputArea
+      inputValue={inputValue}
+      setInputValue={setInputValue}
+      handleSendMessage={handleSendMessage}
+      isLoading={isLoading}
+      doubtContext={doubtContext}
+      isAskingDoubt={isAskingDoubt}
+      cancelDoubt={cancelDoubt}
+      inputRef={inputRef}
+    />
+  </div>
+</footer>
         </div>
   
         {/* Transcript Panel */}

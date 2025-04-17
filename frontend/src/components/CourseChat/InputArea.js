@@ -143,25 +143,6 @@ const InputArea = ({
         onSubmit={handleSubmit} 
         className={`flex items-center gap-3 bg-white dark:bg-gray-800 p-3 ${isAskingDoubt ? 'rounded-b-xl' : 'rounded-xl'} shadow-sm ${isInputFocused ? 'ring-2 ring-amber-400 dark:ring-amber-500/50' : ''} transition-all duration-200`}
       >
-        {/* Clarity Mode Button - Enhanced functionality */}
-        <button 
-          type="button" 
-          onClick={onClarityModeClick}
-          className="p-2 text-amber-500 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-all duration-200" 
-          title="Adjust explanation clarity" 
-        >
-          <Lightbulb size={18} />
-        </button>
-        
-        {/* Learning Mode Button - Enhanced functionality */}
-        <button 
-          type="button" 
-          onClick={onLearningModeClick}
-          className="p-2 text-amber-500 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-all duration-200" 
-          title="Change learning mode" 
-        >
-          <BookOpen size={18} />
-        </button>
         
         {/* Text Input Field */}
         <div className="flex-1 relative">
@@ -228,25 +209,6 @@ const InputArea = ({
           <SendHorizontal size={18} className={`${inputValue.trim() && !isLoading ? 'transform group-hover:translate-x-0.5 transition-transform' : ''}`} />
         </button>
       </form>
-      
-      {/* Input Helpers - shown below the input */}
-      <div className="px-2 mt-2 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-        <div>
-          {isAskingDoubt 
-            ? "Your question will reference the current video context" 
-            : "Pro tip: Ask about concepts or request examples"
-          }
-        </div>
-        <div className="flex gap-2">
-          <button className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
-            Examples
-          </button>
-          <span>•</span>
-          <button className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
-            Help
-          </button>
-        </div>
-      </div>
 
       {/* Coding Interface Modal */}
       {renderCodingInterfaceModal()}
