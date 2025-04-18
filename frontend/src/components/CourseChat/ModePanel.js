@@ -16,7 +16,7 @@ import { CLARITY_LEVELS, LEARNING_MODES } from './utils/constants';
  * @param {Function} props.handleLearningModeChange - Function to change learning mode
  * @returns {JSX.Element|null} Rendered component or null if no panel is active
  */
-const ModelPanel = ({
+const ModePanel = ({
   activeModePanel,
   setActiveModePanel,
   selectedClarity,
@@ -26,14 +26,14 @@ const ModelPanel = ({
 }) => {
   // If no panel is active, don't render anything
   if (!activeModePanel) return null;
-
+  
   // Simple utility function to combine class names
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
   };
   
   return (
-    <div className="max-w-4xl mx-auto mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-all duration-200 animate-fade-in-fast">
+    <div className="absolute bottom-full left-0 right-0 max-w-4xl w-full mx-auto mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 transition-all duration-200 animate-fade-in-fast">
       {/* Panel Header */}
       <div className="flex justify-between items-center mb-2">
         <label className="text-xs text-gray-600 dark:text-gray-300 font-medium uppercase tracking-wider">
@@ -81,7 +81,6 @@ const ModelPanel = ({
                 aria-hidden="true"
               />
               <span className="flex-grow text-left">{mode.label}</span>
-
             </div>
           </button>
         ))}
@@ -119,7 +118,6 @@ const ModelPanel = ({
                 aria-hidden="true"
               />
               <span className="flex-grow text-left">{mode.label}</span>
-
             </div>
           </button>
         ))}
@@ -128,4 +126,4 @@ const ModelPanel = ({
   );
 };
 
-export default ModelPanel;
+export default ModePanel;

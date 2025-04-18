@@ -162,7 +162,7 @@ const TextMessage = ({
       )}
 
       {/* Timestamp */}
-      <div className={`text-xs mt-1.5 ${
+      <div className={`whitespace-nowrap text-xs mt-1.5 ${
         isUser
           ? 'text-amber-100/80 text-right'
           : 'text-gray-400 dark:text-gray-500 text-left'

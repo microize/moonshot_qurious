@@ -36,13 +36,15 @@ const Header = ({
             
             {/* Course Title and Status */}
             <div>
-              <h1 className="text-base sm:text-lg font-semibold tracking-tight leading-tight">
-                {courseTitle}
-              </h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 capitalize">
-                {moduleInfo} • {learningMode} Mode • {clarityLevel} Clarity
-              </p>
-            </div>
+  <div className="flex flex-col">
+    <span className="text-base sm:text-lg font-semibold tracking-tight leading-tight">
+      {courseTitle}
+    </span>
+    <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">
+      {moduleInfo} • {learningMode} Mode • {clarityLevel} Clarity
+    </span>
+  </div>
+</div>
           </div>
           
           {/* Right Side: Action Buttons */}

@@ -1,25 +1,21 @@
 // src/components/CourseChat/CourseChat.js
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Settings, MessageSquare, SendHorizontal, Mic, BookOpen, ChevronRight, Code, X
+  Settings, MessageSquare, SendHorizontal, Mic, BookOpen, ChevronRight, Code, X,User,Bot,Rainbow
 } from 'lucide-react';
-
 // Import modularized components
 import Header from './Header';
 import ChatSidebar from './ChatSidebar';
 import InputArea from './InputArea';
-import ModePanel from './ModePanel';
 import VideoMessage from './VideoMessage';
 import TextMessage from './TextMessage';
 import ActionMessage from './ActionMessage';
 import TranscriptPanel from './TranscriptPanel';
 import TypingIndicator from './TypingIndicator';
 import CollapsedVideo from './CollapsedVideo';
-
 // Import constants and utilities
 import { CLARITY_LEVELS, LEARNING_MODES, ACTION_TYPES } from './utils/constants';
 import { formatTime, formatVideoPosition } from './utils/formatters';
-
 /**
  * Main CourseChat component that integrates all subcomponents
  * @returns {JSX.Element} The CourseChat component
@@ -30,30 +26,30 @@ const CourseChat = () => {
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [initialMessageSent, setInitialMessageSent] = useState(false);
   // Course/Video State
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [completedVideos, setCompletedVideos] = useState([]);
   const [activeVideoCollapsed, setActiveVideoCollapsed] = useState(false);
   const [videoStates, setVideoStates] = useState({});
-
   // UI & Mode State
   const [clarityLevel, setClarityLevel] = useState(CLARITY_LEVELS.INTERMEDIATE);
   const [learningMode, setLearningMode] = useState(LEARNING_MODES.NORMAL);
-  const [activePanel, setActivePanel] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeTool, setActiveTool] = useState('progress');
   const [isAskingDoubt, setIsAskingDoubt] = useState(false);
   const [doubtContext, setDoubtContext] = useState(null);
   const [transcriptVisible, setTranscriptVisible] = useState(false);
-
+  // New state to track if video is in view
+  const [isVideoInView, setIsVideoInView] = useState(true);
+  
   // Refs
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const activeVideoRef = useRef(null);
   const playerRefs = useRef({});
-
+  const welcomeMessageShownRef = useRef(false);
   // Example course videos
   const courseVideos = [
     {
@@ -96,31 +92,34 @@ const CourseChat = () => {
       ]
     }
   ];
-
   // Chat history for the sidebar
   const chatHistory = [
     { id: 1, title: "Introduction Discussion", date: "Today", preview: "What is generative AI?..." },
     { id: 2, title: "Transformer Questions", date: "Yesterday", preview: "How does attention work?..." }
   ];
-
   // ---------- LIFECYCLE & EFFECTS ----------
   // Initialize with welcome message
   useEffect(() => {
-    if (messages.length === 0) {
-      addBotMessage({
-        content: "Welcome to the Generative AI for Developers course! Type 'start' to begin learning about foundational concepts, or ask me any questions.",
-        isIntro: true,
-        showStartButton: true
-      });
+    // First clear any existing messages
+    setMessages([]);
+    // Then add the welcome message only once
+    if (!welcomeMessageShownRef.current) {
+      welcomeMessageShownRef.current = true;
+      setTimeout(() => {
+        addBotMessage({
+          content: "Welcome to the Generative AI for Developers course! Type 'start' to begin learning about foundational concepts, or ask me any questions.",
+          isIntro: true,
+          showStartButton: true
+        });
+        setInitialMessageSent(true);
+        inputRef.current?.focus();
+      }, 100); // Small delay to ensure message array is cleared first
     }
-    inputRef.current?.focus();
   }, []);
-
   // Auto-scroll chat to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
-
   // Listen for keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -139,7 +138,30 @@ const CourseChat = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [currentVideoId, isAskingDoubt]);
-
+  
+  // New effect to check if video is in viewport
+  useEffect(() => {
+    if (!activeVideoRef.current || !currentVideoId) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVideoInView(entry.isIntersecting);
+      },
+      {
+        root: null, // Use viewport as root
+        threshold: 0.3, // Consider in view if at least 30% is visible
+      }
+    );
+    
+    observer.observe(activeVideoRef.current);
+    
+    return () => {
+      if (activeVideoRef.current) {
+        observer.unobserve(activeVideoRef.current);
+      }
+    };
+  }, [currentVideoId]); // Fixed dependency array to avoid re-creating observer too often
+  
   // ---------- VIDEO HANDLERS ----------
   const toggleVideoPlayback = () => {
     if (currentVideoId) {
@@ -153,7 +175,6 @@ const CourseChat = () => {
       }));
     }
   };
-
   const handleVideoProgress = (videoId, progress) => {
     if (!videoId) return;
     
@@ -174,7 +195,6 @@ const CourseChat = () => {
       }
     }
   };
-
   const handleVideoDuration = (videoId, duration) => {
     if (!videoId || !duration) return;
     
@@ -186,7 +206,6 @@ const CourseChat = () => {
       }
     }));
   };
-
   const seekTo = (videoId, time) => {
     // This would use a ref to the player to seek
     console.log(`Seeking to ${time} in video ${videoId}`);
@@ -200,7 +219,6 @@ const CourseChat = () => {
       }
     }));
   };
-
   // ---------- EVENT HANDLERS ----------
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleSidebarCollapse = () => setSidebarCollapsed(!sidebarCollapsed);
@@ -211,13 +229,11 @@ const CourseChat = () => {
     // In a real app, this would load the selected chat
     console.log(`Selected chat: ${chatId}`);
   };
-
   const handleSendMessage = (e) => {
     e?.preventDefault();
     
     const trimmedInput = inputValue.trim();
     if (!trimmedInput || isLoading) return;
-
     // Add user message
     const currentContext = isAskingDoubt ? doubtContext : null;
     addUserMessage(trimmedInput, currentContext);
@@ -236,7 +252,6 @@ const CourseChat = () => {
       setIsLoading(false);
     }, 1000);
   };
-
   const addUserMessage = (content, doubtContext = null) => {
     setMessages(prev => [...prev, {
       id: Date.now(),
@@ -246,8 +261,12 @@ const CourseChat = () => {
       doubtContext
     }]);
   };
-
   const addBotMessage = (messageData) => {
+    // Check if this is a welcome message and one already exists
+    if (messageData.isIntro) {
+      const welcomeExists = messages.some(msg => msg.isIntro);
+      if (welcomeExists) return; // Skip adding duplicate welcome message
+    }
     setMessages(prev => [...prev, {
       id: Date.now() + Math.random(),
       sender: 'bot',
@@ -255,7 +274,6 @@ const CourseChat = () => {
       ...messageData
     }]);
   };
-
   // Generate bot responses based on user input
   const generateResponse = (input, doubtContext = null) => {
     const lowerInput = input.toLowerCase();
@@ -264,9 +282,7 @@ const CourseChat = () => {
     if (doubtContext) {
       addBotMessage({
         content: `Regarding the video "${doubtContext.videoTitle}" at timestamp ${formatVideoPosition(doubtContext.timestamp)}:
-
 Based on your question about "${input}", the key concept here is the attention mechanism. It allows the model to weigh the importance of different inputs in the sequence. This helps capture long-range dependencies between words or tokens.
-
 Does that answer your question? Would you like more details on this concept?`,
         isDoubtResponse: true,
         relatedToVideo: doubtContext.videoId
@@ -308,15 +324,12 @@ Does that answer your question? Would you like more details on this concept?`,
     else {
       addBotMessage({
         content: `About "${input.substring(0, 30)}...": 
-
 This relates to concepts covered in the current video around timestamp 01:25. The key idea is how transformer models process sequential data through self-attention mechanisms.
-
 Would you like me to explain this in more detail or jump to the related section in the video?`,
         relatedToCurrentVideo: true
       });
     }
   };
-
   // Add a video message to the chat
   const addVideoMessage = (video) => {
     // Mark previous video as completed if applicable
@@ -352,18 +365,17 @@ Would you like me to explain this in more detail or jump to the related section 
     // Update current video ID
     setCurrentVideoId(video.id);
     setActiveVideoCollapsed(false);
+    setIsVideoInView(true); // Reset video in view state
     
     // Scroll to the new video after it's added
     setTimeout(() => {
       activeVideoRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
-
   const handleStartButtonClick = () => {
     addUserMessage("start");
     generateResponse("start");
   };
-
   const handleVideoComplete = (videoId) => {
     if (!videoId || completedVideos.includes(videoId)) return;
     
@@ -387,24 +399,19 @@ Would you like me to explain this in more detail or jump to the related section 
       });
     }
   };
-
   // Jump to video (used when clicking "Continue Learning" or from floating player)
   const jumpToVideo = (videoId) => {
     // Use the provided videoId or fall back to currentVideoId
     const targetVideoId = videoId || currentVideoId;
-
     // Only proceed if we have a valid video ID
     if (!targetVideoId) return;
-
     // Expand video if collapsed
     setActiveVideoCollapsed(false);
-
     // Scroll to the video
     setTimeout(() => {
       activeVideoRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
-
   // Start asking a question about a specific video
   const startAskingDoubt = (videoId) => {
     if (!videoId && !currentVideoId) {
@@ -449,13 +456,11 @@ Would you like me to explain this in more detail or jump to the related section 
       inputRef.current?.focus();
     }, 100);
   };
-
   // Cancel doubt mode
   const cancelDoubt = () => {
     setIsAskingDoubt(false);
     setDoubtContext(null);
   };
-
   // Toggle video player collapse state
   const toggleVideoCollapse = (videoId, forceState = null) => {
     const isCollapsed = forceState !== null ? forceState : !activeVideoCollapsed;
@@ -472,7 +477,6 @@ Would you like me to explain this in more detail or jump to the related section 
       }));
     }
   };
-
   // ---------- RENDER HELPERS ----------
   // Function to render message content based on type
   const renderMessageContent = (message) => {
@@ -494,7 +498,7 @@ Would you like me to explain this in more detail or jump to the related section 
               }));
             }}
             onSeek={(time) => seekTo(message.videoId, time)}
-                onAskQuestionref={(message.videoId === currentVideoId) ? activeVideoRef : null}
+            ref={(message.videoId === currentVideoId) ? activeVideoRef : null}
           />
         );
       case 'action':
@@ -518,10 +522,10 @@ Would you like me to explain this in more detail or jump to the related section 
         );
     }
   };
-
-  // Floating Video Player (when video is pushed out of view)
+  // Floating Video Player (when video is pushed out of view or manually collapsed)
   const FloatingVideoPlayer = () => {
-    if (!currentVideoId || !activeVideoCollapsed) return null;
+    // Show floating player when video exists AND (it's collapsed OR not in view)
+    if (!currentVideoId || (isVideoInView && !activeVideoCollapsed)) return null;
     
     const currentVideo = courseVideos.find(v => v.id === currentVideoId);
     if (!currentVideo) return null;
@@ -549,7 +553,6 @@ Would you like me to explain this in more detail or jump to the related section 
       </div>
     );
   };
-
   // ---------- MAIN RENDER ----------
   return (
     <div className="flex h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans overflow-hidden">
@@ -581,7 +584,7 @@ Would you like me to explain this in more detail or jump to the related section 
         />
   
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900">
+        <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-gray-900">
           {/* Collapsed Video (if collapsed) */}
           {activeVideoCollapsed && (
             <CollapsedVideo 
@@ -609,7 +612,7 @@ Would you like me to explain this in more detail or jump to the related section 
                   {/* Bot Avatar (only for non-video bot messages) */}
                   {message.sender === 'bot' && message.type !== 'video' && (
                     <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 mt-1">
-                      <MessageSquare size={16} />
+                      <Bot size={16} />
                     </div>
                   )}
   
@@ -621,7 +624,7 @@ Would you like me to explain this in more detail or jump to the related section 
                   {/* User Avatar */}
                   {message.sender === 'user' && (
                     <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-500 dark:to-blue-600 text-white mt-1">
-                      <MessageSquare size={16} />
+                      <User size={16} />
                     </div>
                   )}
                 </article>
@@ -635,63 +638,42 @@ Would you like me to explain this in more detail or jump to the related section 
             </div>
           </main>
   
-          {/* Mode Panel and Input Area */}
-          <footer className="border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800 p-3 shadow-inner sticky bottom-0 z-20">
-  <ModePanel 
-    activeModePanel={activePanel}
-    setActiveModePanel={setActivePanel}
-    selectedClarity={clarityLevel}
-    handleClarityChange={setClarityLevel}
-    selectedLearningMode={learningMode}
-    handleLearningModeChange={setLearningMode}
-  />
-  
-  <div className="max-w-4xl mx-auto flex space-x-2 mb-2">
-    <button
-      type="button"
-      onClick={() => setActivePanel(prev => prev === 'clarity' ? null : 'clarity')}
-      className={`p-1.5 rounded-md flex items-center justify-center transition-colors ${activePanel === 'clarity' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-      aria-expanded={activePanel === 'clarity'}
-      title="Adjust explanation clarity"
-    >
-      <Settings size={16} />
-    </button>
-    <button
-      type="button"
-      onClick={() => setActivePanel(prev => prev === 'learning' ? null : 'learning')}
-      className={`p-1.5 rounded-md flex items-center justify-center transition-colors ${activePanel === 'learning' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-      aria-expanded={activePanel === 'learning'}
-      title="Change learning mode"
-    >
-      <Settings size={16} />
-    </button>
-    <InputArea
-      inputValue={inputValue}
-      setInputValue={setInputValue}
-      handleSendMessage={handleSendMessage}
-      isLoading={isLoading}
-      doubtContext={doubtContext}
-      isAskingDoubt={isAskingDoubt}
-      cancelDoubt={cancelDoubt}
-      inputRef={inputRef}
-    />
-  </div>
-</footer>
+          {/* Input Area */}
+          <footer className="bg-white dark:bg-gray-800 sticky bottom-0 z-20">
+            <div className="max-w-4xl mx-auto mb-2">
+              <InputArea
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                handleSendMessage={handleSendMessage}
+                isLoading={isLoading}
+                doubtContext={doubtContext}
+                isAskingDoubt={isAskingDoubt}
+                cancelDoubt={cancelDoubt}
+                inputRef={inputRef}
+                clarityLevel={clarityLevel}
+                setClarityLevel={setClarityLevel}
+                learningMode={learningMode}
+                setLearningMode={setLearningMode}
+              />
+            </div>
+          </footer>
         </div>
   
         {/* Transcript Panel */}
         {transcriptVisible && (
-          <TranscriptPanel
-            visible={transcriptVisible}
-            onClose={() => setTranscriptVisible(false)}
-          />
+          <div className="fixed top-0 right-0 h-full overflow-y-auto z-50">
+            <TranscriptPanel
+              visible={transcriptVisible}
+              onClose={() => setTranscriptVisible(false)}
+            />
+          </div>
         )}
+        
       </div>
   
-      {/* Floating Video Player (appears when active video is out of view) */}
+      {/* Floating Video Player (appears when active video is out of view or collapsed) */}
       <FloatingVideoPlayer />
     </div>
   );
 };
-
 export default CourseChat;
