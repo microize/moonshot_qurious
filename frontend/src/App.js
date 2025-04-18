@@ -21,7 +21,8 @@ const {
   SettingsView,
   CourseContentView,
   AssessmentContentView,
-  LoginView
+  LoginView,
+  OrganizationalAnalyticsView, // <-- Add this line
 } = {
   HomeView: lazy(() => import('./views/HomeView')),
   CoursesView: lazy(() => import('./views/CoursesView')),
@@ -31,7 +32,8 @@ const {
   SettingsView: lazy(() => import('./views/SettingsView')),
   CourseContentView: lazy(() => import('./views/CourseContentView')),
   AssessmentContentView: lazy(() => import('./views/AssessmentContentView')),
-  LoginView: lazy(() => import('./views/LoginView'))
+  LoginView: lazy(() => import('./views/LoginView')),
+  OrganizationalAnalyticsView: lazy(() => import('./views/OrganizationalAnalyticsView')), // <-- Add this line
 };
 
 // Protected Route component
@@ -147,6 +149,7 @@ function App() {
                               <Route path="/leaderboard" element={<LeaderboardView />} />
                               <Route path="/community" element={<CommunityView />} />
                               <Route path="/settings" element={<SettingsView />} />
+                              <Route path="/hr-analytics" element={<OrganizationalAnalyticsView />} />
                               <Route path="*" element={<Navigate to="/" replace />} />
                             </Routes>
                           </Suspense>

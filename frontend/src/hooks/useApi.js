@@ -1,6 +1,9 @@
 // src/hooks/useApi.js - Simplified fix to stop infinite requests
 import { useState, useEffect, useCallback } from 'react';
 import fetchWrapper from '../utils/fetchWrapper';
+import { useQuery } from '@tanstack/react-query'; // Correct import for v4+
+// import apiClient from '../utils/apiClient'; // Incorrect path
+import apiClient from '../services/apiService'; // <-- Likely correct path
 
 /**
  * Pre-defined mock data to use when needed
@@ -270,3 +273,22 @@ export const useFileUpload = (endpoint, options = {}) => {
   
   return { upload, data: null, loading: false, error: null, progress: 0 };
 };
+
+// --- Add the new hook ---
+const fetchOrganizationData = async () => {
+    // Replace '/organization/analytics' with your actual API endpoint
+    const { data } = await apiClient.get('/organization/analytics');
+    return data;
+};
+
+export const useOrganizationData = () => {
+    return useQuery(
+        'organizationData', // Unique query key
+        fetchOrganizationData,
+        {
+            // Optional: Add react-query options like staleTime, cacheTime, etc.
+            staleTime: 5 * 60 * 1000, // 5 minutes
+        }
+    );
+};
+// -----------------------
