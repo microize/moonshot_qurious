@@ -287,7 +287,7 @@ const CoursesView = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-semibold text-gray-600 dark:text-gray-300">
+        <h1 className="text-3xl font-semibold text-gray-600 dark:text-gray-300 flex items-center">
           Courses
         </h1>
         

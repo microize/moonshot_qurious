@@ -1,4 +1,4 @@
-// App.js - Comprehensive fix for main content expansion
+// App.js - Fixed route for HR Analytics
 import React, { Suspense, lazy, useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
@@ -22,7 +22,7 @@ const {
   CourseContentView,
   AssessmentContentView,
   LoginView,
-  OrganizationalAnalyticsView, // <-- Add this line
+  OrganizationalAnalyticsView,
 } = {
   HomeView: lazy(() => import('./views/HomeView')),
   CoursesView: lazy(() => import('./views/CoursesView')),
@@ -33,7 +33,7 @@ const {
   CourseContentView: lazy(() => import('./views/CourseContentView')),
   AssessmentContentView: lazy(() => import('./views/AssessmentContentView')),
   LoginView: lazy(() => import('./views/LoginView')),
-  OrganizationalAnalyticsView: lazy(() => import('./views/OrganizationalAnalyticsView')), // <-- Add this line
+  OrganizationalAnalyticsView: lazy(() => import('./views/OrganizationalAnalyticsView')),
 };
 
 // Protected Route component

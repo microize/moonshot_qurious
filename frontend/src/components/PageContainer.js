@@ -35,7 +35,7 @@ const PageContainer = ({
         <div className="flex justify-between items-center mb-6">
           <div>
             {title && (
-              <h1 className={classNames("text-2xl font-semibold text-gray-900 dark:text-white", titleClassName)}>
+              <h1 className={classNames("text-3xl font-semibold text-gray-600 dark:text-gray-300 flex items-center", titleClassName)}>
                 {title}
               </h1>
             )}

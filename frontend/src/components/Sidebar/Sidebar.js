@@ -116,7 +116,7 @@ const Sidebar = () => {
   
   // Admin-only navigation items
   const adminNavItems = [
-    { id: 'hranalytics', icon: BarChart2, label: 'HR Analytics', path: '/hranalytics', shortcut: 'Alt+R' },
+    { id: 'hr-analytics', icon: BarChart2, label: 'HR Analytics', path: '/hr-analytics', shortcut: 'Alt+R' }
   ];
   
   // Settings item (moved to bottom)
