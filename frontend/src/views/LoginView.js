@@ -14,6 +14,9 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   
+  // Demo user emails
+  const demoEmails = ['demo@example.com', 'test@qurioz.ai', 'user@demo.com'];
+  
   // Animation mount effect
   useEffect(() => {
     setMounted(true);
@@ -26,6 +29,18 @@ const LoginPage = () => {
     }
   }, []);
 
+  // Check if the email is a demo email and set password automatically
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    
+    // If email is in the demo list, automatically set a demo password
+    if (demoEmails.includes(newEmail.toLowerCase())) {
+      setPassword('demopassword');
+      setRememberMe(true);
+    }
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -39,18 +54,29 @@ const LoginPage = () => {
       localStorage.removeItem('rememberedEmail');
     }
     
-    // Simulate login
+    // Simulate successful login by storing a demo token
+    const mockToken = 'demo-auth-token-' + Date.now();
+    localStorage.setItem('token', mockToken);
+    
+    // Simulate login with delay
     setTimeout(() => {
-      // Demo mode - always succeeds
       setLoading(false);
-      // In a real app, you would navigate to dashboard here
+      
+      // Redirect to the home page
+      window.location.href = '/';
+      
+      // Alternative options for React Router:
+      // 1. If using useNavigate hook: navigate('/')
+      // 2. If using history: history.push('/')
+      // 3. If using a callback: if (props.onLoginSuccess) props.onLoginSuccess(email)
     }, 1500);
   };
-
-  // Form validation
-  const isEmailValid = email.includes('@') && email.includes('.');
-  const isPasswordValid = password.length >= 6;
-  const isFormValid = isEmailValid && isPasswordValid;
+  
+  // Form validation - in demo mode, all inputs are valid
+  // This ensures login will work with any input
+  const isEmailValid = true; // email.includes('@') && email.includes('.');
+  const isPasswordValid = true; // password.length >= 6;
+  const isFormValid = true; // Always allow form submission
   
   return (
     <div className="h-screen w-full flex flex-col bg-gray-50 font-sans">
@@ -66,8 +92,8 @@ const LoginPage = () => {
       {showBanner && (
         <div className="w-full px-4 py-2 bg-gradient-to-r from-amber-50 to-pink-50 border-b border-amber-100">
           <div className="w-full max-w-screen-xl mx-auto relative flex items-center justify-center">
-            <p className="text-center text-sm font-medium text-gray-700">
-              Demo Mode: Use any credentials to explore the platform
+                          <p className="text-center text-sm font-medium text-gray-700">
+              Demo Mode: Any email and password will work for this demo
             </p>
             <button 
               onClick={() => setShowBanner(false)}
@@ -165,7 +191,7 @@ const LoginPage = () => {
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       onFocus={() => setEmailFocused(true)}
                       onBlur={() => setEmailFocused(false)}
                       className={`w-full py-2 px-3 bg-white rounded-lg focus:outline-none focus:ring-2 ${
@@ -259,10 +285,10 @@ const LoginPage = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3 relative bg-gradient-to-r from-amber-400 to-pink-500 text-white rounded-lg transition-all duration-300 hover:from-amber-500 hover:to-pink-600 hover:shadow-md hover:shadow-pink-200/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 flex items-center justify-center text-sm font-medium overflow-hidden group"
+                    className="w-full py-3 relative bg-gradient-to-r from-pink-500 to-amber-400 text-white rounded-lg transition-all duration-300 hover:from-pink-600 hover:to-amber-500 hover:shadow-md hover:shadow-pink-200/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 flex items-center justify-center text-sm font-medium overflow-hidden group"
                   >
                     {/* Hover animation */}
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-300/0 via-white/20 to-amber-300/0 -translate-x-full group-hover:animate-shimmer"></div>
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-pink-300/0 via-white/20 to-pink-300/0 -translate-x-full group-hover:animate-shimmer"></div>
                     
                     {loading ? (
                       <>

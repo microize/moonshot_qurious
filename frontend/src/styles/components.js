@@ -11,13 +11,13 @@ export const buttonStyles = {
   
   // Button variants
   variants: {
-    primary: `bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-400`,
+    primary: `bg-gradient-to-r from-amber-500 to-cobalt-500 hover:from-amber-600 hover:to-cobalt-600 text-white focus:ring-cobalt-400`,
     secondary: `bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-gray-400`,
-    outline: `border border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 focus:ring-amber-400`,
+    outline: `border border-cobalt-300 dark:border-cobalt-700 text-cobalt-600 dark:text-cobalt-400 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20 focus:ring-cobalt-400`,
     accent: `bg-accent-500 hover:bg-accent-600 text-white focus:ring-accent-400`,
     success: `bg-success-500 hover:bg-success-600 text-white focus:ring-success-400`,
     danger: `bg-error-500 hover:bg-error-600 text-white focus:ring-error-400`,
-    text: `text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20`,
+    text: `text-cobalt-600 dark:text-cobalt-400 hover:bg-cobalt-50 dark:hover:bg-cobalt-900/20`,
   },
   
   // Button sizes
@@ -46,7 +46,7 @@ export const cardStyles = {
     default: 'rounded-lg shadow-sm border border-gray-100 dark:border-gray-700',
     elevated: 'rounded-xl shadow-md border border-gray-100 dark:border-gray-700', 
     flat: 'rounded-lg border border-gray-200 dark:border-gray-700',
-    branded: `rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800`,
+    branded: `rounded-lg bg-cobalt-50 dark:bg-cobalt-900/20 border border-cobalt-100 dark:border-cobalt-800`,
   },
   
   // Card parts
@@ -64,7 +64,7 @@ export const badgeStyles = {
   
   // Badge variants by color
   variants: {
-    primary: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
+    primary: 'bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-700 dark:text-cobalt-300',
     secondary: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300',
     accent: 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300',
     success: 'bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-300',
@@ -157,8 +157,9 @@ export const avatarStyles = {
 };
 
 // Course types badge colors
+// Course types badge colors
 export const courseBadgeStyles = {
-  Course: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60',
+  Course: 'bg-cobalt-100 dark:bg-cobalt-900/30 text-cobalt-600 dark:text-cobalt-300 border border-cobalt-200 dark:border-cobalt-800/60',
   Pathway: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60',
   Workshop: 'bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-300 border border-accent-200 dark:border-accent-800/60',
   default: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700',

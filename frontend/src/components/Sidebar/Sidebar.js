@@ -22,8 +22,6 @@ const Sidebar = () => {
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('');
-  // We no longer need the shortcuts tooltip state
-  // const [showShortcutsTooltip, setShowShortcutsTooltip] = useState(false);
   const location = useLocation();
   
   // Admin mode state with toggle function
@@ -82,10 +80,6 @@ const Sidebar = () => {
           case 'x': // Toggle admin mode
             toggleAdminMode();
             break;
-          // Removed keyboard shortcut tooltip toggle
-          // case 'k': 
-          //   setShowShortcutsTooltip(!showShortcutsTooltip);
-          //   break;
           default:
             break;
         }
@@ -134,18 +128,13 @@ const Sidebar = () => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // No longer needed
-  // const toggleShortcutsTooltip = () => {
-  //   setShowShortcutsTooltip(!showShortcutsTooltip);
-  // };
-
   return (
     <>
       {/* Mobile Menu Button with Improved Accessibility */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={toggleMobileMenu}
-          className="p-2.5 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg hover:shadow-xl ring-1 ring-gray-100 dark:ring-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="p-2.5 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 ring-1 ring-gray-100 dark:ring-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
           aria-controls="sidebar-menu"
@@ -159,16 +148,14 @@ const Sidebar = () => {
         id="sidebar-menu"
         role="navigation"
         aria-label="Main Navigation"
-        className={`h-full bg-white dark:bg-gray-900 shadow-xl transition-all duration-300 ease-in-out backdrop-blur-lg
-        lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        className={`h-full bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out backdrop-blur-lg
+        lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} border-r border-gray-200 dark:border-gray-700`}
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className={`px-5   py-2  flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
+          <div className={`px-5 py-2 flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
             <Logo onLogoClick={toggleSidebar} isCollapsed={isCollapsed} />
           </div>
-
-          {/* Removed keyboard shortcuts tooltip panel */}
 
           {/* Added spacing with dashed line between logo and menu */}
           <div className="px-3 py-2">
@@ -184,8 +171,8 @@ const Sidebar = () => {
                 onClick={() => handleNavItemClick(item.id)}
                 className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group ${
                   activeItem === item.id
-                    ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium shadow-md dark:shadow-lg dark:shadow-gray-800/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white hover:shadow-md'
+                    ? 'bg-gray-100 dark:bg-gray-800 text-pink-500 dark:teext-whit font-medium'
+                    : 'text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                 }`}
                 aria-current={activeItem === item.id ? 'page' : undefined}
                 role="menuitem"
@@ -195,7 +182,7 @@ const Sidebar = () => {
                   <item.icon
                     size={18}
                     className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-300 ${
-                      activeItem === item.id ? 'text-amber-600 dark:text-amber-400 drop-shadow-md' : 'text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400'
+                      activeItem === item.id ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400'
                     }`}
                     aria-hidden="true"
                   />
@@ -210,7 +197,6 @@ const Sidebar = () => {
                     {item.shortcut}
                   </span>
                 )}
-                {/* Remove orange indicator bar */}
               </Link>
             ))}
           </nav>
@@ -223,8 +209,8 @@ const Sidebar = () => {
                 onClick={toggleAdminMode}
                 className={`w-full flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 ${
                   isAdmin
-                    ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white hover:shadow-md'
+                    ? 'bg-pink-50 dark:bg-pink-900/20 text-black dark:text-pink-200'
+                    : 'text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                 }`}
                 aria-label="Toggle admin mode"
                 aria-pressed={isAdmin}
@@ -233,7 +219,7 @@ const Sidebar = () => {
                 <Shield
                   size={18}
                   className={`${isCollapsed ? 'mx-auto' : 'mr-3'} ${
-                    isAdmin ? 'text-amber-600 dark:text-amber-400 drop-shadow-md' : 'text-gray-500 dark:text-gray-500'
+                    isAdmin ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500'
                   }`}
                   aria-hidden="true"
                 />
@@ -254,8 +240,8 @@ const Sidebar = () => {
                 onClick={() => handleNavItemClick(settingsItem.id)}
                 className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group ${
                   activeItem === settingsItem.id
-                    ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-medium shadow-md dark:shadow-lg dark:shadow-gray-800/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white hover:shadow-md'
+                    ? 'bg-gray-50 dark:bg-gray-800 text-black dark:text-white font-medium'
+                    : 'text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                 }`}
                 aria-current={activeItem === settingsItem.id ? 'page' : undefined}
                 role="menuitem"
@@ -265,7 +251,7 @@ const Sidebar = () => {
                   <settingsItem.icon
                     size={18}
                     className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-200 ${
-                      activeItem === settingsItem.id ? 'text-amber-600 dark:text-amber-400 drop-shadow-md' : 'text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400'
+                      activeItem === settingsItem.id ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400'
                     }`}
                     aria-hidden="true"
                   />
@@ -277,8 +263,6 @@ const Sidebar = () => {
                     {settingsItem.label}
                   </span>
                 )}
-                
-                {/* Remove orange indicator bar */}
               </Link>
             </div>
 
@@ -286,16 +270,16 @@ const Sidebar = () => {
             <div className="mb-2.5">
               <button
                 onClick={toggleTheme}
-                className={`w-full flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-all duration-200 hover:shadow-md`}
+                className={`w-full flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white transition-all duration-200`}
                 aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
                 aria-pressed={darkMode}
                 title={`${darkMode ? "Light Mode" : "Dark Mode"} (Alt+D)`}
               >
                 <div className={`${isCollapsed ? 'flex justify-center w-full' : 'mr-3'}`}>
                   {darkMode ? (
-                    <Sun size={18} className="text-amber-500 drop-shadow-md" aria-hidden="true" />
+                    <Sun size={18} className="text-pink-500" aria-hidden="true" />
                   ) : (
-                    <Moon size={18} className="text-amber-500 drop-shadow-md" aria-hidden="true" />
+                    <Moon size={18} className="text-pink-500" aria-hidden="true" />
                   )}
                 </div>
                 
@@ -309,8 +293,8 @@ const Sidebar = () => {
 
             {!isCollapsed && (
               <div className="px-3 py-2">
-              <div className="border-t border-dashed border-gray-300 dark:border-gray-700 w-full"></div>
-            </div>
+                <div className="border-t border-dashed border-gray-300 dark:border-gray-700 w-full"></div>
+              </div>
             )}
           
             {/* Version Info - No border */}
@@ -337,7 +321,7 @@ const Sidebar = () => {
       {/* Skip navigation link for accessibility (visually hidden but available to screen readers) */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 p-3 z-50 focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-lg shadow-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white dark:bg-gray-800 text-pink-600 dark:text-pink-400 p-3 z-50 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg"
       >
         Skip to main content
       </a>

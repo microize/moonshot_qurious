@@ -4,7 +4,7 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   
-  // Add subtle continuous animation for the infinity loop
+  // Add subtle continuous animation for the logo
   useEffect(() => {
     const animationInterval = setInterval(() => {
       setIsAnimating(true);
@@ -27,52 +27,46 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Logo Icon Container */}
+        {/* Logo Image Container */}
         <div
-          className={`relative flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 ${
+          className={`relative flex items-center justify-center w-10 h-10 rounded-sm transition-all duration-300 overflow-hidden ${
             isHovered
-              ? 'bg-gradient-to-br from-red-400 to-amber-600 rotate-6 scale-110 shadow-md'
-              : isAnimating 
-                ? 'bg-gradient-to-br from-red-400 to-amber-600 shadow-sm' 
-                : 'bg-gradient-to-br from-red-500 to-amber-600 shadow-sm'
+              ? 'rotate-6 scale-110 shadow-md'
+              : isAnimating
+                ? 'shadow-sm'
+                : 'shadow-sm'
           }`}
         >
-          {/* Infinity SVG */}
-          <svg
-            viewBox="0 0 24 24"
-            className={`w-6 h-6 transition-all duration-700 z-10 ${
-              isHovered 
-                ? 'text-white transform rotate-12' 
-                : isAnimating 
-                  ? 'text-white animate-pulse' 
-                  : 'text-white'
+          {/* Logo Image */}
+          <img 
+            src="/assets/images/1.png" 
+            alt="Quriuz Logo" 
+            className={`w-full h-full object-cover transition-all duration-7000 ${
+              isHovered
+                ? 'transform scale-110'
+                : isAnimating
+                  ? 'animate-pulse'
+                  : ''
             }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M18 12c0-1.657-1.343-3-3-3-2.5 0-5 6-7.5 6-1.657 0-3-1.343-3-3s1.343-3 3-3c2.5 0 5 6 7.5 6 1.657 0 3-1.343 3-3z" />
-          </svg>
+          />
         </div>
         
         {/* Logo Text + Tagline (Conditionally Rendered) */}
         {!isCollapsed && (
           <div className="flex flex-col justify-center">
-            {/* Main title - now in gray */}
+            {/* Main title - with Poppins font */}
             <span
-              className={`text-gray-800 dark:text-gray-400 text-xl font-semibold  tracking-tight transition-all duration-300 ${
+              className={`font-poppins text-gray-800 dark:text-gray-400 text-xl font-semibold tracking-tight transition-all duration-300 ${
                 isHovered ? 'translate-x-0.5' : ''
               }`}
             >
-              Qurius.ai
+              Quriuz.ai
             </span>
             
-            {/* Tagline - Always visible now */}
+            {/* Tagline - with gradient text */}
             <div className="h-5 overflow-hidden">
               <span
-                className="text-xs text-red-600 dark:text-gray-500 font-normal tracking-wide block"
+                className="font-poppins font-semibold text-sm tracking-wide block bg-gradient-to-r from-cobalt-500 to-amber-600 bg-clip-text text-transparent"
               >
                 Learn. Practice. Apply.
               </span>

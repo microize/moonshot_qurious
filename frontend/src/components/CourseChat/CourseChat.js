@@ -611,7 +611,7 @@ Would you like me to explain this in more detail or jump to the related section 
                 >
                   {/* Bot Avatar (only for non-video bot messages) */}
                   {message.sender === 'bot' && message.type !== 'video' && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-600 mt-1">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white bg-gradient-to-br from-pink-400 to-amber-600 dark:from-pink-500 dark:to-amber-600 mt-1">
                       <Bot size={16} />
                     </div>
                   )}

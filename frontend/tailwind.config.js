@@ -9,30 +9,31 @@ module.exports = {
       colors: {
         // Primary amber color palette
         amber: {
-          50: '#FFF8E1',
-          100: '#FFECB3',
-          200: '#FFE082',
-          300: '#FFD54F',
-          400: '#FFCA28',
-          500: '#FFC107',  // Primary brand color
-          600: '#FFB300',
-          700: '#FFA000',
-          800: '#FF8F00',
-          900: '#FF6F00',
-          950: '#E65100',
-        },// Primary amber color palette
+          50: '#FFF9F2',
+          100: '#FFF0E0',
+          200: '#FFE1C2',
+          300: '#FFD1A3',
+          400: '#FFC285',
+          500: '#FF9525',  // Your primary color
+          600: '#FA8A20',
+          700: '#E67A15',
+          800: '#D16A10',
+          900: '#B8560C',
+          950: '#9A4509',
+        },
+        // Also update cobalt to match the new scheme
         cobalt: {
-          50: '#FFF8E1',
-          100: '#FFECB3',
-          200: '#FFE082',
-          300: '#FFD54F',
-          400: '#FFCA28',
-          500: '#FFC107',  // Primary brand color
-          600: '#FFB300',
-          700: '#FFA000',
-          800: '#FF8F00',
-          900: '#FF6F00',
-          950: '#E65100',
+          50: '#FFF5F7',
+          100: '#FFE6EB',
+          200: '#FFD0D9',
+          300: '#FFBBC7',
+          400: '#FFA6B5',
+          500: '#FF94AE',  // Secondary brand color (rose shade)
+          600: '#FF758F',
+          700: '#FF5677',
+          800: '#FF385F',
+          900: '#FF1947',
+          950: '#FF0035',
         },
         // Secondary/accent color palette - cobalt blue for contrast when needed
         secondary: {

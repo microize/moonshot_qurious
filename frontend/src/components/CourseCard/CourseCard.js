@@ -10,7 +10,7 @@ const classNames = (...classes) => {
 const getBadgeStyle = (type) => {
   switch(type) {
     case 'Course':
-      return 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 shadow-md dark:shadow-lg shadow-amber-500/10 dark:shadow-amber-400/10';
+      return 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 shadow-md dark:shadow-lg shadow-pink-500/10 dark:shadow-pink-400/10';
     case 'Pathway':
       return 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 shadow-md dark:shadow-lg shadow-blue-500/10 dark:shadow-blue-400/10';
     case 'Workshop':
@@ -45,8 +45,8 @@ const CourseCard = ({ course, minimal = false }) => {
       <div className="relative">
         <div className={classNames(
           "h-32 p-4 flex flex-col justify-between overflow-hidden",
-          "bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700",
-          isHovered ? "bg-gradient-to-br from-amber-300 to-amber-500 dark:from-amber-400 dark:to-amber-600" : ""
+          "bg-gradient-to-br from-pink-400 to-cobalt-500 dark:from-pink-500 dark:to-cobalt-600",
+          isHovered ? "bg-gradient-to-br from-pink-300 to-cobalt-400 dark:from-pink-400 dark:to-cobalt-500" : ""
         )}>
           {/* Top row with badges */}
           <div className="flex justify-between relative z-10">
@@ -60,7 +60,7 @@ const CourseCard = ({ course, minimal = false }) => {
             
             {course.isEnrolled && (
               <span className="flex items-center text-xs bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-lg text-gray-700 dark:text-gray-200 shadow-sm transition-all duration-200">
-                <BookOpen size={14} className="mr-1.5 text-amber-600 dark:text-amber-400" />
+                <BookOpen size={14} className="mr-1.5 text-pink-500 dark:text-pink-400" />
                 Enrolled
               </span>
             )}
@@ -82,18 +82,18 @@ const CourseCard = ({ course, minimal = false }) => {
           {/* Course meta information */}
           <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 space-x-4">
             <div className="flex items-center">
-              <Clock size={14} className="mr-1.5 text-amber-600 dark:text-amber-400" />
+              <Clock size={14} className="mr-1.5 text-pink-500 dark:text-pink-400" />
               <span>{course.duration || course.time || '3h 20m'}</span>
             </div>
             
             <div className="flex items-center">
-              <Users size={14} className="mr-1.5 text-amber-600 dark:text-amber-400" />
+              <Users size={14} className="mr-1.5 text-pink-500 dark:text-pink-400" />
               <span>{course.enrolledCount || course.learners || '10k+'}</span>
             </div>
             
             {course.rating && (
               <div className="flex items-center">
-                <Star size={14} className="mr-1.5 text-amber-600 dark:text-amber-400" />
+                <Star size={14} className="mr-1.5 text-pink-500 dark:text-pink-400" />
                 <span>{course.rating}</span>
               </div>
             )}
@@ -111,17 +111,17 @@ const CourseCard = ({ course, minimal = false }) => {
             className={classNames(
               "w-full px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium group",
               isPressed 
-                ? "bg-amber-600 text-white shadow-inner transform scale-98" 
+                ? "bg-gradient-to-r from-pink-600 to-cobalt-600 text-white shadow-inner transform scale-98" 
                 : isHovered 
-                  ? "bg-amber-500 text-white shadow-md" 
-                  : "bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-700 dark:hover:text-amber-300"
+                  ? "bg-gradient-to-r from-pink-500 to-cobalt-500 text-white shadow-md" 
+                  : "bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-700 dark:hover:text-pink-300"
             )}
             aria-label={course.isEnrolled ? 'Continue learning' : 'Start learning'}
           >
             <span className="relative inline-flex items-center justify-center">
               <span className="mr-1.5">{course.isEnrolled ? 'Continue' : 'Start Learning'}</span>
               <ChevronRight size={16} className={classNames(
-                "transition-all duration-300 text-gray-500 dark:text-gray-500 group-hover:text-amber-600 dark:group-hover:text-amber-400",
+                "transition-all duration-300 text-gray-500 dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400",
                 isHovered ? "transform translate-x-0.5" : ""
               )} />
             </span>
