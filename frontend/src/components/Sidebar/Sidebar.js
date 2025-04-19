@@ -164,7 +164,7 @@ const Sidebar = () => {
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className={`px-5 py-5  flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
+          <div className={`px-5   py-2  flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
             <Logo onLogoClick={toggleSidebar} isCollapsed={isCollapsed} />
           </div>
 
@@ -176,7 +176,7 @@ const Sidebar = () => {
           </div>
 
           {/* Main Navigation - Flexbox with flex-1 to push admin section to bottom*/}
-          <nav className="flex-1 px-3 mt-2 space-y-1.5 overflow-y-auto overflow-x-hidden">
+          <nav className="flex-1 px-3 mt-2 space-y-3 overflow-y-auto overflow-x-hidden">
             {navItems.map((item) => (
               <Link
                 key={item.id}
