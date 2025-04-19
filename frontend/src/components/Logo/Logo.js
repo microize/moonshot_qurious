@@ -40,13 +40,11 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
           {/* Logo Image */}
           <img 
             src="/assets/images/1.png" 
-            alt="Quriuz Logo" 
+            alt="Qurioz Logo" 
             className={`w-full h-full object-cover transition-all duration-7000 ${
               isHovered
                 ? 'transform scale-110'
-                : isAnimating
-                  ? 'animate-pulse'
-                  : ''
+                :''
             }`}
           />
         </div>
@@ -56,17 +54,17 @@ const Logo = ({ onLogoClick, isCollapsed }) => {
           <div className="flex flex-col justify-center">
             {/* Main title - with Poppins font */}
             <span
-              className={`font-poppins text-gray-800 dark:text-gray-400 text-xl font-semibold tracking-tight transition-all duration-300 ${
+              className={`font-poppins bg-gradient-to-r from-amber-800 to-cobalt-800 bg-clip-text text-transparent text-2xl font-semibold tracking-wide transition-all duration-300 ${
                 isHovered ? 'translate-x-0.5' : ''
               }`}
             >
-              Quriuz.ai
+              Qurioz.ai
             </span>
             
             {/* Tagline - with gradient text */}
             <div className="h-5 overflow-hidden">
               <span
-                className="font-poppins font-semibold text-sm tracking-wide block bg-gradient-to-r from-cobalt-500 to-amber-600 bg-clip-text text-transparent"
+                className="font-poppins font-semibold text-sm tracking-wide block text-gray-700 dark:text-gray-400"
               >
                 Learn. Practice. Apply.
               </span>

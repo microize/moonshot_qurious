@@ -648,13 +648,19 @@ const HomeView = () => {
   return (
     <div className="w-full max-w-full lg:max-w-7xl mx-auto px-4 sm:px-6 py-8">
       {/* Enhanced Header with user info */}
-      <div className="flex justify-between items-start bg-white dark:bg-gray-900 p-2">
+      <div className="flex mb-5 justify-between items-start bg-white dark:bg-gray-900 p-2">
         <div>
-          <h1 className="text-3xl font-semibold text-gray-600 dark:text-gray-300 flex items-center">
+          <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100 flex items-center">
             {getGreeting()}, {userProfile?.name || 'User'}
-            <span className="ml-2 inline-block animate-[wave_1.8s_ease-in-out_infinite] origin-bottom-right transform">👋</span>
+            <span 
+              className="inline-block animate-[wave_1.8s_ease-in-out_infinite] origin-bottom-right transform"
+              role="img" 
+              aria-label="Waving hand"
+            >
+              👋
+            </span>
           </h1>
-          <p className="mt-1 text-base font-medium bg-gradient-to-r from-pink-500 to-amber-600 bg-clip-text text-transparent dark:from-pink-400 dark:via-pink-300 dark:to-amber-500">
+          <p className="mt-1 text-base font-medium bg-gradient-to-r from-amber-500 to-pink-600 bg-clip-text text-transparent dark:from-pink-400 dark:via-pink-300 dark:to-amber-500">
             You're making great progress! Keep up the momentum.
           </p>
         </div>
@@ -663,32 +669,18 @@ const HomeView = () => {
         <UserHeader />
       </div>
       
-      {/* Notification banner with improved design */}
-      <div className="mb-8 p-4 bg-white dark:bg-gray-900 rounded-xl flex items-center justify-between border border-dashed border-gray-300 dark:border-gray-600">
-        <div className="flex items-center">
-          <div className="bg-gray-100 dark:bg-pink-900/30 p-3 rounded-lg mr-4 shadow-md">
-            <Bell size={20} className="text-pink-500 dark:text-pink-400" />
-          </div>
-          <span className="text-sm text-gray-700 dark:text-gray-300">
-            <span className="font-medium">New in Data Science:</span> Live workshop on "Advanced ML Techniques" tomorrow at 7 PM
-          </span>
-        </div>
-        <button className="px-4 py-2 bg-gradient-to-r from-pink-500 to-amber-600 hover:from-pink-600 hover:to-amber-700 text-white rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg">
-          RSVP
-        </button>
-      </div>
-      
       {/* Main dashboard layout with grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - Continue Learning & Recommendations */}
         <div className="lg:col-span-2 space-y-6">
-  {/* Continue Learning section */}
-  <div className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow-sm border border-dashed border-gray-300 dark:border-gray-700">
-    <div className="flex items-center justify-between mb-4">
-    <h2 className="text-xl font-semibold text-gray-800 dark:text-pink-400 flex items-center">
-  <BookOpen size={20} className="mr-2 text-pink-500 dark:text-pink-400" />
-  Continue Learning
-</h2>
+        {/* Continue Learning section */}
+        <div className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow-sm border border-dashed border-gray-300 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-pink-400 flex items-center">
+        <BookOpen size={20} className="mr-2 text-dark-500 dark:text-pink-400" />
+        Continue Learning
+      </h2>
+      
       <button 
         onClick={() => navigate('/courses')}
         className="text-sm px-3 py-1.5 rounded-lg text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:shadow-sm transition-all duration-200 flex items-center group"
@@ -717,7 +709,7 @@ const HomeView = () => {
   <div className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow-sm border border-dashed border-gray-300 dark:border-gray-700">
     <div className="flex items-center justify-between mb-4">
       <h2 className="text-xl font-semibold text-gray-800 dark:text-pink-400 flex items-center">
-        <Sparkles size={20} className="mr-2 text-pink-500 dark:text-pink-400" />
+        <Sparkles size={20} className="mr-2 text-dark-500 dark:text-pink-400" />
         Recommended For You
       </h2>
       <button 

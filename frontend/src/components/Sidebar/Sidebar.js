@@ -128,6 +128,38 @@ const Sidebar = () => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
+  // Define gradient styles
+  useEffect(() => {
+    // Add custom gradient styles to the document head
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .nav-item-gradient:hover .nav-item-text, .nav-item-active .nav-item-text {
+        background: linear-gradient(to right, #ff9525, #ff265b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      
+      .nav-item-gradient:hover .nav-icon, .nav-item-active .nav-icon {
+        color: #ff9525; /* Fallback solid color */
+      }
+      
+      /* For gradient icons when active, use this separate class */
+      .nav-item-gradient.nav-item-active .nav-icon-gradient {
+        background: linear-gradient(to right, #ff9525, #ff265b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <>
       {/* Mobile Menu Button with Improved Accessibility */}
@@ -153,12 +185,12 @@ const Sidebar = () => {
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className={`px-5 py-2 flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
+          <div className={`px-2 py-2 flex items-center ${isCollapsed ? 'justify-center' : 'lg:justify-between'}`}>
             <Logo onLogoClick={toggleSidebar} isCollapsed={isCollapsed} />
           </div>
 
           {/* Added spacing with dashed line between logo and menu */}
-          <div className="px-3 py-2">
+          <div className="px-2 py-2">
             <div className="border-t border-dashed border-gray-300 dark:border-gray-700 w-full"></div>
           </div>
 
@@ -169,9 +201,9 @@ const Sidebar = () => {
                 key={item.id}
                 to={item.path}
                 onClick={() => handleNavItemClick(item.id)}
-                className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group nav-item-gradient ${
                   activeItem === item.id
-                    ? 'bg-gray-100 dark:bg-gray-800 text-pink-500 dark:teext-whit font-medium'
+                    ? 'bg-gray-100 dark:bg-gray-800 font-medium nav-item-active'
                     : 'text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                 }`}
                 aria-current={activeItem === item.id ? 'page' : undefined}
@@ -181,14 +213,16 @@ const Sidebar = () => {
                 <div className={`${isCollapsed ? 'flex justify-center w-full' : ''}`}>
                   <item.icon
                     size={18}
-                    className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-300 ${
-                      activeItem === item.id ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400'
+                    className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-300 nav-icon ${
+                      activeItem === item.id ? 'nav-icon-gradient' : 'text-gray-800 dark:text-gray-400'
                     }`}
                     aria-hidden="true"
                   />
                 </div>
                 {!isCollapsed && (
-                  <span className="text-sm font-medium transition-all duration-200 flex-1">
+                  <span className={`text-sm font-medium transition-all duration-200 flex-1 nav-item-text ${
+                    activeItem === item.id ? 'text-transparent' : ''
+                  }`}>
                     {item.label}
                   </span>
                 )}
@@ -219,7 +253,7 @@ const Sidebar = () => {
                 <Shield
                   size={18}
                   className={`${isCollapsed ? 'mx-auto' : 'mr-3'} ${
-                    isAdmin ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500'
+                    isAdmin ? 'text-pink-500 dark:text-pink-400' : 'text-gray-800 dark:text-gray-400'
                   }`}
                   aria-hidden="true"
                 />
@@ -238,9 +272,9 @@ const Sidebar = () => {
               <Link
                 to={settingsItem.path}
                 onClick={() => handleNavItemClick(settingsItem.id)}
-                className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                className={`flex ${isCollapsed ? 'justify-center' : 'items-center'} px-3 py-2.5 rounded-lg transition-all duration-200 group nav-item-gradient ${
                   activeItem === settingsItem.id
-                    ? 'bg-gray-50 dark:bg-gray-800 text-black dark:text-white font-medium'
+                    ? 'bg-gray-50 dark:bg-gray-800 font-medium nav-item-active'
                     : 'text-black dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                 }`}
                 aria-current={activeItem === settingsItem.id ? 'page' : undefined}
@@ -250,8 +284,8 @@ const Sidebar = () => {
                 <div className={`${isCollapsed ? 'flex justify-center w-full' : ''}`}>
                   <settingsItem.icon
                     size={18}
-                    className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-200 ${
-                      activeItem === settingsItem.id ? 'text-pink-500 dark:text-pink-400' : 'text-black dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400'
+                    className={`${isCollapsed ? 'mx-auto' : 'mr-3'} transition-all duration-200 nav-icon ${
+                      activeItem === settingsItem.id ? 'nav-icon-gradient' : 'text-gray-800 dark:text-gray-400'
                     }`}
                     aria-hidden="true"
                   />
@@ -259,7 +293,9 @@ const Sidebar = () => {
                 
                 {/* Only show text when not collapsed */}
                 {!isCollapsed && (
-                  <span className="text-sm font-medium">
+                  <span className={`text-sm font-medium nav-item-text ${
+                    activeItem === settingsItem.id ? 'text-transparent' : ''
+                  }`}>
                     {settingsItem.label}
                   </span>
                 )}
@@ -300,7 +336,7 @@ const Sidebar = () => {
             {/* Version Info - No border */}
             {!isCollapsed && (
               <div className="px-4 py-2 text-left text-xs text-gray-400 dark:text-gray-500">
-                <p className="mt-1">© 2025 Qurious.ai</p>
+                <p className="mt-1">© 2025 Qurioz.ai</p>
               </div>
             )}
             
